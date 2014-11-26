@@ -15,4 +15,12 @@ CONFIG   -= app_bundle
 TEMPLATE = app
 
 
-SOURCES += main.cpp
+SOURCES += main.cpp \
+    ServerCommunication/serializableqobject.cpp \
+    ServerCommunication/serverdispatcher.cpp
+
+HEADERS += \
+    ServerCommunication/serializableqobject.h \
+    ServerCommunication/serverdispatcher.h \
+    ServerCommunication/messageroutingtypes.h \
+    ServerCommunication/serializabletypes.h
