@@ -32,9 +32,7 @@ public:
     void handleServerConnection(QByteArray);
 
 private slots:
-    bool sessionOpened();
-
-private:
+    //bool sessionOpened();
 
 private:
     bool intializeServerPort();

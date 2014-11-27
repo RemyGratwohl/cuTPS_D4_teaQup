@@ -30,7 +30,7 @@ class ViewControl : public QObject
 public:
     explicit ViewControl(QObject *parent = 0);
 
-    bool changeView(ViewType subsystem);
+    //bool changeView(ViewType subsystem);
 
 private:
     bool displayView(QWidget widget);
