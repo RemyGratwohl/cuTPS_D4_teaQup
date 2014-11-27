@@ -1,6 +1,25 @@
 #ifndef NETWORKLINK_H
 #define NETWORKLINK_H
 
+/*
+* networklink.h
+* ----------------------
+* COMP3004A: cuTPS Project
+* Team Name: teaQup
+* Author(s):
+* Bernard Llanos ID: 100793648
+* Brandon Keyes  ID: 100897196
+* Analee Chicot  ID: 100822791
+* Remy Gratwohl  ID: 100891970
+*
+* NetworkLink class:
+* - Establishes and maintains a connection with the server's Network Link
+*
+* Traceability: BD-002
+*
+* Acknowledgements: None
+*/
+
 #include <QObject>
 
 class NetworkLink : public QObject
@@ -9,9 +28,16 @@ class NetworkLink : public QObject
 public:
     explicit NetworkLink(QObject *parent = 0);
 
-signals:
+    void requestionConnection();
+    void handleServerConnection(QByteArray);
 
-public slots:
+private slots:
+    bool sessionOpened();
+
+private:
+
+private:
+    bool intializeServerPort();
 
 };
 

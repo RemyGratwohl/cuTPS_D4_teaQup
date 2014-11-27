@@ -22,6 +22,7 @@
 */
 
 #include <QObject>
+#include <QWidget>
 
 class ViewControl : public QObject
 {
@@ -29,9 +30,11 @@ class ViewControl : public QObject
 public:
     explicit ViewControl(QObject *parent = 0);
 
-signals:
+    bool changeView(ViewType subsystem);
 
-public slots:
+private:
+    bool displayView(QWidget widget);
+    bool changeWindow(QWidget window);
 
 };
 
