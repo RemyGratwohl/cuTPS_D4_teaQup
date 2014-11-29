@@ -20,6 +20,6 @@
 * Acknowledgements: None
 */
 
-enum SerializableType { BOOK, CHAPTER, CHAPTERSECTION, ORDER, MESSAGE, STATUS, TEST };
+enum SerializableType { BOOK, CHAPTER, CHAPTERSECTION, ORDER, ERRORMESSAGE, DATAMESSAGE };
 
 #endif // SERIALIZABLETYPES_H
