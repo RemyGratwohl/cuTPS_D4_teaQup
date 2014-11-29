@@ -17,10 +17,12 @@ TEMPLATE = app
 
 SOURCES += main.cpp \
     ServerCommunication/serializableqobject.cpp \
-    ServerCommunication/serverdispatcher.cpp
+    ServerCommunication/serverdispatcher.cpp \
+    ../client/ClientCommunication/message.cpp
 
 HEADERS += \
     ServerCommunication/serializableqobject.h \
     ServerCommunication/serverdispatcher.h \
     ServerCommunication/messageroutingtypes.h \
-    ServerCommunication/serializabletypes.h
+    ServerCommunication/serializabletypes.h \
+    ../client/ClientCommunication/message.h

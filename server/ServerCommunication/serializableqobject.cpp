@@ -1,10 +1,5 @@
 #include "serializableqobject.h"
 
-SerializableQObject::SerializableQObject(QObject *parent) :
-    QObject(parent)
-{
-}
-
 void SerializableQObject::insertToDataStream(QDataStream &ds, SerializableType type) const
 {
 }
