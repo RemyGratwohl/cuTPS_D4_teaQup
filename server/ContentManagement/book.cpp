@@ -29,5 +29,5 @@ Book::Book(quint16 id, quint16 cID, QString st, QString a,
 {}
 
 void Book::insertToDataStream(QDataStream& ds) const {
-    SerializableQObject::insertToDataStream(ds, BOOK);
+    ContentItem::insertToDataStream(ds, BOOK);
 }

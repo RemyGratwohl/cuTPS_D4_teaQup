@@ -21,9 +21,9 @@
 * Acknowledgements: None
 */
 
-#include "../ServerCommunication/serializableqobject.h"
+#include "contentitem.h"
 
-class Book : public SerializableQObject
+class Book : public ContentItem
 {
     Q_OBJECT
     Q_PROPERTY(quint16 id READ getID WRITE setID)
@@ -56,8 +56,7 @@ public:
      * in: Citation which can be used to reference the book
      *       in a works cited list
      * in: Image link (path to cover page image)
-     * Side Effects: Purchasing details is adopted
-     *   as a child of this object.
+     * Side Effects: None
      */
     Book(quint16 id, quint16 contentID, QString subTitle, QString authors,
          QString isbn, QString website, quint16 yearPublished,
