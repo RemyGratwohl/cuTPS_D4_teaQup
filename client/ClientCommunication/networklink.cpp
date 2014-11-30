@@ -11,6 +11,39 @@ NetworkLink::NetworkLink(QObject* parent)
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(handleServerResponse()));
 }
 
+/*
+void ClientLink::handleServerConnection(QByteArray byteArr)
+{
+    tcpSocket->write(byteArr);
+    //tcpSocket->disconnectFromHost();
+}
+*/
+
+bool NetworkLink::sendServerRequest(Message* message)
+{
+    establishServerConnection();
+
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+
+    out.setVersion(QDataStream::Qt_4_0);
+    out << (quint16)0;
+    out << *message;
+    out.device()->seek(0);
+    out << (quint16)(block.size() - sizeof(quint16));
+
+    tcpSocket->write(block);
+    return true;
+}
+
+bool NetworkLink::establishServerConnection()
+{
+    blockSize = 0;
+    tcpSocket->abort();
+    tcpSocket->connectToHost(QHostAddress::LocalHost, serverPortNumber);
+    return true;
+}
+
 bool NetworkLink::handleServerResponse()
 {
     QDataStream in(tcpSocket);

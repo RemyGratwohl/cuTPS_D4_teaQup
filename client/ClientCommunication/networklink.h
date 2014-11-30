@@ -49,6 +49,8 @@ class NetworkLink : public QObject
 public:
     explicit NetworkLink(QObject *parent = 0);
 
+    bool sendServerRequest(Message* message);
+
 private slots:
     bool sessionOpened();
     bool handleServerResponse();
@@ -62,6 +64,8 @@ private:
 
     bool initializeServerPort();
     bool initializeNetworkSession();
+
+    bool establishServerConnection();
 
 };
 
