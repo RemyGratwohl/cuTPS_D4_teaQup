@@ -13,8 +13,9 @@
 * Remy Gratwohl  ID: 100891970
 *
 * NetworkLink class:
-* - is the link between the server and client processes
-* - uses TCP/IP to communicate between processes
+* - Is the link between the server and client processes
+* - Establishes and maintains a connection with the server's Network Link
+*   (uses TCP/IP to communicate between processes)
 *
 * Traceability: BD-002
 *
@@ -29,9 +30,14 @@ class NetworkLink : public QObject
 public:
     explicit NetworkLink(QObject *parent = 0);
 
-signals:
+    void requestionConnection();
+    void handleServerConnection(QByteArray);
 
-public slots:
+private slots:
+    //bool sessionOpened();
+
+private:
+    bool intializeServerPort();
 
 };
 
