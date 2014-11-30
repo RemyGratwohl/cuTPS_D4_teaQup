@@ -28,7 +28,7 @@ class Book : public ContentItem
     Q_OBJECT
     Q_PROPERTY(quint16 id READ getID WRITE setID)
     Q_PROPERTY(quint16 contentID READ getContentID WRITE setContentID)
-    Q_PROPERTY(QString subTitle READ getSubTitle WRITE setSubTitle)
+    Q_PROPERTY(QString subtitle READ getSubtitle WRITE setSubtitle)
     Q_PROPERTY(QString authors READ getAuthors WRITE setAuthors)
     Q_PROPERTY(QString isbn READ getISBN WRITE setISBN)
     Q_PROPERTY(QString website READ getWebsite WRITE setWebsite)
@@ -68,8 +68,8 @@ public:
     quint16 getContentID()   const { return contentID;   }
     void setContentID(quint16 id)   { contentID = id; }
 
-    QString getSubTitle() const { return subtitle; }
-    void setSubTitle(const QString& t) { subtitle = t; }
+    QString getSubtitle() const { return subtitle; }
+    void setSubtitle(const QString& t) { subtitle = t; }
 
     QString getAuthors() const { return authors; }
     void setAuthors(const QString& a) { authors = a; }
