@@ -32,6 +32,7 @@ public:
 
     //bool changeView(ViewType subsystem);
 
+
 private:
     bool displayView(QWidget widget);
     bool changeWindow(QWidget window);

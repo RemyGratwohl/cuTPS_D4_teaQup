@@ -13,7 +13,7 @@
 * Remy Gratwohl  ID: 100891970
 *
 * ContentViewControl class:
-* - Manages the ContentView subsystem's ContentView UI class.
+* - Manages the ContentView subsystem
 *
 * Traceability: CT-040
 *
