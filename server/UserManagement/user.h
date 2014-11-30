@@ -35,6 +35,12 @@ public:
     enum TYPE { ADMIN, STUDENT, CONTENTMGR };
 
     /* Constructor
+     *   To be used to create a container for deserialized data.
+     * Side Effects: None
+     */
+    User(void);
+
+    /* Constructor
      *   To be used by the client process
      *   to create a User object that gets fully initialized
      *   on the server and then sent back to complete
@@ -69,8 +75,8 @@ public:
     quint16 getType()   const { return (quint16)type;   }
     void setType(quint16 t)   { type = static_cast<TYPE>(t); }
 
-    quint16 getID()   const { return (quint16)identifier;   }
-    void setID(quint16 id)   { identifier = static_cast<TYPE>(id); }
+    quint16 getID()   const { return identifier;   }
+    void setID(quint16 id)   { identifier = id; }
 
 signals:
 
