@@ -1,7 +1,7 @@
 #include "datamessage.h"
 
-DataMessage::DataMessage(DEST_TYPE dt, ACTION_TYPE at, QVector<SerializableQObject *> data_) :
-    Message(dt, at), data(data_)
+DataMessage::DataMessage(DEST_TYPE dt, ACTION_TYPE at, User* u, QVector<SerializableQObject *> data_) :
+    Message(dt, at, u), data(data_)
 {
 }
 

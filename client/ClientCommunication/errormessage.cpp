@@ -1,7 +1,7 @@
 #include "errormessage.h"
 
-ErrorMessage::ErrorMessage(DEST_TYPE dt, ACTION_TYPE at, const QString& error_) :
-    Message(dt, at), error(error_)
+ErrorMessage::ErrorMessage(DEST_TYPE dt, ACTION_TYPE at, User* u, const QString& error_) :
+    Message(dt, at, u), error(error_)
 {
 }
 

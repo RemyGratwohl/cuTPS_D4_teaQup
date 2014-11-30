@@ -29,10 +29,14 @@ public:
     /* Constructor
      * in: Destination subsystem
      * in: Verb of the message
+     * in: User associated with the message
+     *      Can be null for messages that are to be sent to the
+     *      client processes.
+     *      Treated as a shared pointer.
      * in: Contents of the data message
      * Side Effects: None
      */
-    explicit DataMessage(DEST_TYPE, ACTION_TYPE, QVector<SerializableQObject *>);
+    explicit DataMessage(DEST_TYPE, ACTION_TYPE, User*, QVector<SerializableQObject *>);
 
     /* Member Function: insertToDataStream
      *   Serialization function, which inserts the appropriate type constant

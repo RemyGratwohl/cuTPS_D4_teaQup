@@ -25,7 +25,7 @@
 #include <QDataStream>
 #include "../server/ServerCommunication/serializableqobject.h"
 #include "../server/ServerCommunication/messageroutingtypes.h"
-
+#include "../server/UserManagement/user.h"
 
 class Message : public SerializableQObject
 {
@@ -37,9 +37,13 @@ protected:
     /* Constructor
      * in: Destination subsystem
      * in: Verb of the message
+     * in: User associated with the message
+     *      Can be null for messages that are to be sent to the
+     *      client processes.
+     *      Treated as a shared pointer.
      * Side Effects: None
      */
-    explicit Message(DEST_TYPE, ACTION_TYPE);
+    explicit Message(DEST_TYPE, ACTION_TYPE, User*);
 
 public:
     quint16 getDestType()   const { return (quint16)destType;   }
@@ -48,9 +52,27 @@ public:
     void setDestType(quint16 dt)   { destType = static_cast<DEST_TYPE>(dt); }
     void setActionType(quint16 at) { actionType = static_cast<ACTION_TYPE>(at); }
 
+    /* Member Function: insertToDataStream
+     *   Serialization function, which inserts the appropriate type constant
+     *     into the data stream before the object's contents
+     * inout: Data output stream
+     * Side Effects: None
+     * Return Value: None
+     */
+    virtual void insertToDataStream(QDataStream& ds) const;
+
+    /* Member Function: extractFromDataStream
+     *   Deserialization function
+     * inout: Data input stream
+     * Side Effects: None
+     * Return Value: None
+     */
+    virtual void extractFromDataStream(QDataStream& ds);
+
 private:
     DEST_TYPE destType;
     ACTION_TYPE actionType;
+    User* user;
 };
 
 #endif // MESSAGE_H

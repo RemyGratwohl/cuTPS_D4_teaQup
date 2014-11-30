@@ -31,10 +31,14 @@ public:
     /* Constructor
      * in: Destination subsystem
      * in: Verb of the message
+     * in: User associated with the message
+     *      Can be null for messages that are to be sent to the
+     *      client processes.
+     *      Treated as a shared pointer.
      * in: Content of the error message
      * Side Effects: None
      */
-    ErrorMessage(DEST_TYPE, ACTION_TYPE, const QString& error);
+    ErrorMessage(DEST_TYPE, ACTION_TYPE, User*, const QString& error);
 
     QString getError() const { return error; }
     void setError(const QString& error) { this->error = error; }
