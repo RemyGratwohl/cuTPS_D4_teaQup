@@ -53,7 +53,7 @@ public:
 
 private slots:
     bool sessionOpened();
-    bool handleServerResponse();
+    bool readServerResponse();
 
 private:
     QTcpSocket *tcpSocket;

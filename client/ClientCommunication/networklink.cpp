@@ -8,16 +8,8 @@ NetworkLink::NetworkLink(QObject* parent)
     initializeNetworkSession();
 
     tcpSocket = new QTcpSocket(this);
-    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(handleServerResponse()));
+    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readServerResponse()));
 }
-
-/*
-void ClientLink::handleServerConnection(QByteArray byteArr)
-{
-    tcpSocket->write(byteArr);
-    //tcpSocket->disconnectFromHost();
-}
-*/
 
 bool NetworkLink::sendServerRequest(Message* message)
 {
@@ -44,7 +36,7 @@ bool NetworkLink::establishServerConnection()
     return true;
 }
 
-bool NetworkLink::handleServerResponse()
+bool NetworkLink::readServerResponse()
 {
     QDataStream in(tcpSocket);
     in.setVersion(QDataStream::Qt_4_0);

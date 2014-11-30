@@ -8,8 +8,78 @@ NetworkLink::NetworkLink(QObject *parent)
     initializeNetworkSession();
     initializeServerIP();
 
+    connect(tcpServer, SIGNAL(newConnection()), this, SLOT(handleClientRequest()));
+}
 
-    //connect(tcpServer, SIGNAL(newConnection()), this, SLOT(handleClientRequest()));
+bool NetworkLink::sendClientResponse(Message* message)
+{
+    QByteArray block;
+    QDataStream out(&block, QIODevice::WriteOnly);
+
+    out.setVersion(QDataStream::Qt_4_0);
+    out << (quint16)0;
+    out << *message; // read in the message and send it to the client
+    out.device()->seek(0);
+    out << (quint16)(block.size() - sizeof(quint16));
+
+    QTcpSocket *clientConnection = savedSocket;
+    connect(clientConnection, SIGNAL(disconnected()),
+    clientConnection, SLOT(deleteLater()));
+    clientConnection->write(block);
+    clientConnection->disconnectFromHost();
+
+    return true;
+}
+
+bool NetworkLink::handleClientRequest()
+{
+    QTcpSocket *tcpSocket = tcpServer->nextPendingConnection();
+    savedSocket = tcpSocket;
+    blockSize = 0;
+    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readClientRequest()));
+    return true;
+}
+
+bool NetworkLink::readClientRequest()
+{
+    QTcpSocket *tcpSocket = savedSocket;
+    QDataStream in(tcpSocket);
+    in.setVersion(QDataStream::Qt_4_0);
+
+    if (blockSize == 0) {
+        if (tcpSocket->bytesAvailable() < (int)sizeof(quint16))
+            return false;
+
+        in >> blockSize;
+    }
+
+    if (tcpSocket->bytesAvailable() < blockSize)
+        return false;
+
+    SerializableQObject* theObj;
+    in >> &theObj;
+
+    // the client message
+    Message* newMessage = qobject_cast<Message*>(theObj);
+
+    if(newMessage != 0) {
+        qDebug() << "Message action type: " << newMessage->getActionType();
+        return true;
+
+        /*
+        QEvent::Type eventType = static_cast<QEvent::Type>(newMessage->getEventType());
+
+        QCoreApplication::postEvent(SEND_INTER_SUBSYSTEM_SERVER,
+                                    new ServerResponseEvent(eventType,newMessage));
+
+        QCoreApplication::postEvent(SEND_INTER_SUBSYSTEM_SERVER,
+        new ServerResponseEvent(ServerEventDispatcher::networkEventType(),
+                                newMessage));
+        */
+    } else {
+        qDebug() << "Failed object read.";
+    }
+    return false;
 }
 
 bool NetworkLink::initializeServerPort()

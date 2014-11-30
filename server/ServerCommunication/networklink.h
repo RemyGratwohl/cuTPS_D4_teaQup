@@ -34,6 +34,8 @@
 #include <QtNetwork/QNetworkConfigurationManager>
 #include <QtNetwork/QNetworkConfiguration>
 
+#include "../client/ClientCommunication/message.h"
+
 static const QString SERVER_FILE_NAME("ServerPortFile.txt");
 static const QString SERVER_PORT_NUMBER_FIELD("SERVER_PORT_NUMBER");
 static const quint16 DEFAULT_SERVER_PORT(55505);
@@ -44,8 +46,12 @@ class NetworkLink : public QObject
 public:
     explicit NetworkLink(QObject *parent = 0);
 
+    bool sendClientResponse(Message* message);
+
 private slots:
     bool sessionOpened();
+    bool handleClientRequest();
+    bool readClientRequest();
 
 private:
     QTcpServer *tcpServer;
