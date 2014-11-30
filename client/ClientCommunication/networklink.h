@@ -35,6 +35,10 @@
 #include <QtNetwork/QHostAddress>
 #include <QtNetwork/QTcpSocket>
 
+#include "message.h"
+#include "../server/ServerCommunication/serializableqobject.h"
+#include "../server/ServerCommunication/messageroutingtypes.h"
+
 static const QString SERVER_FILE_NAME("ServerPortFile.txt");
 static const QString SERVER_PORT_NUMBER_FIELD("SERVER_PORT_NUMBER");
 static const quint16 DEFAULT_SERVER_PORT(55505);
@@ -47,6 +51,7 @@ public:
 
 private slots:
     bool sessionOpened();
+    bool handleServerResponse();
 
 private:
     QTcpSocket *tcpSocket;

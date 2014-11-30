@@ -8,7 +8,52 @@ NetworkLink::NetworkLink(QObject* parent)
     initializeNetworkSession();
 
     tcpSocket = new QTcpSocket(this);
-    //connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(handleServerResponse()));
+    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(handleServerResponse()));
+}
+
+bool NetworkLink::handleServerResponse()
+{
+    QDataStream in(tcpSocket);
+    in.setVersion(QDataStream::Qt_4_0);
+
+    if (blockSize == 0) {
+        if (tcpSocket->bytesAvailable() < (int)sizeof(quint16))
+            return false;
+
+        in >> blockSize;
+    }
+
+    if (tcpSocket->bytesAvailable() < blockSize)
+        return false;
+
+    SerializableQObject *preNewItem = 0;
+    in >> &preNewItem;
+    Message* message = qobject_cast<Message*>(preNewItem);
+
+    if(message != 0) {
+        // Get message information
+        ACTION_TYPE action = static_cast<ACTION_TYPE>(message->getActionType());
+        if(action == CREATE) {
+            qDebug() << "Received a non-Book object.";
+            /*Book* book = qobject_cast<Book*>((message->getData())[0]);
+
+            if(book == 0) {
+                qDebug() << "Received a non-Book object.";
+            } else {
+                qDebug() << book->getName();
+            }*/
+        }
+
+        /*
+        QApplication::postEvent(SEND_INTER_SUBSYSTEM_CLIENT,
+                                new ClientResponseEvent(ClientEventDispatcher::testingEventType(),
+                                                        message));
+        */
+        return true;
+    } else {
+        qDebug() << "Failed object read.";
+    }
+    return false;
 }
 
 bool NetworkLink::initializeServerPort()
