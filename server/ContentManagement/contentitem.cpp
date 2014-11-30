@@ -16,6 +16,8 @@ ContentItem::ContentItem(quint16 id,
     }
 }
 
+ContentItem::~ContentItem() {}
+
 void ContentItem::insertToDataStream(QDataStream& ds, SerializableType type) const {
     SerializableQObject::insertToDataStream(ds, type);
     purchaseDetails->insertToDataStream(ds);

@@ -54,6 +54,8 @@ public:
             quint16 courseID,
             PurchasingDetails *purchaseDetails);
 
+    virtual ~ContentItem(void);
+
     quint16 getID()   const { return identifier;   }
     void setID(quint16 id)   { identifier = id; }
 
