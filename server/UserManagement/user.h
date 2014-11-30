@@ -12,9 +12,9 @@
 * Analee Chicot  ID: 100822791
 * Remy Gratwohl  ID: 100891970
 *
-* ServerDispatcher class:
-* - Initializes server control flow
-* - Sends and receives network communication
+* User class:
+* - represents either Student, ContentManager, or Administrator
+* - is the user of the cuTPS system
 *
 * Traceability: ET-016
 *
