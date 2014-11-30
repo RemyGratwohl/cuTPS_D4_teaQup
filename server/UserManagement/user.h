@@ -34,6 +34,8 @@ public:
 
     enum TYPE { ADMIN, STUDENT, CONTENTMGR };
 
+    User();
+
     /* Constructor
      *   To be used by the client process
      *   to create a User object that gets fully initialized

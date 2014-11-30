@@ -3,4 +3,5 @@
 ViewControl::ViewControl(QObject *parent) :
     QObject(parent)
 {
+    loginWindow.show();
 }

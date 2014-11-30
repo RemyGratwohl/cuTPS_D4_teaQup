@@ -1,5 +1,10 @@
 #include "user.h"
 
+User::User()
+{
+
+}
+
 User::User(const QString& n) :
     name(n), type(static_cast<TYPE>(0)), identifier(0) {
 

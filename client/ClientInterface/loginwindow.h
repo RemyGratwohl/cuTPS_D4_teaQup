@@ -2,6 +2,7 @@
 #define LOGINWINDOW_H
 
 #include <QWidget>
+#include "userauthenticationcontrol.h"
 
 /*
 * loginwindow.h
@@ -34,8 +35,12 @@ public:
     explicit LoginWindow(QWidget *parent = 0);
     ~LoginWindow();
 
+private slots:
+    void on_connectButton_clicked();
+
 private:
     Ui::LoginWindow *ui;
+    UserAuthenticationControl authenticator;
 };
 
 #endif // LOGINWINDOW_H

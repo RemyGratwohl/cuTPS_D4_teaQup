@@ -2,6 +2,7 @@
 #define MAINWINDOW_H
 
 #include <QMainWindow>
+#include <../server/UserManagement/user.h>
 
 /*
 * mainwindow.h
@@ -31,11 +32,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(User *user, QWidget *parent = 0);
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
+    User *currentUser;
 };
 
 #endif // MAINWINDOW_H
