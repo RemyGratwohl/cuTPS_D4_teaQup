@@ -11,7 +11,7 @@ NetworkLink::NetworkLink(QObject* parent)
     connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readServerResponse()));
 }
 
-bool NetworkLink::sendServerRequest(Message* message)
+bool NetworkLink::sendServerRequest(const Message *&message)
 {
     establishServerConnection();
 

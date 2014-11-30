@@ -21,6 +21,7 @@
 */
 
 #include <QObject>
+#include "ClientCommunication/networklink.h"
 #include "ClientCommunication/message.h"
 
 class ClientDispatcher : public QObject
@@ -41,6 +42,9 @@ public:
 signals:
 
 public slots:
+
+private:
+    NetworkLink* networkLink;
 
 };
 

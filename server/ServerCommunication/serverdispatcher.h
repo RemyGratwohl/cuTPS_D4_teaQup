@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QCoreApplication>
+#include "networklink.h"
 #include "../../client/ClientCommunication/message.h"
 
 class ServerDispatcher : public QCoreApplication
@@ -57,6 +58,8 @@ public slots:
 
 private:
     // TODO subsystem control objects
+
+    NetworkLink* networkLink;
 
 };
 

@@ -11,7 +11,7 @@ NetworkLink::NetworkLink(QObject *parent)
     connect(tcpServer, SIGNAL(newConnection()), this, SLOT(handleClientRequest()));
 }
 
-bool NetworkLink::sendClientResponse(Message* message)
+bool NetworkLink::sendClientResponse(const Message *&message)
 {
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
