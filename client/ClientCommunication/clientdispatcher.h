@@ -28,7 +28,15 @@ class ClientDispatcher : public QObject
     Q_OBJECT
 public:
     explicit ClientDispatcher(QObject *parent = 0);
-    bool deliverMsg(Message message);
+
+    /* Member Function: deliverMsg
+     *   Sends the message to the client process
+     *   corresponding to the current connection.
+     * in: The message object to send
+     * Side Effects: 'msg' is deleted.
+     * Return Value: Success indicator
+     */
+    bool deliverMsg(const Message*& msg) const;
 
 signals:
 

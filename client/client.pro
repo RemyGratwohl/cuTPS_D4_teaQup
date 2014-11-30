@@ -30,7 +30,9 @@ SOURCES += main.cpp\
     ContentView/contentviewcontrol.cpp \
     UserView/usermanagementview.cpp \
     UserView/userviewcontrol.cpp \
-    ../server/ServerCommunication/serializableqobject.cpp
+    ../server/ServerCommunication/serializableqobject.cpp \
+    ClientCommunication/errormessage.cpp \
+    ClientCommunication/datamessage.cpp
 
 HEADERS  += ClientInterface/mainwindow.h \
     ClientCommunication/networklink.h \
@@ -50,7 +52,9 @@ HEADERS  += ClientInterface/mainwindow.h \
     UserView/usermanagementview.h \
     UserView/userviewcontrol.h \
     ../server/ServerCommunication/serializableqobject.h \
-    ../server/ServerCommunication/messageroutingtypes.h
+    ../server/ServerCommunication/messageroutingtypes.h \
+    ClientCommunication/errormessage.h \
+    ClientCommunication/datamessage.h
 
 FORMS    += ClientInterface/mainwindow.ui \
     ClientInterface/loginwindow.ui \
