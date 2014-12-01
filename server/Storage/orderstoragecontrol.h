@@ -20,10 +20,13 @@
 * Acknowledgements: None
 */
 
-class OrderStorageControl
+#include <QObject>
+
+class OrderStorageControl : public QObject
 {
+    Q_OBJECT
 public:
-    OrderStorageControl();
+    explicit OrderStorageControl(QObject* parent = 0);
 };
 
 #endif // ORDERSTORAGECONTROL_H

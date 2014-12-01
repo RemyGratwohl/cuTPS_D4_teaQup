@@ -20,10 +20,13 @@
 * Acknowledgements: None
 */
 
-class OrderControl
+#include <QObject>
+
+class OrderControl : public QObject
 {
+    Q_OBJECT
 public:
-    OrderControl();
+    explicit OrderControl(QObject* parent = 0);
 };
 
 #endif // ORDERCONTROL_H

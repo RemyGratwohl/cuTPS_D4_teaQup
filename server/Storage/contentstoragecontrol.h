@@ -20,10 +20,13 @@
 * Acknowledgements: None
 */
 
-class ContentStorageControl
+#include <QObject>
+
+class ContentStorageControl : public QObject
 {
+    Q_OBJECT
 public:
-    ContentStorageControl();
+    explicit ContentStorageControl(QObject* parent = 0);
 };
 
 #endif // CONTENTSTORAGECONTROL_H

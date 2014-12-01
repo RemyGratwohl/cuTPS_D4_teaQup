@@ -3,12 +3,12 @@
 ServerDispatcher::ServerDispatcher(int & argc, char ** argv) :
     QCoreApplication(argc, argv)
 {
-    networkLink = new NetworkLink();
-    contentControl = new ContentControl();
-    courseControl = new CourseControl();
-    orderControl = new OrderControl();
-    userControl = new UserControl();
-    storageControl = new StorageControl();
+    networkLink = new NetworkLink(this);
+    contentControl = new ContentControl(this);
+    courseControl = new CourseControl(this);
+    orderControl = new OrderControl(this);
+    userControl = new UserControl(this);
+    storageControl = new MainStorageControl(this);
 }
 
 bool ServerDispatcher::initialize(void) {

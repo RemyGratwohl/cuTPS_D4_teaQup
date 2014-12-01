@@ -2,14 +2,7 @@
 
 NetworkLink::NetworkLink(QObject* parent)
     : QObject(parent), tcpSocket(0), networkSession(0), serverPortNumber(0)
-{
-    // order is important here
-    initializeServerPort();
-    initializeNetworkSession();
-
-    tcpSocket = new QTcpSocket(this);
-    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readServerResponse()));
-}
+{} // handle initialization in the initialize function (to return a success indicator)
 
 bool NetworkLink::sendServerRequest(const Message *&message)
 {
@@ -164,5 +157,17 @@ bool NetworkLink::sessionOpened()
     settings.beginGroup(QLatin1String("QtNetwork"));
     settings.setValue(QLatin1String("DefaultNetworkConfiguration"), id);
     settings.endGroup();
+    return true;
+}
+
+bool NetworkLink::initialize()
+{
+    // order is important here
+    if(initializeServerPort() == false) return false;
+    if(initializeNetworkSession() == false) return false;
+
+    tcpSocket = new QTcpSocket(this);
+    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readServerResponse()));
+
     return true;
 }

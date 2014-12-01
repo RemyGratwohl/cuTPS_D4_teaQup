@@ -1,5 +1,6 @@
 #include "coursestoragecontrol.h"
 
-CourseStorageControl::CourseStorageControl()
+CourseStorageControl::CourseStorageControl(QObject* parent)
+    : QObject(parent)
 {
 }
