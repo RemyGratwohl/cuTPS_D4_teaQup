@@ -21,6 +21,7 @@
 */
 
 #include "message.h"
+#include <QVector>
 
 class DataMessage : public Message
 {

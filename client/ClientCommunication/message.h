@@ -21,7 +21,6 @@
 */
 
 #include <QObject>
-#include <QVector>
 #include <QDataStream>
 #include "../server/ServerCommunication/serializableqobject.h"
 #include "../server/ServerCommunication/messageroutingtypes.h"
