@@ -25,8 +25,10 @@ enum SerializableType {
     CHAPTER,
     CHAPTERSECTION,
     PURCHASEDETAILS,
-    ORDER,
+    ORDEROBJ,
     USEROBJ,
+    TERMOBJ,
+    COURSEOBJ,
     ERRORMESSAGE,
     DATAMESSAGE
 };

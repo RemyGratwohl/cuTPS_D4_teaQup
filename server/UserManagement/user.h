@@ -1,4 +1,4 @@
-#ifndef USER_H
+﻿#ifndef USER_H
 #define USER_H
 
 /*
@@ -77,6 +77,15 @@ public:
 
     quint16 getID()   const { return identifier;   }
     void setID(quint16 id)   { identifier = id; }
+
+    /* Member Function: isOfType
+     *   Returns true if this user is of the same
+     *     type as that indicated by the input parameter
+     * in: User role (type) to compare with
+     * Side Effects: None
+     * Return Value: True, if the user has the same type
+     */
+    bool isOfType(const TYPE t) const;
 
 signals:
 
