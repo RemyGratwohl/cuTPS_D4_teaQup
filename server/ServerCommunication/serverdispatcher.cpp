@@ -1,12 +1,18 @@
 #include "serverdispatcher.h"
 
 ServerDispatcher::ServerDispatcher(int & argc, char ** argv) :
-    QCoreApplication(argc, argv), networkLink(0)
+    QCoreApplication(argc, argv)
 {
     networkLink = new NetworkLink();
+    contentControl = new ContentControl();
+    courseControl = new CourseControl();
+    orderControl = new OrderControl();
+    userControl = new UserControl();
+    storageControl = new StorageControl();
 }
 
 bool ServerDispatcher::initialize(void) {
+    if(networkLink->initialize() == false) return false;
     return true;
 }
 

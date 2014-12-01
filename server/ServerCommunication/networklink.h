@@ -47,6 +47,7 @@ public:
     explicit NetworkLink(QObject *parent = 0);
 
     bool sendClientResponse(const Message*& message);
+    bool initialize();
 
 private slots:
     bool sessionOpened();
