@@ -15,6 +15,10 @@
 * Order class:
 * - a Student user's order information
 *
+* Note:
+*   Serialization and deserialization of the vector of ContentItems
+*   stored in an order is handled by SerializableObjectFactory.
+*
 * Traceability: ET-008
 *
 * Acknowledgements: None
@@ -65,10 +69,20 @@ public:
      */
     virtual void extractFromDataStream(QDataStream& ds);
 
+    /* Member Function: setFirstContents
+     *   To be used by SerializableObjectFactory
+     * in: Content items being purchased
+     * Side Effects: This object becomes the owner of 'content'
+     * Return Value: True, if this object's contents have been set.
+     *   Returns false and does nothing if this object
+     *     already has a vector of content items.
+     */
+    bool setFirstContents(QVector<ContentItem*>* content);
+
 private:
     BillingInformation *billingInfo;
     QVector<ContentItem*>* content;
-    bool contentIsShared; // Flag indicating ownership of 'content'.
+    bool contentIsShared; // Flag indicating ownership of 'content'
 };
 
 #endif // ORDER_H

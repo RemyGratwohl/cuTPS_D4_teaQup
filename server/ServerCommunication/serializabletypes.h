@@ -24,9 +24,9 @@ enum SerializableType {
     BOOK,
     CHAPTER,
     CHAPTERSECTION,
-    PURCHASEDETAILS, // Not used externally to the PurchasingDetails class
+    PURCHASEDETAILS,
     ORDEROBJ,
-    BILLINGINFO, // Not used externally to the BillingInformation class
+    BILLINGINFO,
     USEROBJ,
     TERMOBJ,
     COURSEOBJ,

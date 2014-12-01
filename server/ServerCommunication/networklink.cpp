@@ -1,4 +1,5 @@
 #include "networklink.h"
+#include "serializableobjectfactory.h"
 
 NetworkLink::NetworkLink(QObject *parent)
     : QObject(parent), tcpServer(0), networkSession(0), serverPortNumber(0), blockSize(0)
@@ -11,7 +12,7 @@ bool NetworkLink::sendClientResponse(const Message *&message)
 
     out.setVersion(QDataStream::Qt_4_0);
     out << (quint16)0;
-    out << *message; // read in the message and send it to the client
+    SerializableObjectFactory::serializeObject(out,*message); // read in the message and send it to the client
     out.device()->seek(0);
     out << (quint16)(block.size() - sizeof(quint16));
 
@@ -50,7 +51,7 @@ bool NetworkLink::readClientRequest()
         return false;
 
     SerializableQObject* theObj;
-    in >> &theObj;
+    SerializableObjectFactory::deserializeObject(in,theObj);
 
     // the client message
     Message* newMessage = qobject_cast<Message*>(theObj);

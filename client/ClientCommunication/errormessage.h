@@ -29,6 +29,12 @@ class ErrorMessage : public Message
 
 public:
     /* Constructor
+     *   To be used to create a container for deserialized data.
+     * Side Effects: None
+     */
+    ErrorMessage();
+
+    /* Constructor
      * in: Destination subsystem
      * in: Verb of the message
      * in: User associated with the message

@@ -28,6 +28,12 @@ class DataMessage : public Message
     Q_OBJECT
 public:
     /* Constructor
+     *   To be used to create a container for deserialized data.
+     * Side Effects: None
+     */
+    DataMessage();
+
+    /* Constructor
      * in: Destination subsystem
      * in: Verb of the message
      * in: User associated with the message
@@ -57,6 +63,16 @@ public:
     virtual void extractFromDataStream(QDataStream& ds);
 
     QVector<SerializableQObject*> getData() const { return data; }
+
+    /* Member Function: setFirstData
+     *   To be used by SerializableObjectFactory
+     * in: Data items being transferred
+     * Side Effects: This object becomes the owner of 'data'
+     * Return Value: True, if this object's data vector has been set.
+     *   Returns false and does nothing if this object
+     *     already has a vector of data.
+     */
+    bool setFirstData(QVector<SerializableQObject*>* data);
 
 private:
     QVector<SerializableQObject*> data;

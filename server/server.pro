@@ -70,4 +70,5 @@ HEADERS += \
     ContentManagement/chaptersection.h \
     ContentManagement/purchasingdetails.h \
     ContentManagement/publicationdetails.h \
-    ServerCommunication/networklink.h
+    ServerCommunication/networklink.h \
+    ServerCommunication/serializableobjectfactory.h
