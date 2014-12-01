@@ -41,6 +41,8 @@ public:
     Order(void);
 
     /* Constructor
+     *   To be used to construct an order on the client side
+     *   using shopping cart data.
      * in: Student user billing information
      * in: Content items to be ordered
      * Side Effects: The billing information object is adopted
@@ -78,6 +80,8 @@ public:
      *     already has a vector of content items.
      */
     bool setFirstContents(QVector<ContentItem*>* content);
+
+    QVector<ContentItem*>* getContents(void) { return content; }
 
 private:
     BillingInformation *billingInfo;

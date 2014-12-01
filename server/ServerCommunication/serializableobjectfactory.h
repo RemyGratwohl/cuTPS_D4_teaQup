@@ -128,6 +128,7 @@ bool SerializableObjectFactory::deserializeObject(
         obj = qobject_cast<T*>(newChapterSection);
         break;
     }
+        /* Done within ContentItem::extractFromDataStream()
     case PURCHASEDETAILS:
     {
         PurchasingDetails* newPurchDets = new PurchasingDetails();
@@ -135,6 +136,7 @@ bool SerializableObjectFactory::deserializeObject(
         obj = qobject_cast<T*>(newPurchDets);
         break;
     }
+    */
     case ORDEROBJ:
     {
         Order* newOrder = new Order();
@@ -156,6 +158,7 @@ bool SerializableObjectFactory::deserializeObject(
         }
         break;
     }
+        /* Done within Order::extractFromDataStream()
     case BILLINGINFO:
     {
         BillingInformation* newBillingInfo = new BillingInformation();
@@ -163,6 +166,7 @@ bool SerializableObjectFactory::deserializeObject(
         obj = qobject_cast<T*>(newBillingInfo);
         break;
     }
+    */
     case USEROBJ:
     {
         User* newUser = new User();
