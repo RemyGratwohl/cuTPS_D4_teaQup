@@ -26,8 +26,6 @@
 class Chapter : public ContentItem
 {
     Q_OBJECT
-    Q_PROPERTY(quint16 id READ getID WRITE setID)
-    Q_PROPERTY(quint16 contentID READ getContentID WRITE setContentID)
     Q_PROPERTY(quint16 bookID READ getBookID WRITE setBookID)
     Q_PROPERTY(quint16 chapterNumber READ getChapterNumber WRITE setChapterNumber)
     Q_PROPERTY(QString isbn READ getISBN WRITE setISBN)
@@ -39,21 +37,18 @@ public:
     Chapter();
 
     /* Constructor
-     * in: Chapter ID
-     * in: ContentItem ID
-     * in: Book ID
+     * in: Chapter ID (content item ID)
+     * in: Title
+     * in: Corresponding course ID
+     * in: Purchasing details (null if not for sale)
+     * in: Corresponding book ID
      * in: Chapter number
      * in: ISBN
      * Side Effects: None
      */
-    Chapter(quint16 id, quint16 contentID, quint16 bookID,
+    Chapter(quint16 chapterID, QString title, quint16 courseID,
+            PurchasingDetails *purchaseDetails, quint16 bookID,
             quint16 chapterNumber, QString isbn);
-
-    quint16 getID()   const { return identifier;   }
-    void setID(quint16 id)   { identifier = id; }
-
-    quint16 getContentID()   const { return contentID;   }
-    void setContentID(quint16 id)   { contentID = id; }
 
     quint16 getBookID()   const { return bookID;   }
     void setBookID(quint16 id)   { bookID = id; }
@@ -74,8 +69,6 @@ public:
     virtual void insertToDataStream(QDataStream& ds) const;
 
 private:
-    quint16 identifier;
-    quint16 contentID;
     quint16 bookID;
     quint16 number;
     QString isbn;
