@@ -40,7 +40,7 @@ public:
 
     /* Constructor
      *   Creates a fully-initialized Term object
-     * in: ID
+     * in: Term ID
      * in: Semester (expected: F, W, S, Fall, Winter or Summer - case-insensitive)
      * in: Year in which term occurred
      * Side Effects: None
@@ -49,7 +49,7 @@ public:
          const QString& semester, const quint16 year);
 
     /* Member Function: insertToDataStream
-     *   Serialization function, which must be overridden to
+     *   Serialization function, which is overridden to
      *     insert the appropriate type constant
      *     into the data stream before the object's contents
      * inout: Data output stream

@@ -60,7 +60,7 @@ public:
     User(const QString& name, const TYPE type, const quint16 id);
 
     /* Member Function: insertToDataStream
-     *   Serialization function, which must be overridden to
+     *   Serialization function, which is overridden to
      *     insert the appropriate type constant
      *     into the data stream before the object's contents
      * inout: Data output stream
