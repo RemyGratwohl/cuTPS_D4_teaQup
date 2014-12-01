@@ -22,15 +22,76 @@
 * Acknowledgements: None
 */
 
-class ContentItem
+#include "../ServerCommunication/serializableqobject.h"
+#include "purchasingdetails.h"
+#include <QString>
+
+class ContentItem : public SerializableQObject
 {
+    Q_OBJECT
+    Q_PROPERTY(quint16 id READ getID WRITE setID)
+    Q_PROPERTY(QString title READ getTitle WRITE setTitle)
+    Q_PROPERTY(quint16 courseID READ getCourseID WRITE setCourseID)
+
 public:
     /* Constructor
-     *   Creates a fully-initialized ContentItem object
-     * in: void
+     *   To be used to create a container for deserialized data.
      * Side Effects: None
      */
-    ContentItem();
+    ContentItem(void);
+
+    /* Constructor
+     * in: Content item ID
+     * in: Title
+     * in: Corresponding course ID
+     * in: Purchasing details (null if not for sale)
+     * Side Effects: Purchasing details is adopted
+     *   as a child of this object.
+     */
+    ContentItem(
+            quint16 id,
+            QString title,
+            quint16 courseID,
+            PurchasingDetails *purchaseDetails);
+
+    virtual ~ContentItem(void);
+
+    quint16 getID()   const { return identifier;   }
+    void setID(quint16 id)   { identifier = id; }
+
+    QString getTitle() const { return title; }
+    void setTitle(const QString& t) { title = t; }
+
+    quint16 getCourseID()   const { return courseID;   }
+    void setCourseID(quint16 id)   { courseID = id; }
+
+    PurchasingDetails* getPurchasingDetails() const { return purchaseDetails; }
+
+protected:
+    /* Member Function: insertToDataStream
+     *   Serialization function, which inserts the appropriate type constant
+     *     into the data stream before the object's contents
+     * inout: Data output stream
+     * in: Type constant to use for deserialization.
+     * Side Effects: None
+     * Return Value: None
+     */
+    virtual void insertToDataStream(QDataStream& ds, SerializableType type) const;
+
+public:
+    /* Member Function: extractFromDataStream
+     *   Deserialization function
+     * inout: Data input stream
+     * Side Effects: None
+     * Return Value: None
+     */
+    virtual void extractFromDataStream(QDataStream& ds);
+
+private:
+    quint16 identifier;
+    QString title;
+    quint16 courseID;
+    PurchasingDetails *purchaseDetails;
 };
 
 #endif // CONTENTITEM_H

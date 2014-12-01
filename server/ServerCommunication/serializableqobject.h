@@ -35,6 +35,8 @@ protected:
     virtual void insertToDataStream(QDataStream& ds, SerializableType type) const;
 
 public:
+    virtual ~SerializableQObject(void);
+
     /* Member Function: insertToDataStream
      *   Serialization function, which must be overridden to
      *     insert the appropriate type constant

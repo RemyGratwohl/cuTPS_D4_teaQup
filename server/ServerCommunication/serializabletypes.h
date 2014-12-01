@@ -24,6 +24,7 @@ enum SerializableType {
     BOOK,
     CHAPTER,
     CHAPTERSECTION,
+    PURCHASEDETAILS,
     ORDER,
     USEROBJ,
     ERRORMESSAGE,
