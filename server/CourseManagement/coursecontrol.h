@@ -20,10 +20,13 @@
 * Acknowledgements: None
 */
 
-class CourseControl
+#include <QObject>
+
+class CourseControl : public QObject
 {
+    Q_OBJECT
 public:
-    CourseControl();
+    explicit CourseControl(QObject* parent = 0);
 };
 
 #endif // COURSECONTROL_H

@@ -20,10 +20,13 @@
 * Acknowledgements: None
 */
 
-class UserControl
+#include <QObject>
+
+class UserControl : public QObject
 {
+    Q_OBJECT
 public:
-    UserControl();
+    explicit UserControl(QObject* parent = 0);
 };
 
 #endif // USERCONTROL_H

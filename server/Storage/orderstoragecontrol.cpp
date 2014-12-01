@@ -1,5 +1,6 @@
 #include "orderstoragecontrol.h"
 
-OrderStorageControl::OrderStorageControl()
+OrderStorageControl::OrderStorageControl(QObject* parent)
+    : QObject(parent)
 {
 }

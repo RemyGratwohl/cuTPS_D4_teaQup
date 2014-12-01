@@ -1,5 +1,6 @@
 #include "contentstoragecontrol.h"
 
-ContentStorageControl::ContentStorageControl()
+ContentStorageControl::ContentStorageControl(QObject* parent)
+    : QObject(parent)
 {
 }

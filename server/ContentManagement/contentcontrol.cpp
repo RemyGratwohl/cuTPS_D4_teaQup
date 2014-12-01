@@ -1,5 +1,6 @@
 #include "contentcontrol.h"
 
-ContentControl::ContentControl()
+ContentControl::ContentControl(QObject *parent)
+    : QObject(parent)
 {
 }

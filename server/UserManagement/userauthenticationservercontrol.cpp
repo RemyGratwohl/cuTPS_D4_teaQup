@@ -1,5 +1,6 @@
 #include "userauthenticationservercontrol.h"
 
-UserAuthenticationServerControl::UserAuthenticationServerControl()
+UserAuthenticationServerControl::UserAuthenticationServerControl(QObject* parent)
+    : QObject(parent)
 {
 }

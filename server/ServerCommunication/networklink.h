@@ -14,7 +14,7 @@
 *
 * NetworkLink class:
 * - Is the link between the server and client processes
-* - Establishes and maintains a connection with the server's Network Link
+* - Establishes and maintains a connection with the client's Network Link
 *   (uses TCP/IP to communicate between processes)
 *
 * Traceability: BD-002
@@ -23,21 +23,18 @@
 */
 
 #include <QObject>
-#include <QtNetwork/QTcpServer>
-#include <QtNetwork/QTcpSocket>
-#include <QtNetwork/QNetworkSession>
+#include <QFile>
+#include <QSettings>
 #include <QRegExp>
 #include <QStringList>
-#include <QFile>
+#include <QtNetwork/QTcpServer>
+#include <QtNetwork/QTcpSocket>
+#include <QtNetwork/QHostAddress>
+#include <QtNetwork/QNetworkSession>
 #include <QtNetwork/QNetworkConfigurationManager>
 #include <QtNetwork/QNetworkConfiguration>
-#include <QSettings>
-#include <QtNetwork/QHostAddress>
-#include <QtNetwork/QTcpSocket>
 
-#include "message.h"
-#include "../server/ServerCommunication/serializableqobject.h"
-#include "../server/ServerCommunication/messageroutingtypes.h"
+#include "../client/ClientCommunication/message.h"
 
 static const QString SERVER_FILE_NAME("ServerPortFile.txt");
 static const QString SERVER_PORT_NUMBER_FIELD("SERVER_PORT_NUMBER");
@@ -49,24 +46,25 @@ class NetworkLink : public QObject
 public:
     explicit NetworkLink(QObject *parent = 0);
 
-    bool sendServerRequest(const Message*& message);
+    bool sendClientResponse(const Message*& message);
     bool initialize();
 
 private slots:
     bool sessionOpened();
-    bool readServerResponse();
+    bool handleClientRequest();
+    bool readClientRequest();
 
 private:
-    QTcpSocket *tcpSocket;
+    QTcpServer *tcpServer;
+    QTcpSocket *savedSocket;
     QNetworkSession *networkSession;
     quint16 serverPortNumber;
     QString serverIP;
     quint16 blockSize;
 
     bool initializeServerPort();
+    bool initializeServerIP();
     bool initializeNetworkSession();
-
-    bool establishServerConnection();
 
 };
 

@@ -1,36 +1,41 @@
 #include "networklink.h"
 
-NetworkLink::NetworkLink(QObject* parent)
-    : QObject(parent), tcpSocket(0), networkSession(0), serverPortNumber(0)
+NetworkLink::NetworkLink(QObject *parent)
+    : QObject(parent), tcpServer(0), networkSession(0), serverPortNumber(0), blockSize(0)
 {} // handle initialization in the initialize function (to return a success indicator)
 
-bool NetworkLink::sendServerRequest(const Message *&message)
+bool NetworkLink::sendClientResponse(const Message *&message)
 {
-    establishServerConnection();
-
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
 
     out.setVersion(QDataStream::Qt_4_0);
     out << (quint16)0;
-    out << *message;
+    out << *message; // read in the message and send it to the client
     out.device()->seek(0);
     out << (quint16)(block.size() - sizeof(quint16));
 
-    tcpSocket->write(block);
+    QTcpSocket *clientConnection = savedSocket;
+    connect(clientConnection, SIGNAL(disconnected()),
+    clientConnection, SLOT(deleteLater()));
+    clientConnection->write(block);
+    clientConnection->disconnectFromHost();
+
     return true;
 }
 
-bool NetworkLink::establishServerConnection()
+bool NetworkLink::handleClientRequest()
 {
+    QTcpSocket *tcpSocket = tcpServer->nextPendingConnection();
+    savedSocket = tcpSocket;
     blockSize = 0;
-    tcpSocket->abort();
-    tcpSocket->connectToHost(QHostAddress::LocalHost, serverPortNumber);
+    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readClientRequest()));
     return true;
 }
 
-bool NetworkLink::readServerResponse()
+bool NetworkLink::readClientRequest()
 {
+    QTcpSocket *tcpSocket = savedSocket;
     QDataStream in(tcpSocket);
     in.setVersion(QDataStream::Qt_4_0);
 
@@ -44,30 +49,26 @@ bool NetworkLink::readServerResponse()
     if (tcpSocket->bytesAvailable() < blockSize)
         return false;
 
-    SerializableQObject *preNewItem = 0;
-    in >> &preNewItem;
-    Message* message = qobject_cast<Message*>(preNewItem);
+    SerializableQObject* theObj;
+    in >> &theObj;
 
-    if(message != 0) {
-        // Get message information
-        ACTION_TYPE action = static_cast<ACTION_TYPE>(message->getActionType());
-        if(action == CREATE) {
-            qDebug() << "Received a non-Book object.";
-            /*Book* book = qobject_cast<Book*>((message->getData())[0]);
+    // the client message
+    Message* newMessage = qobject_cast<Message*>(theObj);
 
-            if(book == 0) {
-                qDebug() << "Received a non-Book object.";
-            } else {
-                qDebug() << book->getName();
-            }*/
-        }
+    if(newMessage != 0) {
+        qDebug() << "Message action type: " << newMessage->getActionType();
+        return true;
 
         /*
-        QApplication::postEvent(SEND_INTER_SUBSYSTEM_CLIENT,
-                                new ClientResponseEvent(ClientEventDispatcher::testingEventType(),
-                                                        message));
+        QEvent::Type eventType = static_cast<QEvent::Type>(newMessage->getEventType());
+
+        QCoreApplication::postEvent(SEND_INTER_SUBSYSTEM_SERVER,
+                                    new ServerResponseEvent(eventType,newMessage));
+
+        QCoreApplication::postEvent(SEND_INTER_SUBSYSTEM_SERVER,
+        new ServerResponseEvent(ServerEventDispatcher::networkEventType(),
+                                newMessage));
         */
-        return true;
     } else {
         qDebug() << "Failed object read.";
     }
@@ -84,6 +85,10 @@ bool NetworkLink::initializeServerPort()
     {
         // create the file
         if(file.open(QIODevice::WriteOnly | QIODevice::Text) == false) {
+            // if the file cannot be written to, notify the user and return false
+            qCritical() << tr("ServerRequest failed to initialize the server port.\nCannot write to file %1:\n%2.")
+                               .arg(SERVER_FILE_NAME)
+                               .arg(file.errorString());
             return false; // file cannot be modified, return unsuccessfully
         }
 
@@ -98,6 +103,9 @@ bool NetworkLink::initializeServerPort()
 
         // open the existing file
         if(file.open(QIODevice::ReadOnly | QIODevice::Text) == false) {
+            qCritical() << tr("ServerRequest failed to initialize the server port.\nCannot read file %1:\n%2.")
+                               .arg(SERVER_FILE_NAME)
+                               .arg(file.errorString());
             return false; // file cannot be opened, return unsuccessfully
         }
 
@@ -115,7 +123,22 @@ bool NetworkLink::initializeServerPort()
             }
         }
     }
+    return true;
+}
 
+bool NetworkLink::initializeServerIP()
+{
+    // set the server ip address to be localhost
+    serverIP = QHostAddress(QHostAddress::LocalHost).toString();
+    tcpServer = new QTcpServer(this);
+
+    if (!tcpServer->listen(QHostAddress::Any, serverPortNumber)) {
+        qCritical() << tr("Unable to start the server: %1.")
+                           .arg(tcpServer->errorString());
+        tcpServer->close();
+        return false;
+    }
+    qDebug() << "IP:  " << serverIP << "\nPort:" << QString::number(tcpServer->serverPort());
     return true;
 }
 
@@ -123,6 +146,7 @@ bool NetworkLink::initializeNetworkSession()
 {
     QNetworkConfigurationManager manager;
     if (manager.capabilities() & QNetworkConfigurationManager::NetworkSessionRequired) {
+
         // Get saved network configuration
         QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
         settings.beginGroup(QLatin1String("QtNetwork"));
@@ -136,9 +160,12 @@ bool NetworkLink::initializeNetworkSession()
             config = manager.defaultConfiguration();
         }
 
+        // set up the network session using the discovered network configuration
         networkSession = new QNetworkSession(config, this);
         connect(networkSession, SIGNAL(opened()), this, SLOT(sessionOpened()));
         networkSession->open();
+    } else {
+        sessionOpened();
     }
     return true;
 }
@@ -146,17 +173,19 @@ bool NetworkLink::initializeNetworkSession()
 bool NetworkLink::sessionOpened()
 {
     // Save the used configuration
-    QNetworkConfiguration config = networkSession->configuration();
-    QString id;
-    if (config.type() == QNetworkConfiguration::UserChoice)
-        id = networkSession->sessionProperty(QLatin1String("UserChoiceConfiguration")).toString();
-    else
-        id = config.identifier();
+    if (networkSession) {
+        QNetworkConfiguration config = networkSession->configuration();
+        QString id;
+        if (config.type() == QNetworkConfiguration::UserChoice)
+            id = networkSession->sessionProperty(QLatin1String("UserChoiceConfiguration")).toString();
+        else
+            id = config.identifier();
 
-    QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
-    settings.beginGroup(QLatin1String("QtNetwork"));
-    settings.setValue(QLatin1String("DefaultNetworkConfiguration"), id);
-    settings.endGroup();
+        QSettings settings(QSettings::UserScope, QLatin1String("QtProject"));
+        settings.beginGroup(QLatin1String("QtNetwork"));
+        settings.setValue(QLatin1String("DefaultNetworkConfiguration"), id);
+        settings.endGroup();
+    }
     return true;
 }
 
@@ -165,9 +194,8 @@ bool NetworkLink::initialize()
     // order is important here
     if(initializeServerPort() == false) return false;
     if(initializeNetworkSession() == false) return false;
+    if(initializeServerIP() == false) return false;
 
-    tcpSocket = new QTcpSocket(this);
-    connect(tcpSocket, SIGNAL(readyRead()), this, SLOT(readServerResponse()));
-
+    connect(tcpServer, SIGNAL(newConnection()), this, SLOT(handleClientRequest()));
     return true;
 }

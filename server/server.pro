@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core
+QT       += network
 
 QT       -= gui
 
@@ -39,7 +40,8 @@ SOURCES += main.cpp \
     ContentManagement/chapter.cpp \
     ContentManagement/chaptersection.cpp \
     ContentManagement/purchasingdetails.cpp \
-    ContentManagement/publicationdetails.cpp
+    ContentManagement/publicationdetails.cpp \
+    ServerCommunication/networklink.cpp
 
 HEADERS += \
     ServerCommunication/serializableqobject.h \
@@ -67,4 +69,5 @@ HEADERS += \
     ContentManagement/chapter.h \
     ContentManagement/chaptersection.h \
     ContentManagement/purchasingdetails.h \
-    ContentManagement/publicationdetails.h
+    ContentManagement/publicationdetails.h \
+    ServerCommunication/networklink.h

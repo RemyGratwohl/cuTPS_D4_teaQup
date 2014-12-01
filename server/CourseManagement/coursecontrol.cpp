@@ -1,5 +1,6 @@
 #include "coursecontrol.h"
 
-CourseControl::CourseControl()
+CourseControl::CourseControl(QObject* parent)
+    : QObject(parent)
 {
 }

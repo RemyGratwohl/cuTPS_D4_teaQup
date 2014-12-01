@@ -21,13 +21,23 @@
 */
 
 #include <QObject>
+#include "ClientCommunication/networklink.h"
+#include "ContentView/contentviewcontrol.h"
+#include "CourseView/courseviewcontrol.h"
+#include "Shopping/shoppingcartcontrol.h"
+#include "UserView/userviewcontrol.h"
 #include "ClientCommunication/message.h"
 
 class ClientDispatcher : public QObject
 {
     Q_OBJECT
 public:
-    explicit ClientDispatcher(QObject *parent = 0);
+    // owns control pointers that were created in another control object
+    explicit ClientDispatcher(QObject *parent,
+                              ContentViewControl* contentControl,
+                              CourseViewControl* courseControl,
+                              ShoppingCartControl* shoppingControl,
+                              UserViewControl* userControl);
 
     /* Member Function: deliverMsg
      *   Sends the message to the client process
@@ -38,10 +48,22 @@ public:
      */
     bool deliverMsg(const Message*& msg) const;
 
+    /* Member Function: initialize()
+     * The effective constructor, which returns
+     * false if system startup is unsuccessful.
+     */
+    bool initialize();
+
 signals:
 
 public slots:
 
+private:
+    NetworkLink*         networkLink;
+    ContentViewControl*  contentViewControl;
+    CourseViewControl*   courseViewControl;
+    ShoppingCartControl* shoppingCartControl;
+    UserViewControl*     userViewControl;
 };
 
 #endif // CLIENTDISPATCHER_H

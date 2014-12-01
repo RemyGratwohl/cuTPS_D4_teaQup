@@ -20,10 +20,13 @@
 * Acknowledgements: None
 */
 
-class UserAuthenticationServerControl
+#include <QObject>
+
+class UserAuthenticationServerControl : public QObject
 {
+    Q_OBJECT
 public:
-    UserAuthenticationServerControl();
+    explicit UserAuthenticationServerControl(QObject* parent = 0);
 };
 
 #endif // USERAUTHENTICATIONSERVERCONTROL_H
