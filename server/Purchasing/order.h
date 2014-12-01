@@ -23,6 +23,11 @@
 class Order
 {
 public:
+    /* Constructor
+     *   Creates a fully-initialized Order object
+     * in: void
+     * Side Effects: None
+     */
     Order();
 };
 

@@ -26,6 +26,11 @@ class ContentStorageControl : public QObject
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   Creates a fully-initialized ContentStorageControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
     explicit ContentStorageControl(QObject* parent = 0);
 };
 

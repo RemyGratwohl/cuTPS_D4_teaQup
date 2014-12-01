@@ -23,6 +23,11 @@
 class Course
 {
 public:
+    /* Constructor
+     *   Creates a fully-initialized Course object
+     * in: void
+     * Side Effects: None
+     */
     Course();
 };
 

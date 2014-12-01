@@ -24,6 +24,11 @@
 class PurchasingDetails
 {
 public:
+    /* Constructor
+     *   Creates a fully-initialized PurchasingDetails object
+     * in: void
+     * Side Effects: None
+     */
     PurchasingDetails();
 };
 

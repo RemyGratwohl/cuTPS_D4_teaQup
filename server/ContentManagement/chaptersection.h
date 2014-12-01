@@ -24,6 +24,11 @@
 class ChapterSection
 {
 public:
+    /* Constructor
+     *   Creates a fully-initialized ChapterSection object
+     * in: void
+     * Side Effects: None
+     */
     ChapterSection();
 };
 

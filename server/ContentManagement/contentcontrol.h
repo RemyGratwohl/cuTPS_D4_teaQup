@@ -26,6 +26,11 @@ class ContentControl : public QObject
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   Creates a fully-initialized ContentControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
     explicit ContentControl(QObject* parent = 0);
 };
 

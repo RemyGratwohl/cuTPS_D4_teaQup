@@ -26,6 +26,11 @@ class UserAuthenticationServerControl : public QObject
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   Creates a fully-initialized UserAuthenticationServerControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
     explicit UserAuthenticationServerControl(QObject* parent = 0);
 };
 

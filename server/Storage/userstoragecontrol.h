@@ -26,6 +26,11 @@ class UserStorageControl : public QObject
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   Creates a fully-initialized UserStorageControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
     explicit UserStorageControl(QObject* parent = 0);
 };
 

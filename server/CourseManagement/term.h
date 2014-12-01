@@ -23,6 +23,11 @@
 class Term
 {
 public:
+    /* Constructor
+     *   Creates a fully-initialized Term object
+     * in: void
+     * Side Effects: None
+     */
     Term();
 };
 

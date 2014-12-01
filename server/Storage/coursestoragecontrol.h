@@ -26,6 +26,11 @@ class CourseStorageControl : public QObject
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   Creates a fully-initialized CourseStorageControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
     explicit CourseStorageControl(QObject* parent = 0);
 };
 

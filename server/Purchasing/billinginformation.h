@@ -23,6 +23,11 @@
 class BillingInformation
 {
 public:
+    /* Constructor
+     *   Creates a fully-initialized BillingInformation object
+     * in: void
+     * Side Effects: None
+     */
     BillingInformation();
 };
 

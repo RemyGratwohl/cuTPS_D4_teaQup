@@ -25,6 +25,11 @@
 class ContentItem
 {
 public:
+    /* Constructor
+     *   Creates a fully-initialized ContentItem object
+     * in: void
+     * Side Effects: None
+     */
     ContentItem();
 };
 

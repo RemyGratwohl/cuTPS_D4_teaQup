@@ -24,6 +24,11 @@
 class PublicationDetails
 {
 public:
+    /* Constructor
+     *   Creates a fully-initialized PublicationDetails object
+     * in: void
+     * Side Effects: None
+     */
     PublicationDetails();
 };
 

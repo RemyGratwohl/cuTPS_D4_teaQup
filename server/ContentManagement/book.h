@@ -24,6 +24,11 @@
 class Book
 {
 public:
+    /* Constructor
+     *   Creates a fully-initialized Book object
+     * in: void
+     * Side Effects: None
+     */
     Book();
 };
 

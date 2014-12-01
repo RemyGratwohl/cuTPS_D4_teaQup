@@ -26,6 +26,11 @@ class CourseControl : public QObject
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   Creates a fully-initialized CourseControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
     explicit CourseControl(QObject* parent = 0);
 };
 
