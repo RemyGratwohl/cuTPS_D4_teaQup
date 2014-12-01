@@ -1,8 +1,7 @@
 #include "book.h"
 
 Book::Book() :
-    identifier(0),
-    contentID(0),
+    ContentItem(),
     subtitle(),
     authors(),
     isbn(),
@@ -13,11 +12,11 @@ Book::Book() :
     imageLink()
 {}
 
-Book::Book(quint16 id, quint16 cID, QString st, QString a,
-     QString is, QString w, quint16 y,
-     QString p, QString c, QString il) :
-    identifier(id),
-    contentID(cID),
+Book::Book(quint16 id, QString title, quint16 courseID,
+           PurchasingDetails *pd, QString st, QString a,
+           QString is, QString w, quint16 y,
+           QString p, QString c, QString il) :
+    ContentItem(id, title, courseID, pd),
     subtitle(st),
     authors(a),
     isbn(is),

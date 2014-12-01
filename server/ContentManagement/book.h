@@ -26,8 +26,6 @@
 class Book : public ContentItem
 {
     Q_OBJECT
-    Q_PROPERTY(quint16 id READ getID WRITE setID)
-    Q_PROPERTY(quint16 contentID READ getContentID WRITE setContentID)
     Q_PROPERTY(QString subtitle READ getSubtitle WRITE setSubtitle)
     Q_PROPERTY(QString authors READ getAuthors WRITE setAuthors)
     Q_PROPERTY(QString isbn READ getISBN WRITE setISBN)
@@ -45,8 +43,10 @@ public:
     Book();
 
     /* Constructor
-     * in: Book ID
-     * in: ContentItem ID
+     * in: ContentItem ID (same as book ID)
+     * in: Title
+     * in: Corresponding course ID
+     * in: Purchasing details (null if not for sale)
      * in: Subtitle
      * in: Authors
      * in: ISBN
@@ -56,17 +56,14 @@ public:
      * in: Citation which can be used to reference the book
      *       in a works cited list
      * in: Image link (path to cover page image)
-     * Side Effects: None
+     * Side Effects: Purchasing details is adopted
+     *   as a child of this object.
      */
-    Book(quint16 id, quint16 contentID, QString subTitle, QString authors,
+    Book(quint16 bookID, QString title, quint16 courseID,
+         PurchasingDetails *purchaseDetails,
+         QString subTitle, QString authors,
          QString isbn, QString website, quint16 yearPublished,
          QString publisher, QString citation, QString imageLink);
-
-    quint16 getID()   const { return identifier;   }
-    void setID(quint16 id)   { identifier = id; }
-
-    quint16 getContentID()   const { return contentID;   }
-    void setContentID(quint16 id)   { contentID = id; }
 
     QString getSubtitle() const { return subtitle; }
     void setSubtitle(const QString& t) { subtitle = t; }
@@ -102,8 +99,6 @@ public:
     virtual void insertToDataStream(QDataStream& ds) const;
 
 private:
-    quint16 identifier;
-    quint16 contentID;
     QString subtitle;
     QString authors;
     QString isbn;

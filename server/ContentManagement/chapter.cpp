@@ -1,18 +1,17 @@
 #include "chapter.h"
 
 Chapter::Chapter() :
-    identifier(0),
-    contentID(0),
+    ContentItem(),
     bookID(0),
     number(0),
     isbn()
 {
 }
 
-Chapter::Chapter(quint16 id, quint16 cID, quint16 bID,
+Chapter::Chapter(quint16 id, QString title, quint16 courseID,
+                 PurchasingDetails *pd, quint16 bID,
                  quint16 cn, QString is) :
-    identifier(id),
-    contentID(cID),
+    ContentItem(id, title, courseID, pd),
     bookID(bID),
     number(cn),
     isbn(is)
