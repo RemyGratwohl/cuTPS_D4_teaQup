@@ -43,7 +43,7 @@ public:
      * in: Contents of the data message, treated as an owned pointer
      * Side Effects: None
      */
-    explicit DataMessage(DEST_TYPE, ACTION_TYPE, User*, QVector<SerializableQObject *>);
+    DataMessage(DEST_TYPE, ACTION_TYPE, User*, QVector<SerializableQObject *>);
 
     virtual ~DataMessage(void);
 

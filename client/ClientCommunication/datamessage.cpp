@@ -19,8 +19,16 @@ DataMessage::~DataMessage(void) {
 
 void DataMessage::insertToDataStream(QDataStream& ds) const {
     Message::insertToDataStream(ds, DATAMESSAGE);
+    QVectorIterator<SerializableQObject*> i(*data);
+    while (i.hasNext()) {
+        i.next()->insertToDataStream(ds);
+    }
 }
 
-void DataMessage::extractFromDataStream(QDataStream& ds) {
-
+bool DataMessage::setFirstData(QVector<SerializableQObject*>* data_) {
+    if( data == 0 ) {
+        data = data_;
+        return true;
+    }
+    return false;
 }
