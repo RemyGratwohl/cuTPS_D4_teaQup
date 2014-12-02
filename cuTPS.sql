@@ -35,6 +35,9 @@ drop table if exists chapterSection;
 -- Stores the purchasing details of every purchasable item
 drop table if exists purchasingDetails; 
 
+-- TODO
+drop table if exists course_books;
+
 -- =========================== Table Creation ===========================
 
 create table users (
@@ -110,6 +113,14 @@ create table chapterSection (
 	ISBN varchar(60) NOT NULL,
 	FOREIGN KEY(chapterid) REFERENCES chapter(contentid) ON DELETE CASCADE,
 	FOREIGN KEY(sectionid) REFERENCES contentItem(contentid) ON DELETE CASCADE
+);
+
+create table course_book ( 
+	courseid integer NOT NULL,
+	contentid integer NOT NULL,
+	FOREIGN KEY(contentid) REFERENCES book(contentid) ON DELETE CASCADE,
+	FOREIGN KEY(courseid) REFERENCES course(courseid) ON DELETE CASCADE,
+	PRIMARY KEY(courseid, contentid)
 );
 
 -- TODO sales data
