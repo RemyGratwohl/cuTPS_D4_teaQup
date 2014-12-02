@@ -32,6 +32,8 @@ Order::~Order(void) {
 void Order::insertToDataStream(QDataStream& ds) const {
     SerializableQObject::insertToDataStream(ds, ORDEROBJ);
     billingInfo->insertToDataStream(ds);
+
+    ds << static_cast<quint32>(content->size());
     QVectorIterator<ContentItem*> i(*content);
     while (i.hasNext()) {
         i.next()->insertToDataStream(ds);

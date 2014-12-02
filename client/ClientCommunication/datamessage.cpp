@@ -19,6 +19,8 @@ DataMessage::~DataMessage(void) {
 
 void DataMessage::insertToDataStream(QDataStream& ds) const {
     Message::insertToDataStream(ds, DATAMESSAGE);
+
+    ds << static_cast<quint32>(data->size());
     QVectorIterator<SerializableQObject*> i(*data);
     while (i.hasNext()) {
         i.next()->insertToDataStream(ds);

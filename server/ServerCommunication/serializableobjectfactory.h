@@ -68,14 +68,7 @@ public:
      */
     template<typename T> static bool deserializeObject(QDataStream&, T*&);
 
-    /* Member Function: serializeObjectVector
-     *   Serializes the vector of objects into the data stream
-     * inout: Data output stream
-     * in: Vector of objects which inherit from SerializableQObject
-     * Side Effects: None
-     * Return Value: None
-     */
-    template<typename T> static void serializeObjectVector(QDataStream&, const QVector<T*>&);
+protected:
 
     /* Member Function: deserializeObjectVector
      *   Equivalent of deserializeObject() for deserializing
@@ -83,6 +76,10 @@ public:
      *
      *   Outputs a null pointer and returns false if any object
      *   in the stream cannot be QObject-cast to type 'T'.
+     *
+     *   The size of the vector is expected to be the first
+     *   piece of data in the stream.
+     *
      * inout: Data input stream
      * out: Vector of objects which inherit from SerializableQObject
      * Side Effects: None
@@ -101,6 +98,7 @@ template<typename T>
 bool SerializableObjectFactory::deserializeObject(
         QDataStream& ds, T*& output) {
 
+    output = 0;
     quint32 serialType;
     ds >> serialType;
 
@@ -235,15 +233,40 @@ bool SerializableObjectFactory::deserializeObject(
 }
 
 template<typename T>
-void SerializableObjectFactory::serializeObjectVector(
-        QDataStream& ds, const QVector<T*>& data) {
-
-}
-
-template<typename T>
 bool SerializableObjectFactory::deserializeObjectVector(
         QDataStream& ds, QVector<T*>*& data) {
-    // TODO delete data early upon failure
+
+    data = 0;
+    QVector<T*>* obj = new QVector<T*>();
+    T* element = 0;
+    bool good = true;
+
+    quint32 k;
+    ds >> k;
+    for(quint32 i = 0; i < k; ++i) {
+        element = 0;
+        if(deserializeObject(ds, element)) {
+            obj->push_back(element);
+        } else {
+            good = false;
+            qDebug() << "SerializableObjectFactory::deserializeObjectVector : Failed at index"
+                     << i << ".";
+            break;
+        }
+    }
+
+    if(!good) {
+        QVectorIterator<T*> i(*obj);
+        while (i.hasNext()) {
+            delete (i.next());
+        }
+        delete obj;
+        obj = 0;
+    } else {
+        data = obj;
+    }
+
+    return good;
 }
 
 #endif // SERIALIZABLEOBJECTFACTORY_H
