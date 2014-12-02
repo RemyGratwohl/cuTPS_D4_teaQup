@@ -50,6 +50,7 @@ protected:
      */
     Message(DEST_TYPE, ACTION_TYPE, User*);
 
+public:
     virtual ~Message(void);
 
 public:
@@ -62,6 +63,9 @@ public:
     void setDestType_quint16(quint16 dt)   { destType = static_cast<DEST_TYPE>(dt); }
     void setActionType_quint16(quint16 at) { actionType = static_cast<ACTION_TYPE>(at); }
 
+    User* getUser(void) const { return user; }
+
+protected:
     /* Member Function: insertToDataStream
      *   Serialization function, which inserts the appropriate type constant
      *     into the data stream before the object's contents
@@ -71,6 +75,16 @@ public:
      * Return Value: None
      */
     virtual void insertToDataStream(QDataStream& ds, SerializableType type) const;
+
+public:
+    /* Member Function: insertToDataStream
+     *   Serialization function, which inserts the appropriate type constant
+     *     into the data stream before the object's contents
+     * inout: Data output stream
+     * Side Effects: None
+     * Return Value: None
+     */
+    virtual void insertToDataStream(QDataStream& ds) const = 0;
 
     /* Member Function: extractFromDataStream
      *   Deserialization function

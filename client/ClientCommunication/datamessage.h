@@ -40,10 +40,12 @@ public:
      *      Can be null for messages that are to be sent to the
      *      client processes.
      *      Treated as a shared pointer.
-     * in: Contents of the data message
+     * in: Contents of the data message, treated as an owned pointer
      * Side Effects: None
      */
     explicit DataMessage(DEST_TYPE, ACTION_TYPE, User*, QVector<SerializableQObject *>);
+
+    virtual ~DataMessage(void);
 
     /* Member Function: insertToDataStream
      *   Serialization function, which inserts the appropriate type constant
@@ -53,14 +55,6 @@ public:
      * Return Value: None
      */
     virtual void insertToDataStream(QDataStream& ds) const;
-
-    /* Member Function: extractFromDataStream
-     *   Deserialization function
-     * inout: Data input stream
-     * Side Effects: None
-     * Return Value: None
-     */
-    virtual void extractFromDataStream(QDataStream& ds);
 
     QVector<SerializableQObject*> getData() const { return data; }
 
