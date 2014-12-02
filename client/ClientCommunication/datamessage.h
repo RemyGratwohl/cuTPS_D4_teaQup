@@ -43,7 +43,7 @@ public:
      * in: Contents of the data message, treated as an owned pointer
      * Side Effects: None
      */
-    DataMessage(DEST_TYPE, ACTION_TYPE, User*, QVector<SerializableQObject *>);
+    DataMessage(DEST_TYPE, ACTION_TYPE, User*, QVector<SerializableQObject *>*);
 
     virtual ~DataMessage(void);
 
@@ -56,7 +56,7 @@ public:
      */
     virtual void insertToDataStream(QDataStream& ds) const;
 
-    QVector<SerializableQObject*> getData() const { return data; }
+    QVector<SerializableQObject*>* getData() const { return data; }
 
     /* Member Function: setFirstData
      *   To be used by SerializableObjectFactory
@@ -69,7 +69,7 @@ public:
     bool setFirstData(QVector<SerializableQObject*>* data);
 
 private:
-    QVector<SerializableQObject*> data;
+    QVector<SerializableQObject*>* data;
 };
 
 #endif // DATAMESSAGE_H

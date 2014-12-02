@@ -4,7 +4,7 @@ DataMessage::DataMessage(void) :
     Message(), data(0)
 {}
 
-DataMessage::DataMessage(DEST_TYPE dt, ACTION_TYPE at, User* u, QVector<SerializableQObject *> data_) :
+DataMessage::DataMessage(DEST_TYPE dt, ACTION_TYPE at, User* u, QVector<SerializableQObject *>* data_) :
     Message(dt, at, u), data(data_)
 {}
 

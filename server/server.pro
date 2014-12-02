@@ -40,8 +40,9 @@ SOURCES += main.cpp \
     ContentManagement/chapter.cpp \
     ContentManagement/chaptersection.cpp \
     ContentManagement/purchasingdetails.cpp \
-    ContentManagement/publicationdetails.cpp \
-    ServerCommunication/networklink.cpp
+    ServerCommunication/networklink.cpp \
+    ../client/ClientCommunication/errormessage.cpp \
+    ../client/ClientCommunication/datamessage.cpp
 
 HEADERS += \
     ServerCommunication/serializableqobject.h \
@@ -69,6 +70,7 @@ HEADERS += \
     ContentManagement/chapter.h \
     ContentManagement/chaptersection.h \
     ContentManagement/purchasingdetails.h \
-    ContentManagement/publicationdetails.h \
     ServerCommunication/networklink.h \
-    ServerCommunication/serializableobjectfactory.h
+    ServerCommunication/serializableobjectfactory.h \
+    ../client/ClientCommunication/errormessage.h \
+    ../client/ClientCommunication/datamessage.h
