@@ -23,10 +23,11 @@
 */
 
 #include <QObject>
-#include "contentstoragecontrol.h"
+#include "UserManagement/user.h"
+/*#include "contentstoragecontrol.h"
 #include "coursestoragecontrol.h"
 #include "orderstoragecontrol.h"
-#include "userstoragecontrol.h"
+#include "userstoragecontrol.h"*/
 
 class MainStorageControl : public QObject
 {
@@ -39,11 +40,14 @@ public:
      */
     explicit MainStorageControl(QObject* parent = 0);
 
+    bool getUser(int userid, User user, std::string errorMsg);
 private:
+    // MainStorageControl is not suppsed to have any knowledge of outside StorageControls
+    /*
     ContentStorageControl* contentControl;
     CourseStorageControl*  courseControl;
     OrderStorageControl*   orderControl;
-    UserStorageControl*    userControl;
+    UserStorageControl*    userControl;*/
 };
 
 #endif // MAINSTORAGECONTROL_H

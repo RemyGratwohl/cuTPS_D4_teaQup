@@ -21,6 +21,10 @@
 */
 
 #include <QObject>
+#include "UserManagement/user.h"
+#include "mainstoragecontrol.h"
+#include <string>
+
 
 class UserStorageControl : public QObject
 {
@@ -32,6 +36,18 @@ public:
      * Side Effects: None
      */
     explicit UserStorageControl(QObject* parent = 0);
+
+    /* Get User
+     *  Retrieves the user from MainStorageControl
+     * in: userid int
+     * out: user User, errorMsg string
+     * Side Effects: TBD
+     */
+    bool getUser(int userid, User user, std::string errorMsg);
+
+private:
+
+    MainStorageControl* storage;
 };
 
 #endif // USERSTORAGECONTROL_H

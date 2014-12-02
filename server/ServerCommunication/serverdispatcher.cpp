@@ -8,6 +8,8 @@ ServerDispatcher::ServerDispatcher(int & argc, char ** argv) :
     courseControl = new CourseControl(this);
     orderControl = new OrderControl(this);
     userControl = new UserControl(this);
+    // This most likely doesn't need to be here because the controls are the only classes
+    // that interact with storage.
     storageControl = new MainStorageControl(this);
 }
 
