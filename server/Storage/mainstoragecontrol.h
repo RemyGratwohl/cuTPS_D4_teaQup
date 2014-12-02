@@ -32,6 +32,11 @@ class MainStorageControl : public QObject
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   Creates a fully-initialized MainStorageControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
     explicit MainStorageControl(QObject* parent = 0);
 
 private:

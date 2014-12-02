@@ -44,15 +44,50 @@ class NetworkLink : public QObject
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   Creates a semi-initialized Network object
+     * in: parent QObject
+     * Side Effects: None
+     */
     explicit NetworkLink(QObject *parent = 0);
 
+    /* Member Function
+     *   Sends a message to the client network link
+     * in: Message
+     * Side Effects: None
+     */
     bool sendClientResponse(const Message*& message);
-    bool initialize();
+
+    /* Member Function
+     *   Fully-initializes the NetworkLink object
+     * in: void
+     * Side Effects: None
+     */
+    bool initialize(void);
 
 private slots:
-    bool sessionOpened();
-    bool handleClientRequest();
-    bool readClientRequest();
+    /* Member Function
+     *   Initializes network session using
+     *   previous network configuration
+     * in: void
+     * Side Effects: None
+     */
+    bool sessionOpened(void);
+
+    /* Member Function
+     *   Handles the case where a client process
+     *   passes a message to the server process
+     * in: void
+     * Side Effects: None
+     */
+    bool handleClientRequest(void);
+
+    /* Member Function
+     *   Reads a message from the client
+     * in: void
+     * Side Effects: None
+     */
+    bool readClientRequest(void);
 
 private:
     QTcpServer *tcpServer;
@@ -62,9 +97,27 @@ private:
     QString serverIP;
     quint16 blockSize;
 
-    bool initializeServerPort();
-    bool initializeServerIP();
-    bool initializeNetworkSession();
+    /* Member Function
+     *   Initializes server port number
+     * in: void
+     * Side Effects: None
+     */
+    bool initializeServerPort(void);
+
+    /* Member Function
+     *   Initializes server IP address
+     * in: void
+     * Side Effects: None
+     */
+    bool initializeServerIP(void);
+
+    /* Member Function
+     *   Initializes server network session
+     *   (TcpServer, NetworkSession)
+     * in: void
+     * Side Effects: None
+     */
+    bool initializeNetworkSession(void);
 
 };
 

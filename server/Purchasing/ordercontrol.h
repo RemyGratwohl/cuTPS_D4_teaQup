@@ -26,6 +26,11 @@ class OrderControl : public QObject
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   Creates a fully-initialized OrderControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
     explicit OrderControl(QObject* parent = 0);
 };
 

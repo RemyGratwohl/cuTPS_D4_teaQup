@@ -13,7 +13,7 @@
 * Remy Gratwohl  ID: 100891970
 *
 * UserControl class:
-* - handles user interaction with the cuTPS system
+* - handles operations on users
 *
 * Traceability: CT-033
 *
@@ -26,6 +26,11 @@ class UserControl : public QObject
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   Creates a fully-initialized UserControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
     explicit UserControl(QObject* parent = 0);
 };
 
