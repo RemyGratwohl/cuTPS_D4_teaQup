@@ -23,11 +23,13 @@
 */
 
 #include <QObject>
+#include <QDebug>
+#include <QVector>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlRecord>
 #include "UserManagement/user.h"
-/*#include "contentstoragecontrol.h"
-#include "coursestoragecontrol.h"
-#include "orderstoragecontrol.h"
-#include "userstoragecontrol.h"*/
 
 class MainStorageControl : public QObject
 {
@@ -40,8 +42,12 @@ public:
      */
     explicit MainStorageControl(QObject* parent = 0);
 
-    bool getUser(int userid, User user, std::string errorMsg);
+    bool getUser(int userid, User& user, std::string errorMsg);
+    QSqlQuery runQuery(QString query);
 private:
+    QSqlDatabase db;
+
+
     // MainStorageControl is not suppsed to have any knowledge of outside StorageControls
     /*
     ContentStorageControl* contentControl;

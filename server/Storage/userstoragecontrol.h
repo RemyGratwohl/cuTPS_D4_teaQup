@@ -43,7 +43,13 @@ public:
      * out: user User, errorMsg string
      * Side Effects: TBD
      */
-    bool getUser(int userid, User user, std::string errorMsg);
+    bool getUser(int userid, User& user, std::string& errorMsg);
+
+    //bool processMsg(Message message);
+    //bool addUser(User user);
+    //bool updateUser(User user);
+    //bool removeUser(User user);
+    //bool getUserList(QVector<User> users);
 
 private:
 
