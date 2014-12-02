@@ -10,4 +10,6 @@ UserStorageControl::UserStorageControl(QObject* parent)
 
 bool UserStorageControl::getUser(int userid, User user, string errorMsg) {
 
+
+    //return storage->getUser(userid, user, errorMsg);
 }

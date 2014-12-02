@@ -12,7 +12,7 @@ MainStorageControl::MainStorageControl(QObject *parent)
 
 
 bool getUser(int userid, User user, string errorMsg){
-    // Query:
+    // Query: select * from users where userid = userid;
 
     // Send query to DB TODO: Function for running queries
     // Get back the result
