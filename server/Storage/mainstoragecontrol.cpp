@@ -40,6 +40,7 @@ QSqlQuery MainStorageControl::runQuery(QString query){
             }
             else{
                 qDebug() << "Query failed!";
+                qDebug() << q.lastError();
                 db.close();
                 return q;
             }
