@@ -24,19 +24,40 @@
 #include <QObject>
 #include <QWidget>
 
+#include "loginwindow.h"
+#include "mainwindow.h"
+#include "userauthenticationcontrol.h"
+
+#include "ContentView/contentviewcontrol.h"
+#include "CourseView/courseviewcontrol.h"
+#include "Shopping/shoppingcartcontrol.h"
+
 class ViewControl : public QObject
 {
     Q_OBJECT
 public:
     explicit ViewControl(QObject *parent = 0);
 
-    //bool changeView(ViewType subsystem);
+     enum TYPE {CONTENT = 0, COURSE, SHOPPINGCART,BILLING};
 
+     bool changeView(TYPE subsystem);
+     bool authenticateUser(QString username);
+
+     void displayCommunicationError();
+     void displayErrorString(QString &err);
 
 private:
-    bool displayView(QWidget widget);
-    bool changeWindow(QWidget window);
+    bool displayView(QWidget *widget);
+    bool changeWindow(QWidget *window);
 
+    User                      *currentUser;
+    LoginWindow               *loginWindow;
+    MainWindow                *mainWindow;
+    UserAuthenticationControl *authenticator;
+
+    ContentViewControl        *contentController;
+    CourseViewControl         *courseController;
+    ShoppingCartControl       *shoppingController;
 };
 
 #endif // VIEWCONTROL_H
