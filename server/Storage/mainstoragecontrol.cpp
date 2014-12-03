@@ -2,12 +2,32 @@
 
 using namespace std;
 
-MainStorageControl::MainStorageControl(QObject *parent)
-    : QObject(parent)
+QSharedPointer<MainStorageControl> MainStorageControl::mainStorage(new MainStorageControl());
+
+bool MainStorageControl::isInitialized = false;
+bool MainStorageControl::initializationAttempted = false;
+
+bool MainStorageControl::getMainStorageControl(QSharedPointer<MainStorageControl>& ptr) {
+    if( !initializationAttempted ) {
+        initializationAttempted = true;
+        isInitialized = mainStorage->initialize();
+    }
+    if( isInitialized ) {
+        ptr = mainStorage;
+    }
+    return isInitialized;
+}
+
+MainStorageControl::MainStorageControl(void)
+{}
+
+bool MainStorageControl::initialize(void)
 {
     db = QSqlDatabase::addDatabase("QSQLITE");
     // Database path may need to also be configurable
     db.setDatabaseName("../../cuTPS_D4_teaQup/cuTPSDB");
+
+    return true;
 }
 
 

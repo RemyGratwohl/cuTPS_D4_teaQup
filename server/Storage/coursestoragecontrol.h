@@ -13,7 +13,8 @@
 * Remy Gratwohl  ID: 100891970
 *
 * ContentStorageControl class:
-* - handles the course aspect of the storage system
+* - handles the courses aspect of the storage system
+* - This is a singleton class
 *
 * Traceability: CT-028
 *
@@ -21,17 +22,43 @@
 */
 
 #include <QObject>
+#include <QSharedPointer>
+#include "mainstoragecontrol.h"
 
 class CourseStorageControl : public QObject
 {
     Q_OBJECT
+
 public:
+    /* Static Member Function: getCourseStorageControl
+     * out: Instance of CourseStorageControl, or nothing, if
+     *        the CourseStorageControl instance failed to initialize.
+     * Side Effects: None
+     * Return Value: True, if the CourseStorageControl object
+     *   is properly initialized.
+     */
+    static bool getCourseStorageControl(QSharedPointer<CourseStorageControl>& ptr);
+
+protected:
     /* Constructor
-     *   Creates a fully-initialized CourseStorageControl object
-     * in: parent QObject
+     *   Essentially does nothing
      * Side Effects: None
      */
-    explicit CourseStorageControl(QObject* parent = 0);
+    CourseStorageControl(void);
+
+    /* Member Function: initialize
+     * Returns false if this object does not initialize properly.
+     */
+    bool initialize(void);
+
+private:
+    QSharedPointer<MainStorageControl> mainStorage;
+
+private:
+    // Singleton instance
+    static QSharedPointer<CourseStorageControl> courseStorage;
+    static bool isInitialized;
+    static bool initializationAttempted;
 };
 
 #endif // COURSESTORAGECONTROL_H
