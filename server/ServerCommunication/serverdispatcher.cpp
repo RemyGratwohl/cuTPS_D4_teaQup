@@ -46,23 +46,24 @@ bool ServerDispatcher::directMsg(Message* msg) const
     {
     case ORDERING:
         // orderControl handles message
+        return orderControl->processMsg(msg);
         break;
     case USER:
         // userControl handles message
+        return userControl->processMsg(msg);
         break;
     case CONTENT:
-        qDebug() << "\nReceived message with CONTENT destination.\n";
         // contentControl handles message
+        return contentControl->processMsg(msg);
         break;
     case COURSE:
         // courseControl handles message
+        return courseControl->processMsg(msg);
         break;
     default:
+        return false;
         break;
     }
 
-    // control systems delete message?
-    //delete msg;
-
-    return true;
+    return false;
 }

@@ -18,17 +18,14 @@ int main(int argc, char *argv[])
     ClientDispatcher* clientDispatcher = new ClientDispatcher(0,0,0,0);
     clientDispatcher->initialize();
 
-    Message* errorMessage = new ErrorMessage(ORDERING, CREATE, new User(), "Client: Hello, Server.");
-    clientDispatcher->deliverMsg(errorMessage);
+    //Message* errorMessage = new ErrorMessage(ORDERING, CREATE, new User(), "Client: Hello, Server.");
+    //clientDispatcher->deliverMsg(errorMessage);
 
-    //QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
-    //Message* newMessage = new DataMessage(CONTENT, CREATE, new User(), data);
-    //clientDispatcher->deliverMsg(newMessage);
+    QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
+    Message* newMessage = new DataMessage(ORDERING, UPDATE, new User(), data);
+    clientDispatcher->deliverMsg(newMessage);
 
     /* testing end */
-
-    LoginWindow lw;
-    lw.show();
 
     ViewControl vc;
 
