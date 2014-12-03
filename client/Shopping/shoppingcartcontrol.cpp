@@ -5,6 +5,7 @@ ShoppingCartControl::ShoppingCartControl(ViewControl *viewController, QObject *p
     QObject(parent)
 {
     shoppingCartView = new ShoppingCartView(this);
+    billingInfoView  = new BillingInfoView(this);
 }
 
 QWidget* ShoppingCartControl::getView(){

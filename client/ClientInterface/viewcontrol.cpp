@@ -12,9 +12,9 @@ ViewControl::ViewControl(QObject *parent) :
     loginWindow->show(); // Show the default window (login)
 }
 
-bool ViewControl::authenticateUser(QString username)
+bool ViewControl::authenticateUser(quint16 id)
 {
-    if(authenticator->authenticateUser(username, &currentUser))
+    if(authenticator->authenticateUser(id, &currentUser))
     {
         loginWindow->hide();
         mainWindow->show();
@@ -42,10 +42,10 @@ bool ViewControl::changeView(TYPE subsystem){
     switch(subsystem)
     {
     case(SHOPPING):
-
         mainWindow->setCentralWidget(shoppingController->getView());
         break;
     case(CONTENT):
+        mainWindow->setCentralWidget(contentController->getView());
         break;
     case(COURSE):
         break;

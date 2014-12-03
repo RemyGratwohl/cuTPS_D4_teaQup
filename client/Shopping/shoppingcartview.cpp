@@ -14,3 +14,8 @@ ShoppingCartView::~ShoppingCartView()
 {
     delete ui;
 }
+
+void ShoppingCartView::on_orderButton_clicked()
+{
+
+}

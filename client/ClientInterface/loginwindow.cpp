@@ -8,6 +8,8 @@ LoginWindow::LoginWindow(ViewControl *control, QWidget *parent) :
     ui(new Ui::LoginWindow)
 {
     ui->setupUi(this);
+    QValidator *inputVal = new QIntValidator(1,9999999999,ui->idLineEdit);
+    ui->idLineEdit->setValidator(inputVal);
 }
 
 LoginWindow::~LoginWindow()
@@ -17,7 +19,7 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::on_connectButton_clicked()
 {
-    QString username = ui->userNameLineEdit->text();
-    controller->authenticateUser(username);
+    quint16 rawID = ui->idLineEdit->text().toShort();
+    controller->authenticateUser(rawID);
 }
 

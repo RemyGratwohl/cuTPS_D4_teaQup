@@ -52,17 +52,17 @@
     <string>Shopping Cart View</string>
    </property>
   </widget>
-  <widget class="QLabel" name="label_4">
+  <widget class="QPushButton" name="orderButton">
    <property name="geometry">
     <rect>
-     <x>260</x>
-     <y>390</y>
-     <width>121</width>
-     <height>16</height>
+     <x>470</x>
+     <y>360</y>
+     <width>88</width>
+     <height>27</height>
     </rect>
    </property>
    <property name="text">
-    <string>Shopping Cart View</string>
+    <string>Place Order</string>
    </property>
   </widget>
  </widget>

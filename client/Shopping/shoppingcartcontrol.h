@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include "shoppingcartview.h"
+#include "billinginfoview.h"
 
 class ViewControl;
 
@@ -39,6 +40,7 @@ public slots:
 private:
     ViewControl      *viewController;
     ShoppingCartView *shoppingCartView;
+    BillingInfoView  *billingInfoView;
 };
 
 #endif // SHOPPINGCARTCONTROL_H

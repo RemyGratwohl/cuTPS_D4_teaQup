@@ -27,16 +27,19 @@ namespace Ui {
 class BillingInfoView;
 }
 
+class ShoppingCartControl;
+
 class BillingInfoView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit BillingInfoView(QWidget *parent = 0);
+    explicit BillingInfoView(ShoppingCartControl *control = 0, QWidget *parent = 0);
     ~BillingInfoView();
 
 private:
     Ui::BillingInfoView *ui;
+    ShoppingCartControl *controller;
 };
 
 #endif // BILLINGINFOVIEW_H

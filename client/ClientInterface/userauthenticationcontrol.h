@@ -29,7 +29,7 @@ class UserAuthenticationControl : public QObject
 public:
     explicit UserAuthenticationControl(QObject *parent = 0);
 
-    bool authenticateUser(QString username, User **user);
+    bool authenticateUser(quint16 id, User **user);
 
 signals:
 
