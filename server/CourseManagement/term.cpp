@@ -30,7 +30,7 @@ QString Term::getSemester(void) const {
         return "Summer";
     default:
         qDebug() << "Term::getSemester : object has unknown semester: "
-                 << static_cast<OBJ_ID_TYPE>(semester) << ".";
+                 << static_cast<quint16>(semester) << ".";
         return "Unknown";
     }
 }

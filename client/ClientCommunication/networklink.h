@@ -41,7 +41,7 @@
 
 static const QString SERVER_FILE_NAME("ServerPortFile.txt");
 static const QString SERVER_PORT_NUMBER_FIELD("SERVER_PORT_NUMBER");
-static const OBJ_ID_TYPE DEFAULT_SERVER_PORT(55505);
+static const quint16 DEFAULT_SERVER_PORT(55505);
 
 class ClientDispatcher;
 
