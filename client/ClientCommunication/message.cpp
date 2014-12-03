@@ -32,3 +32,10 @@ void Message::extractFromDataStream(QDataStream& ds) {
     user = new User();
     user->extractFromDataStream(ds);
 }
+
+User* Message::extractUser(void) {
+    User* temp = user;
+    user = 0;
+    userIsShared = true;
+    return temp;
+}

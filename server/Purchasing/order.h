@@ -81,6 +81,16 @@ public:
      */
     bool setFirstContents(QVector<ContentItem*>* content);
 
+    /* Member Function: getData
+     *   Returns a pointer to the vector of data items
+     *     stored in this object.
+     *
+     *   The pointer's ownership is unaltered by this operation.
+     *
+     *   It is owned by this object if it was initialized
+     *     during deserialization, but is shared if it was initialized
+     *     at construction.
+     */
     QVector<ContentItem*>* getContents(void) { return content; }
 
 private:
