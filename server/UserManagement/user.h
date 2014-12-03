@@ -1,4 +1,4 @@
-#ifndef USER_H
+﻿#ifndef USER_H
 #define USER_H
 
 /*
@@ -37,6 +37,12 @@ public:
     User();
 
     /* Constructor
+     *   To be used to create a container for deserialized data.
+     * Side Effects: None
+     */
+    User(void);
+
+    /* Constructor
      *   To be used by the client process
      *   to create a User object that gets fully initialized
      *   on the server and then sent back to complete
@@ -56,7 +62,7 @@ public:
     User(const QString& name, const TYPE type, const quint16 id);
 
     /* Member Function: insertToDataStream
-     *   Serialization function, which must be overridden to
+     *   Serialization function, which is overridden to
      *     insert the appropriate type constant
      *     into the data stream before the object's contents
      * inout: Data output stream
@@ -71,8 +77,17 @@ public:
     quint16 getType()   const { return (quint16)type;   }
     void setType(quint16 t)   { type = static_cast<TYPE>(t); }
 
-    quint16 getID()   const { return (quint16)identifier;   }
-    void setID(quint16 id)   { identifier = static_cast<TYPE>(id); }
+    quint16 getID()   const { return identifier;   }
+    void setID(quint16 id)   { identifier = id; }
+
+    /* Member Function: isOfType
+     *   Returns true if this user is of the same
+     *     type as that indicated by the input parameter
+     * in: User role (type) to compare with
+     * Side Effects: None
+     * Return Value: True, if the user has the same type
+     */
+    bool isOfType(const TYPE t) const;
 
 signals:
 

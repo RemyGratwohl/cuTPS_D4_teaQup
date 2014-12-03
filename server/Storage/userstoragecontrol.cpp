@@ -1,5 +1,6 @@
 #include "userstoragecontrol.h"
 
-UserStorageControl::UserStorageControl()
+UserStorageControl::UserStorageControl(QObject* parent)
+    : QObject(parent)
 {
 }

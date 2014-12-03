@@ -1,5 +1,6 @@
 #include "ordercontrol.h"
 
-OrderControl::OrderControl()
+OrderControl::OrderControl(QObject *parent)
+    : QObject(parent)
 {
 }

@@ -23,6 +23,25 @@
 */
 
 #include <QObject>
+#include <QtNetwork/QTcpServer>
+#include <QtNetwork/QTcpSocket>
+#include <QtNetwork/QNetworkSession>
+#include <QRegExp>
+#include <QStringList>
+#include <QFile>
+#include <QtNetwork/QNetworkConfigurationManager>
+#include <QtNetwork/QNetworkConfiguration>
+#include <QSettings>
+#include <QtNetwork/QHostAddress>
+#include <QtNetwork/QTcpSocket>
+
+#include "message.h"
+#include "../server/ServerCommunication/serializableqobject.h"
+#include "../server/ServerCommunication/messageroutingtypes.h"
+
+static const QString SERVER_FILE_NAME("ServerPortFile.txt");
+static const QString SERVER_PORT_NUMBER_FIELD("SERVER_PORT_NUMBER");
+static const quint16 DEFAULT_SERVER_PORT(55505);
 
 class NetworkLink : public QObject
 {
@@ -30,14 +49,24 @@ class NetworkLink : public QObject
 public:
     explicit NetworkLink(QObject *parent = 0);
 
-    void requestionConnection();
-    void handleServerConnection(QByteArray);
+    bool sendServerRequest(const Message*& message);
+    bool initialize();
 
 private slots:
-    //bool sessionOpened();
+    bool sessionOpened();
+    bool readServerResponse();
 
 private:
-    bool intializeServerPort();
+    QTcpSocket *tcpSocket;
+    QNetworkSession *networkSession;
+    quint16 serverPortNumber;
+    QString serverIP;
+    quint16 blockSize;
+
+    bool initializeServerPort();
+    bool initializeNetworkSession();
+
+    bool establishServerConnection();
 
 };
 

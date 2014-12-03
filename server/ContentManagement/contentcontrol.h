@@ -20,10 +20,18 @@
 * Acknowledgements: None
 */
 
-class ContentControl
+#include <QObject>
+
+class ContentControl : public QObject
 {
+    Q_OBJECT
 public:
-    ContentControl();
+    /* Constructor
+     *   Creates a fully-initialized ContentControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
+    explicit ContentControl(QObject* parent = 0);
 };
 
 #endif // CONTENTCONTROL_H

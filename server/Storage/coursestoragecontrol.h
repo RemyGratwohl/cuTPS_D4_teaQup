@@ -20,11 +20,18 @@
 * Acknowledgements: None
 */
 
+#include <QObject>
 
-class CourseStorageControl
+class CourseStorageControl : public QObject
 {
+    Q_OBJECT
 public:
-    CourseStorageControl();
+    /* Constructor
+     *   Creates a fully-initialized CourseStorageControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
+    explicit CourseStorageControl(QObject* parent = 0);
 };
 
 #endif // COURSESTORAGECONTROL_H

@@ -20,10 +20,18 @@
 * Acknowledgements: None
 */
 
-class OrderStorageControl
+#include <QObject>
+
+class OrderStorageControl : public QObject
 {
+    Q_OBJECT
 public:
-    OrderStorageControl();
+    /* Constructor
+     *   Creates a fully-initialized OrderStorageControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
+    explicit OrderStorageControl(QObject* parent = 0);
 };
 
 #endif // ORDERSTORAGECONTROL_H

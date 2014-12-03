@@ -5,6 +5,7 @@
 #-------------------------------------------------
 
 QT       += core gui
+QT       += network
 
 greaterThan(QT_MAJOR_VERSION, 4): QT += widgets
 
@@ -31,7 +32,16 @@ SOURCES += main.cpp\
     ../server/ServerCommunication/serializableqobject.cpp \
     ClientCommunication/errormessage.cpp \
     ClientCommunication/datamessage.cpp \
-    ../server/UserManagement/user.cpp
+    ../server/UserManagement/user.cpp \
+    ../server/ContentManagement/purchasingdetails.cpp \
+    ../server/ContentManagement/contentitem.cpp \
+    ../server/ContentManagement/chaptersection.cpp \
+    ../server/ContentManagement/chapter.cpp \
+    ../server/ContentManagement/book.cpp \
+    ../server/Purchasing/order.cpp \
+    ../server/Purchasing/billinginformation.cpp \
+    ../server/CourseManagement/term.cpp \
+    ../server/CourseManagement/course.cpp
 
 HEADERS  += ClientInterface/mainwindow.h \
     ClientCommunication/networklink.h \
@@ -52,7 +62,18 @@ HEADERS  += ClientInterface/mainwindow.h \
     ../server/ServerCommunication/messageroutingtypes.h \
     ClientCommunication/errormessage.h \
     ClientCommunication/datamessage.h \
-    ../server/UserManagement/user.h
+    ../server/UserManagement/user.h \
+    ../server/ServerCommunication/serializabletypes.h \
+    ../server/ServerCommunication/serializableobjectfactory.h \
+    ../server/ContentManagement/purchasingdetails.h \
+    ../server/ContentManagement/contentitem.h \
+    ../server/ContentManagement/chaptersection.h \
+    ../server/ContentManagement/chapter.h \
+    ../server/ContentManagement/book.h \
+    ../server/Purchasing/order.h \
+    ../server/Purchasing/billinginformation.h \
+    ../server/CourseManagement/term.h \
+    ../server/CourseManagement/course.h
 
 FORMS    += ClientInterface/mainwindow.ui \
     ClientInterface/loginwindow.ui \

@@ -24,8 +24,12 @@ enum SerializableType {
     BOOK,
     CHAPTER,
     CHAPTERSECTION,
-    ORDER,
+    PURCHASEDETAILS,
+    ORDEROBJ,
+    BILLINGINFO,
     USEROBJ,
+    TERMOBJ,
+    COURSEOBJ,
     ERRORMESSAGE,
     DATAMESSAGE
 };

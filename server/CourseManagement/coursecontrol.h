@@ -20,10 +20,18 @@
 * Acknowledgements: None
 */
 
-class CourseControl
+#include <QObject>
+
+class CourseControl : public QObject
 {
+    Q_OBJECT
 public:
-    CourseControl();
+    /* Constructor
+     *   Creates a fully-initialized CourseControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
+    explicit CourseControl(QObject* parent = 0);
 };
 
 #endif // COURSECONTROL_H

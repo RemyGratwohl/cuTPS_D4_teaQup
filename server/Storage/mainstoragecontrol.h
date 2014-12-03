@@ -22,10 +22,28 @@
 * Acknowledgements: None
 */
 
-class MainStorageControl
+#include <QObject>
+#include "contentstoragecontrol.h"
+#include "coursestoragecontrol.h"
+#include "orderstoragecontrol.h"
+#include "userstoragecontrol.h"
+
+class MainStorageControl : public QObject
 {
+    Q_OBJECT
 public:
-    MainStorageControl();
+    /* Constructor
+     *   Creates a fully-initialized MainStorageControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
+    explicit MainStorageControl(QObject* parent = 0);
+
+private:
+    ContentStorageControl* contentControl;
+    CourseStorageControl*  courseControl;
+    OrderStorageControl*   orderControl;
+    UserStorageControl*    userControl;
 };
 
 #endif // MAINSTORAGECONTROL_H

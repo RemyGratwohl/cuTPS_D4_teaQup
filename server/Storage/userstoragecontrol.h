@@ -20,10 +20,18 @@
 * Acknowledgements: None
 */
 
-class UserStorageControl
+#include <QObject>
+
+class UserStorageControl : public QObject
 {
+    Q_OBJECT
 public:
-    UserStorageControl();
+    /* Constructor
+     *   Creates a fully-initialized UserStorageControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
+    explicit UserStorageControl(QObject* parent = 0);
 };
 
 #endif // USERSTORAGECONTROL_H

@@ -20,10 +20,18 @@
 * Acknowledgements: None
 */
 
-class ContentStorageControl
+#include <QObject>
+
+class ContentStorageControl : public QObject
 {
+    Q_OBJECT
 public:
-    ContentStorageControl();
+    /* Constructor
+     *   Creates a fully-initialized ContentStorageControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
+    explicit ContentStorageControl(QObject* parent = 0);
 };
 
 #endif // CONTENTSTORAGECONTROL_H

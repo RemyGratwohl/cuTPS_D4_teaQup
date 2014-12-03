@@ -20,10 +20,18 @@
 * Acknowledgements: None
 */
 
-class OrderControl
+#include <QObject>
+
+class OrderControl : public QObject
 {
+    Q_OBJECT
 public:
-    OrderControl();
+    /* Constructor
+     *   Creates a fully-initialized OrderControl object
+     * in: parent QObject
+     * Side Effects: None
+     */
+    explicit OrderControl(QObject* parent = 0);
 };
 
 #endif // ORDERCONTROL_H

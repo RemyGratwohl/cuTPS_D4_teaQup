@@ -23,6 +23,13 @@
 
 #include <QObject>
 #include <QCoreApplication>
+
+#include "networklink.h"
+#include "../ContentManagement/contentcontrol.h"
+#include "../CourseManagement/coursecontrol.h"
+#include "../Purchasing/ordercontrol.h"
+#include "../UserManagement/usercontrol.h"
+#include "../Storage/mainstoragecontrol.h"
 #include "../../client/ClientCommunication/message.h"
 
 class ServerDispatcher : public QCoreApplication
@@ -56,7 +63,12 @@ signals:
 public slots:
 
 private:
-    // TODO subsystem control objects
+    NetworkLink*        networkLink;
+    ContentControl*     contentControl;
+    CourseControl*      courseControl;
+    OrderControl*       orderControl;
+    UserControl*        userControl;
+    MainStorageControl* storageControl;
 
 };
 
