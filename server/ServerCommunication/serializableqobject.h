@@ -58,7 +58,4 @@ public:
     virtual void extractFromDataStream(QDataStream& ds);
 };
 
-QDataStream& operator<<(QDataStream&, const SerializableQObject&);
-QDataStream& operator>>(QDataStream&, SerializableQObject**);
-
 #endif // SERIALIZABLEQOBJECT_H

@@ -1,11 +1,11 @@
-#include "ClientInterface/loginwindow.h"
 #include <QApplication>
+#include "ClientInterface/viewcontrol.h"
 
 int main(int argc, char *argv[])
 {
     QApplication a(argc, argv);
-    LoginWindow lw;
-    lw.show();
+
+    ViewControl vc;
 
     return a.exec();
 }

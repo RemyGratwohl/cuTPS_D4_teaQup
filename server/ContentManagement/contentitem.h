@@ -79,6 +79,15 @@ protected:
     virtual void insertToDataStream(QDataStream& ds, SerializableType type) const;
 
 public:
+    /* Member Function: insertToDataStream
+     *   Serialization function, which inserts the appropriate type constant
+     *     into the data stream before the object's contents
+     * inout: Data output stream
+     * Side Effects: None
+     * Return Value: None
+     */
+    virtual void insertToDataStream(QDataStream& ds) const = 0;
+
     /* Member Function: extractFromDataStream
      *   Deserialization function
      * inout: Data input stream

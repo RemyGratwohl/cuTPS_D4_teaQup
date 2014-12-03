@@ -21,11 +21,18 @@
 */
 
 #include "message.h"
+#include <QVector>
 
 class DataMessage : public Message
 {
     Q_OBJECT
 public:
+    /* Constructor
+     *   To be used to create a container for deserialized data.
+     * Side Effects: None
+     */
+    DataMessage();
+
     /* Constructor
      * in: Destination subsystem
      * in: Verb of the message
@@ -33,10 +40,12 @@ public:
      *      Can be null for messages that are to be sent to the
      *      client processes.
      *      Treated as a shared pointer.
-     * in: Contents of the data message
+     * in: Contents of the data message, treated as an owned pointer
      * Side Effects: None
      */
-    explicit DataMessage(DEST_TYPE, ACTION_TYPE, User*, QVector<SerializableQObject *>);
+    DataMessage(DEST_TYPE, ACTION_TYPE, User*, QVector<SerializableQObject *>*);
+
+    virtual ~DataMessage(void);
 
     /* Member Function: insertToDataStream
      *   Serialization function, which inserts the appropriate type constant
@@ -47,18 +56,25 @@ public:
      */
     virtual void insertToDataStream(QDataStream& ds) const;
 
-    /* Member Function: extractFromDataStream
-     *   Deserialization function
-     * inout: Data input stream
-     * Side Effects: None
-     * Return Value: None
+    /* Member Function: getData
+     *   Returns a pointer to the vector of data items
+     *   stored in this object.
+     *   The pointer is still owned by this object.
      */
-    virtual void extractFromDataStream(QDataStream& ds);
+    QVector<SerializableQObject*>* getData() const { return data; }
 
-    QVector<SerializableQObject*> getData() const { return data; }
+    /* Member Function: setFirstData
+     *   To be used by SerializableObjectFactory
+     * in: Data items being transferred
+     * Side Effects: This object becomes the owner of 'data'
+     * Return Value: True, if this object's data vector has been set.
+     *   Returns false and does nothing if this object
+     *     already has a vector of data.
+     */
+    bool setFirstData(QVector<SerializableQObject*>* data);
 
 private:
-    QVector<SerializableQObject*> data;
+    QVector<SerializableQObject*>* data;
 };
 
 #endif // DATAMESSAGE_H
