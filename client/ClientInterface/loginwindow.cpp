@@ -19,7 +19,7 @@ LoginWindow::~LoginWindow()
 
 void LoginWindow::on_connectButton_clicked()
 {
-    quint16 rawID = ui->idLineEdit->text().toShort();
+    OBJ_ID_TYPE rawID = ui->idLineEdit->text().toShort();
     controller->authenticateUser(rawID);
 }
 

@@ -30,7 +30,7 @@ class Book : public ContentItem
     Q_PROPERTY(QString authors READ getAuthors WRITE setAuthors)
     Q_PROPERTY(QString isbn READ getISBN WRITE setISBN)
     Q_PROPERTY(QString website READ getWebsite WRITE setWebsite)
-    Q_PROPERTY(quint16 yearPublished READ getYearPublished WRITE setYearPublished)
+    Q_PROPERTY(OBJ_ID_TYPE yearPublished READ getYearPublished WRITE setYearPublished)
     Q_PROPERTY(QString publisher READ getPublisher WRITE setPublisher)
     Q_PROPERTY(QString citation READ getCitation WRITE setCitation)
     Q_PROPERTY(QString imageLink READ getImageLink WRITE setImageLink)
@@ -59,10 +59,10 @@ public:
      * Side Effects: Purchasing details is adopted
      *   as a child of this object.
      */
-    Book(quint16 bookID, QString title, quint16 courseID,
+    Book(OBJ_ID_TYPE bookID, QString title, OBJ_ID_TYPE courseID,
          PurchasingDetails *purchaseDetails,
          QString subTitle, QString authors,
-         QString isbn, QString website, quint16 yearPublished,
+         QString isbn, QString website, OBJ_ID_TYPE yearPublished,
          QString publisher, QString citation, QString imageLink);
 
     QString getSubtitle() const { return subtitle; }
@@ -77,8 +77,8 @@ public:
     QString getWebsite() const { return website; }
     void setWebsite(const QString& w) { website = w; }
 
-    quint16 getYearPublished()   const { return year;   }
-    void setYearPublished(quint16 y)   { year = y; }
+    OBJ_ID_TYPE getYearPublished()   const { return year;   }
+    void setYearPublished(OBJ_ID_TYPE y)   { year = y; }
 
     QString getPublisher() const { return publisher; }
     void setPublisher(const QString& p) { publisher = p; }
@@ -103,7 +103,7 @@ private:
     QString authors;
     QString isbn;
     QString website;
-    quint16 year;
+    OBJ_ID_TYPE year;
     QString publisher;
     QString citation;
     QString imageLink;

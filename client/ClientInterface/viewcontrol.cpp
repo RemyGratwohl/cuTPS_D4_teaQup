@@ -12,7 +12,7 @@ ViewControl::ViewControl(QObject *parent) :
     loginWindow->show(); // Show the default window (login)
 }
 
-bool ViewControl::authenticateUser(quint16 id)
+bool ViewControl::authenticateUser(OBJ_ID_TYPE id)
 {
     if(authenticator->authenticateUser(id, &currentUser))
     {

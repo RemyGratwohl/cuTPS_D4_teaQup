@@ -8,9 +8,9 @@ Chapter::Chapter() :
 {
 }
 
-Chapter::Chapter(quint16 id, QString title, quint16 courseID,
-                 PurchasingDetails *pd, quint16 bID,
-                 quint16 cn, QString is) :
+Chapter::Chapter(OBJ_ID_TYPE id, QString title, OBJ_ID_TYPE courseID,
+                 PurchasingDetails *pd, OBJ_ID_TYPE bID,
+                 OBJ_ID_TYPE cn, QString is) :
     ContentItem(id, title, courseID, pd),
     bookID(bID),
     number(cn),

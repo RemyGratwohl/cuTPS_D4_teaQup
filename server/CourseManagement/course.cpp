@@ -6,8 +6,8 @@ Course::Course() :
     termID(0)
 {}
 
-Course::Course(const quint16 id,
-               const QString& n, const quint16 tID) :
+Course::Course(const OBJ_ID_TYPE id,
+               const QString& n, const OBJ_ID_TYPE tID) :
     identifier(id),
     name(n),
     termID(tID)

@@ -7,8 +7,8 @@ Term::Term() :
     year(0)
 {}
 
-Term::Term(const quint16 id,
-           const QString& s, const quint16 year) :
+Term::Term(const OBJ_ID_TYPE id,
+           const QString& s, const OBJ_ID_TYPE year) :
     identifier(id),
     semester(static_cast<SEMESTER>(0)),
     year(year)
@@ -30,7 +30,7 @@ QString Term::getSemester(void) const {
         return "Summer";
     default:
         qDebug() << "Term::getSemester : object has unknown semester: "
-                 << static_cast<quint16>(semester) << ".";
+                 << static_cast<OBJ_ID_TYPE>(semester) << ".";
         return "Unknown";
     }
 }

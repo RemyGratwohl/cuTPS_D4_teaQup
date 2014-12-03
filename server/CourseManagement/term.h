@@ -22,13 +22,14 @@
 
 #include "../ServerCommunication/serializableqobject.h"
 #include <QString>
+#include "../Storage/idtypes.h"
 
 class Term : public SerializableQObject
 {
     Q_OBJECT
-    Q_PROPERTY(quint16 id READ getID WRITE setID)
+    Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
     Q_PROPERTY(QString semester READ getSemester WRITE setSemester)
-    Q_PROPERTY(quint16 year READ getYear WRITE setYear)
+    Q_PROPERTY(OBJ_ID_TYPE year READ getYear WRITE setYear)
 public:
     enum SEMESTER { FALL, WINTER, SUMMER };
 
@@ -45,8 +46,8 @@ public:
      * in: Year in which term occurred
      * Side Effects: None
      */
-    Term(const quint16 id,
-         const QString& semester, const quint16 year);
+    Term(const OBJ_ID_TYPE id,
+         const QString& semester, const OBJ_ID_TYPE year);
 
     /* Member Function: insertToDataStream
      *   Serialization function, which is overridden to
@@ -58,8 +59,8 @@ public:
      */
     virtual void insertToDataStream(QDataStream& ds) const;
 
-    quint16 getID()   const { return identifier;   }
-    void setID(quint16 id)   { identifier = id; }
+    OBJ_ID_TYPE getID()   const { return identifier;   }
+    void setID(OBJ_ID_TYPE id)   { identifier = id; }
 
     /* Member Function: getSemester
      * Side Effects: None
@@ -79,13 +80,13 @@ public:
      */
     bool setSemester(const QString& s);
 
-    quint16 getYear()   const { return year;   }
-    void setYear(quint16 y)   { year = y; }
+    OBJ_ID_TYPE getYear()   const { return year;   }
+    void setYear(OBJ_ID_TYPE y)   { year = y; }
 
 private:
-    quint16 identifier;
+    OBJ_ID_TYPE identifier;
     SEMESTER semester;
-    quint16 year;
+    OBJ_ID_TYPE year;
 };
 
 #endif // TERM_H

@@ -26,8 +26,8 @@
 class ChapterSection : public ContentItem
 {
     Q_OBJECT
-    Q_PROPERTY(quint16 chapterID READ getChapterID WRITE setChapterID)
-    Q_PROPERTY(quint16 sectionNumber READ getSectionNumber WRITE setSectionNumber)
+    Q_PROPERTY(OBJ_ID_TYPE chapterID READ getChapterID WRITE setChapterID)
+    Q_PROPERTY(OBJ_ID_TYPE sectionNumber READ getSectionNumber WRITE setSectionNumber)
     Q_PROPERTY(QString isbn READ getISBN WRITE setISBN)
 public:
     /* Constructor
@@ -47,16 +47,16 @@ public:
      * Side Effects: Purchasing details is adopted
      *   as a child of this object.
      */
-    ChapterSection(quint16 chapterSectionID, QString title, quint16 courseID,
+    ChapterSection(OBJ_ID_TYPE chapterSectionID, QString title, OBJ_ID_TYPE courseID,
                    PurchasingDetails *purchaseDetails,
-                   quint16 chapterID,
-                   quint16 sectionNumber, QString isbn);
+                   OBJ_ID_TYPE chapterID,
+                   OBJ_ID_TYPE sectionNumber, QString isbn);
 
-    quint16 getChapterID()   const { return chapterID;   }
-    void setChapterID(quint16 id)   { chapterID = id; }
+    OBJ_ID_TYPE getChapterID()   const { return chapterID;   }
+    void setChapterID(OBJ_ID_TYPE id)   { chapterID = id; }
 
-    quint16 getSectionNumber()   const { return number;   }
-    void setSectionNumber(quint16 n)   { number = n; }
+    OBJ_ID_TYPE getSectionNumber()   const { return number;   }
+    void setSectionNumber(OBJ_ID_TYPE n)   { number = n; }
 
     QString getISBN() const { return isbn; }
     void setISBN(const QString& i) { isbn = i; }
@@ -71,8 +71,8 @@ public:
     virtual void insertToDataStream(QDataStream& ds) const;
 
 private:
-    quint16 chapterID;
-    quint16 number;
+    OBJ_ID_TYPE chapterID;
+    OBJ_ID_TYPE number;
     QString isbn;
 };
 

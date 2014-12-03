@@ -42,7 +42,7 @@ public:
      enum TYPE {CONTENT = 0, COURSE, SHOPPING,BILLING};
 
      bool changeView(TYPE subsystem);
-     bool authenticateUser(quint16 id);
+     bool authenticateUser(OBJ_ID_TYPE id);
 
      void displayCommunicationError();
      void displayErrorString(QString &err);

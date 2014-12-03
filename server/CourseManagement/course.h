@@ -22,13 +22,14 @@
 
 #include "../ServerCommunication/serializableqobject.h"
 #include <QString>
+#include "../Storage/idtypes.h"
 
 class Course : public SerializableQObject
 {
     Q_OBJECT
-    Q_PROPERTY(quint16 id READ getID WRITE setID)
+    Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
     Q_PROPERTY(QString name READ getName WRITE setName)
-    Q_PROPERTY(quint16 termID READ getTermID WRITE setTermID)
+    Q_PROPERTY(OBJ_ID_TYPE termID READ getTermID WRITE setTermID)
 public:
     /* Constructor
      *   To be used to create a container for deserialized data.
@@ -43,8 +44,8 @@ public:
      * in: ID of term offered
      * Side Effects: None
      */
-    Course(const quint16 id,
-         const QString& name, const quint16 termID);
+    Course(const OBJ_ID_TYPE id,
+         const QString& name, const OBJ_ID_TYPE termID);
 
     /* Member Function: insertToDataStream
      *   Serialization function, which is overridden to
@@ -56,19 +57,19 @@ public:
      */
     virtual void insertToDataStream(QDataStream& ds) const;
 
-    quint16 getID()   const { return identifier;   }
-    void setID(quint16 id)   { identifier = id; }
+    OBJ_ID_TYPE getID()   const { return identifier;   }
+    void setID(OBJ_ID_TYPE id)   { identifier = id; }
 
     QString getName() const { return name; }
     void setName(const QString& n) { name = n; }
 
-    quint16 getTermID()   const { return termID;   }
-    void setTermID(quint16 id)   { termID = id; }
+    OBJ_ID_TYPE getTermID()   const { return termID;   }
+    void setTermID(OBJ_ID_TYPE id)   { termID = id; }
 
 private:
-    quint16 identifier;
+    OBJ_ID_TYPE identifier;
     QString name;
-    quint16 termID;
+    OBJ_ID_TYPE termID;
 };
 
 #endif // COURSE_H

@@ -38,7 +38,7 @@
 
 static const QString SERVER_FILE_NAME("ServerPortFile.txt");
 static const QString SERVER_PORT_NUMBER_FIELD("SERVER_PORT_NUMBER");
-static const quint16 DEFAULT_SERVER_PORT(55505);
+static const OBJ_ID_TYPE DEFAULT_SERVER_PORT(55505);
 
 class NetworkLink : public QObject
 {
@@ -93,9 +93,9 @@ private:
     QTcpServer *tcpServer;
     QTcpSocket *savedSocket;
     QNetworkSession *networkSession;
-    quint16 serverPortNumber;
+    OBJ_ID_TYPE serverPortNumber;
     QString serverIP;
-    quint16 blockSize;
+    OBJ_ID_TYPE blockSize;
 
     /* Member Function
      *   Initializes server port number

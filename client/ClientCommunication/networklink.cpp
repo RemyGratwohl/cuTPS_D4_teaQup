@@ -13,10 +13,10 @@ bool NetworkLink::sendServerRequest(const Message *&message)
     QDataStream out(&block, QIODevice::WriteOnly);
 
     out.setVersion(QDataStream::Qt_4_0);
-    out << (quint16)0;
+    out << (OBJ_ID_TYPE)0;
     SerializableObjectFactory::serializeObject(out,*message);
     out.device()->seek(0);
-    out << (quint16)(block.size() - sizeof(quint16));
+    out << (OBJ_ID_TYPE)(block.size() - sizeof(OBJ_ID_TYPE));
 
     tcpSocket->write(block);
     return true;
@@ -36,7 +36,7 @@ bool NetworkLink::readServerResponse()
     in.setVersion(QDataStream::Qt_4_0);
 
     if (blockSize == 0) {
-        if (tcpSocket->bytesAvailable() < (int)sizeof(quint16))
+        if (tcpSocket->bytesAvailable() < (int)sizeof(OBJ_ID_TYPE))
             return false;
 
         in >> blockSize;
