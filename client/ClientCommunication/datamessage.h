@@ -56,6 +56,11 @@ public:
      */
     virtual void insertToDataStream(QDataStream& ds) const;
 
+    /* Member Function: getData
+     *   Returns a pointer to the vector of data items
+     *   stored in this object.
+     *   The pointer is still owned by this object.
+     */
     QVector<SerializableQObject*>* getData() const { return data; }
 
     /* Member Function: setFirstData

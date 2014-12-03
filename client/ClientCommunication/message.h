@@ -63,7 +63,23 @@ public:
     void setDestType_quint16(quint16 dt)   { destType = static_cast<DEST_TYPE>(dt); }
     void setActionType_quint16(quint16 at) { actionType = static_cast<ACTION_TYPE>(at); }
 
+    /* Member Function: getUser
+     *   Returns the User pointer stored in this object.
+     *   This is a shared pointer if the object was created
+     *     by passing in a User at construction,
+     *     but is owned by this object if the pointer was
+     *     instead initialized by deserialization.
+     *
+     *  See also extractUser()
+     */
     User* getUser(void) const { return user; }
+
+    /* Member Function: extractUser
+     *   Returns the User pointer stored in this object,
+     *     and transfers ownership to the caller.
+     *   This object's User pointer is nullified.
+     */
+    User* extractUser(void);
 
 protected:
     /* Member Function: insertToDataStream
