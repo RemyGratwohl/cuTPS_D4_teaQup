@@ -28,3 +28,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
+void MainWindow::on_shoppingCartButton_clicked()
+{
+  controller->changeView(ViewControl::SHOPPING);
+}

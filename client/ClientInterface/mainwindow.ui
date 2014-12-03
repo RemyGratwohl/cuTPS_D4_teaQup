@@ -11,7 +11,7 @@
    </rect>
   </property>
   <property name="windowTitle">
-   <string>MainWindow</string>
+   <string>CuTPS: Prototype Client</string>
   </property>
   <widget class="QWidget" name="centralWidget">
    <widget class="QLabel" name="statusLabel">
@@ -25,6 +25,19 @@
     </property>
     <property name="text">
      <string>STATUS</string>
+    </property>
+   </widget>
+   <widget class="QPushButton" name="shoppingCartButton">
+    <property name="geometry">
+     <rect>
+      <x>457</x>
+      <y>10</y>
+      <width>111</width>
+      <height>27</height>
+     </rect>
+    </property>
+    <property name="text">
+     <string>Shopping Cart</string>
     </property>
    </widget>
   </widget>

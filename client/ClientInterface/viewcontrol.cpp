@@ -7,6 +7,8 @@ ViewControl::ViewControl(QObject *parent) :
     loginWindow = new LoginWindow(this);
     mainWindow  = new MainWindow(this);
 
+    shoppingController = new ShoppingCartControl(this);
+
     loginWindow->show(); // Show the default window (login)
 }
 
@@ -33,4 +35,21 @@ void ViewControl::displayErrorString(QString &err)
     QMessageBox msgBox;
     msgBox.setText(err);
     msgBox.exec();
+}
+
+bool ViewControl::changeView(TYPE subsystem){
+
+    switch(subsystem)
+    {
+    case(SHOPPING):
+
+        mainWindow->setCentralWidget(shoppingController->getView());
+        break;
+    case(CONTENT):
+        break;
+    case(COURSE):
+        break;
+    default:
+        break;
+    }
 }

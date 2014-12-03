@@ -22,20 +22,25 @@
 
 #include <QWidget>
 
+
 namespace Ui {
 class ShoppingCartView;
 }
+
+class ShoppingCartControl;
 
 class ShoppingCartView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ShoppingCartView(QWidget *parent = 0);
+    explicit ShoppingCartView(ShoppingCartControl *control, QWidget *parent = 0);
     ~ShoppingCartView();
 
 private:
     Ui::ShoppingCartView *ui;
+    ShoppingCartControl *controller;
 };
 
 #endif // SHOPPINGCARTVIEW_H
+

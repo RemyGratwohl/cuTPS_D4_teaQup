@@ -34,6 +34,8 @@ signals:
 
 public slots:
 
+private:
+
 };
 
 #endif // SHOPPINGCART_H
