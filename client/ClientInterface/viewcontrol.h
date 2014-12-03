@@ -23,9 +23,14 @@
 
 #include <QObject>
 #include <QWidget>
+
 #include "loginwindow.h"
 #include "mainwindow.h"
 #include "userauthenticationcontrol.h"
+
+#include "ContentView/contentviewcontrol.h"
+#include "CourseView/courseviewcontrol.h"
+#include "Shopping/shoppingcartcontrol.h"
 
 class ViewControl : public QObject
 {
@@ -33,15 +38,26 @@ class ViewControl : public QObject
 public:
     explicit ViewControl(QObject *parent = 0);
 
-     enum TYPE {CONTENT = 0, COURSE, SHOPPING, USER};
+     enum TYPE {CONTENT = 0, COURSE, SHOPPINGCART,BILLING};
 
      bool changeView(TYPE subsystem);
-private:
-    bool displayView(QWidget widget);
-    bool changeWindow(QWidget window);
+     bool authenticateUser(QString username);
 
-    LoginWindow loginWindow;
-    UserAuthenticationControl authenticator;
+     void displayCommunicationError();
+     void displayErrorString(QString &err);
+
+private:
+    bool displayView(QWidget *widget);
+    bool changeWindow(QWidget *window);
+
+    User                      *currentUser;
+    LoginWindow               *loginWindow;
+    MainWindow                *mainWindow;
+    UserAuthenticationControl *authenticator;
+
+    ContentViewControl        *contentController;
+    CourseViewControl         *courseController;
+    ShoppingCartControl       *shoppingController;
 };
 
 #endif // VIEWCONTROL_H

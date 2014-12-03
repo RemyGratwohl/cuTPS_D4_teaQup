@@ -1,9 +1,6 @@
 #ifndef LOGINWINDOW_H
 #define LOGINWINDOW_H
 
-#include <QWidget>
-#include "userauthenticationcontrol.h"
-
 /*
 * loginwindow.h
 * ----------------------
@@ -23,6 +20,10 @@
 * Acknowledgements: None
 */
 
+#include <QWidget>
+
+class ViewControl;
+
 namespace Ui {
 class LoginWindow;
 }
@@ -32,7 +33,7 @@ class LoginWindow : public QWidget
     Q_OBJECT
 
 public:
-    explicit LoginWindow(QWidget *parent = 0);
+    explicit LoginWindow(ViewControl *controller = 0, QWidget *parent = 0);
     ~LoginWindow();
 
 private slots:
@@ -40,7 +41,7 @@ private slots:
 
 private:
     Ui::LoginWindow *ui;
-    UserAuthenticationControl authenticator;
+    ViewControl     *controller;
 };
 
 #endif // LOGINWINDOW_H

@@ -1,14 +1,14 @@
 #include "mainwindow.h"
 #include "ui_mainwindow.h"
+#include "viewcontrol.h"
 
-MainWindow::MainWindow(User *user, QWidget *parent) :
-    currentUser(user),
-    QMainWindow(parent),
+MainWindow::MainWindow(ViewControl *controller) :
+    controller(controller),
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
 
-    ui->statusLabel->setText(currentUser->getName());
+    //ui->statusLabel->setText(currentUser->getName());
 
     /*switch(currentUser->getType()){
         case(User::STUDENT):

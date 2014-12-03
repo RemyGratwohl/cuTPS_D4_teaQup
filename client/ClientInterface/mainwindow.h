@@ -1,9 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-#include <../server/UserManagement/user.h>
-
 /*
 * mainwindow.h
 * ----------------------
@@ -23,6 +20,11 @@
 * Acknowledgements: None
 */
 
+#include <QMainWindow>
+#include <../server/UserManagement/user.h>
+
+class ViewControl;
+
 namespace Ui {
 class MainWindow;
 }
@@ -32,12 +34,12 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(User *user, QWidget *parent = 0);
+    explicit MainWindow(ViewControl *controller = 0);
     ~MainWindow();
 
 private:
     Ui::MainWindow *ui;
-    User *currentUser;
+    ViewControl  *controller;
 };
 
 #endif // MAINWINDOW_H
