@@ -1,8 +1,9 @@
 #include "networklink.h"
 #include "serializableobjectfactory.h"
+#include "serverdispatcher.h"
 
-NetworkLink::NetworkLink(QObject *parent)
-    : QObject(parent), tcpServer(0), networkSession(0), serverPortNumber(0), blockSize(0)
+NetworkLink::NetworkLink(QObject *parent, ServerDispatcher* serverDispatch)
+    : QObject(parent), tcpServer(0), networkSession(0), serverPortNumber(0), blockSize(0), serverDispatcher(serverDispatch)
 {} // handle initialization in the initialize function (to return a success indicator)
 
 bool NetworkLink::sendClientResponse(Message *&message)
@@ -57,15 +58,7 @@ bool NetworkLink::readClientRequest()
     Message* newMessage = qobject_cast<Message*>(theObj);
 
     if(newMessage != 0) {
-        ErrorMessage* errMsg = qobject_cast<ErrorMessage*>(newMessage);
-        if(errMsg != 0) {
-            qDebug() << errMsg->getError();
-        } else {
-            qDebug() << "Message action type: " << newMessage->getActionType();
-        }
-
-        Message* errorMessage = new ErrorMessage(CONTENT, CREATE, new User(), "Server: Hello, Client.");
-        sendClientResponse(errorMessage);
+        serverDispatcher->directMsg(newMessage);
 
         return true;
     } else {
