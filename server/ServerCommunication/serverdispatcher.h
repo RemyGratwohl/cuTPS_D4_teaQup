@@ -56,7 +56,7 @@ public:
      * Side Effects: 'msg' is deleted.
      * Return Value: Success indicator
      */
-    bool deliverMsg(const Message*& msg) const;
+    bool deliverMsg(Message *&msg) const;
 
 signals:
 

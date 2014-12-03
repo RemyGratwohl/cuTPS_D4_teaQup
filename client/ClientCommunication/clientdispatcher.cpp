@@ -10,11 +10,9 @@ ClientDispatcher::ClientDispatcher(QObject *parent,
     courseViewControl(courseControl),
     shoppingCartControl(shoppingControl),
     userViewControl(userControl)
-{
-    networkLink = new NetworkLink(this);
-}
+{}
 
-bool ClientDispatcher::deliverMsg(const Message*& msg) const {
+bool ClientDispatcher::deliverMsg(Message*& msg) const {
     // send the message through the network link to the server network link
     networkLink->sendServerRequest(msg);
 
@@ -27,6 +25,7 @@ bool ClientDispatcher::deliverMsg(const Message*& msg) const {
 
 bool ClientDispatcher::initialize()
 {
+    networkLink = new NetworkLink(this);
     if(networkLink->initialize() == false) return false;
 
     return true;

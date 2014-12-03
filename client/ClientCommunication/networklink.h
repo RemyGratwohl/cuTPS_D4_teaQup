@@ -49,7 +49,7 @@ class NetworkLink : public QObject
 public:
     explicit NetworkLink(QObject *parent = 0);
 
-    bool sendServerRequest(const Message*& message);
+    bool sendServerRequest(Message *&message);
     bool initialize();
 
 private slots:

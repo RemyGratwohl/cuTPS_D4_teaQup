@@ -56,7 +56,7 @@ public:
      * in: Message
      * Side Effects: None
      */
-    bool sendClientResponse(const Message*& message);
+    bool sendClientResponse(Message *&message);
 
     /* Member Function
      *   Fully-initializes the NetworkLink object

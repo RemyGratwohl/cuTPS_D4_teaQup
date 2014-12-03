@@ -5,7 +5,7 @@ NetworkLink::NetworkLink(QObject* parent)
     : QObject(parent), tcpSocket(0), networkSession(0), serverPortNumber(0)
 {} // handle initialization in the initialize function (to return a success indicator)
 
-bool NetworkLink::sendServerRequest(const Message *&message)
+bool NetworkLink::sendServerRequest(Message*& message)
 {
     establishServerConnection();
 
@@ -51,17 +51,13 @@ bool NetworkLink::readServerResponse()
 
     if(message != 0) {
         // Get message information
-        ACTION_TYPE action = static_cast<ACTION_TYPE>(message->getActionType());
-        if(action == CREATE) {
-            qDebug() << "Received a non-Book object.";
-            /*Book* book = qobject_cast<Book*>((message->getData())[0]);
-
-            if(book == 0) {
-                qDebug() << "Received a non-Book object.";
-            } else {
-                qDebug() << book->getName();
-            }*/
+        ErrorMessage* errMsg = qobject_cast<ErrorMessage*>(message);
+        if(errMsg != 0) {
+            qDebug() << errMsg->getError();
+        } else {
+            qDebug() << "Message action type: " << message->getActionType();
         }
+        return true;
 
         /*
         QApplication::postEvent(SEND_INTER_SUBSYSTEM_CLIENT,

@@ -16,7 +16,7 @@ bool ServerDispatcher::initialize(void) {
     return true;
 }
 
-bool ServerDispatcher::deliverMsg(const Message*& msg) const {
+bool ServerDispatcher::deliverMsg(Message*& msg) const {
     // send the message through the network link to the server network link
     networkLink->sendClientResponse(msg);
 
