@@ -21,17 +21,134 @@
 */
 
 #include <QObject>
+#include "../ServerCommunication/serverdispatcher.h"
+#include "../CourseManagement/coursecontrol.h"
+#include "../Storage/contentstoragecontrol.h"
+#include "book.h"
+#include "chapter.h"
+#include "chaptersection.h"
 
 class ContentControl : public QObject
 {
     Q_OBJECT
 public:
     /* Constructor
-     *   Creates a fully-initialized ContentControl object
-     * in: parent QObject
+     * in: Dispatcher to use for sending messages to the client
+     * in: Course management subsystem control object,
+     *       used when content operations involve course management.
+     * in: Storage system for content
      * Side Effects: None
+     * All input pointers are treated as shared pointers.
      */
-    explicit ContentControl(QObject* parent = 0);
+    ContentControl(ServerDispatcher *dispatcher,
+                   CourseControl *courseControl,
+                   ContentStorageControl *contentStorageControl);
+
+    /* Member Function: processMsg
+     *   Handles a message received from the dispatcher,
+     *     possibly resulting in messages sent back through the dispatcher
+     * in: Message to be processed
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool processMsg(Message* const msg);
+
+    // Helper functions used by processMsg()
+private:
+    /* Member Function: addBook
+     * in: Book to be added to the system
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool addBook(Book* book);
+
+    /* Member Function: addChapter
+     * in: Chapter to be added to the system
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool addChapter(Chapter* chapter);
+
+    /* Member Function: addSection
+     * in: Chapter section to be added to the system
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool addSection(ChapterSection* section);
+
+    /* Member Function: updateBook
+     * in: Book whose information is to be altered
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool updateBook(Book* book);
+
+    /* Member Function: updateChapter
+     * in: Chapter whose information is to be altered
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool updateChapter(Chapter* chapter);
+
+    /* Member Function: updateSection
+     * in: Chapter section whose information is to be altered
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool updateSection(ChapterSection* section);
+
+    /* Member Function: removeBook
+     * in: Book to be removed from the system
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool removeBook(Book* book);
+
+    /* Member Function: removeChapter
+     * in: Chapter to be removed from the system
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool removeChapter(Chapter* chapter);
+
+    /* Member Function: removeSection
+     * in: Chapter section to be removed from the system
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool removeSection(ChapterSection* section);
+
+    /* Member Function: getBookList
+     *   Retrieves the list of Books for the courses in which the student
+     *     user is enrolled.
+     * in: User whose books are to be retrieved. (Must be a student user.)
+     * out: Books for the courses in which the student is enrolled
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool getBookList(User* student, QVector<SerializableQObject*>*& items);
+
+    /* Member Function: getBookDetails
+     *   Retrieves a single Book and all of its associated chapters
+     *     and chapter sections.
+     * out: Book information, including sub-items
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool getBookDetails(QVector<SerializableQObject*>*& items);
+
+    /* Member Function: getBooks
+     *   Retrieves all Books in the system.
+     * out: All Books
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool getBooks(QVector<SerializableQObject*>*& items);
+
+private:
+    ServerDispatcher *dispatcher;
+    CourseControl *courseControl;
+    ContentStorageControl *contentStorageControl;
 };
 
 #endif // CONTENTCONTROL_H
