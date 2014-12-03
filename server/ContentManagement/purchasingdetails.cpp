@@ -8,7 +8,7 @@ PurchasingDetails::PurchasingDetails() :
 
 PurchasingDetails::PurchasingDetails(
         OBJ_ID_TYPE id,
-        OBJ_ID_TYPE p,
+        quint16 p,
         QString v,
         OBJ_ID_TYPE cID) :
     identifier(id), price(p), vendor(v), contentID(cID) {}

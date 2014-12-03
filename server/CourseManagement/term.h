@@ -29,7 +29,7 @@ class Term : public SerializableQObject
     Q_OBJECT
     Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
     Q_PROPERTY(QString semester READ getSemester WRITE setSemester)
-    Q_PROPERTY(OBJ_ID_TYPE year READ getYear WRITE setYear)
+    Q_PROPERTY(quint16 year READ getYear WRITE setYear)
 public:
     enum SEMESTER { FALL, WINTER, SUMMER };
 
@@ -47,7 +47,7 @@ public:
      * Side Effects: None
      */
     Term(const OBJ_ID_TYPE id,
-         const QString& semester, const OBJ_ID_TYPE year);
+         const QString& semester, const quint16 year);
 
     /* Member Function: insertToDataStream
      *   Serialization function, which is overridden to
@@ -80,13 +80,13 @@ public:
      */
     bool setSemester(const QString& s);
 
-    OBJ_ID_TYPE getYear()   const { return year;   }
-    void setYear(OBJ_ID_TYPE y)   { year = y; }
+    quint16 getYear()   const { return year;   }
+    void setYear(quint16 y)   { year = y; }
 
 private:
     OBJ_ID_TYPE identifier;
     SEMESTER semester;
-    OBJ_ID_TYPE year;
+    quint16 year;
 };
 
 #endif // TERM_H

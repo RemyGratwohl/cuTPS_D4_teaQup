@@ -59,9 +59,9 @@ private slots:
 private:
     QTcpSocket *tcpSocket;
     QNetworkSession *networkSession;
-    OBJ_ID_TYPE serverPortNumber;
+    quint16 serverPortNumber;
     QString serverIP;
-    OBJ_ID_TYPE blockSize;
+    quint16 blockSize;
 
     bool initializeServerPort();
     bool initializeNetworkSession();

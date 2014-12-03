@@ -27,7 +27,7 @@ class ChapterSection : public ContentItem
 {
     Q_OBJECT
     Q_PROPERTY(OBJ_ID_TYPE chapterID READ getChapterID WRITE setChapterID)
-    Q_PROPERTY(OBJ_ID_TYPE sectionNumber READ getSectionNumber WRITE setSectionNumber)
+    Q_PROPERTY(quint16 sectionNumber READ getSectionNumber WRITE setSectionNumber)
     Q_PROPERTY(QString isbn READ getISBN WRITE setISBN)
 public:
     /* Constructor
@@ -50,13 +50,13 @@ public:
     ChapterSection(OBJ_ID_TYPE chapterSectionID, QString title, OBJ_ID_TYPE courseID,
                    PurchasingDetails *purchaseDetails,
                    OBJ_ID_TYPE chapterID,
-                   OBJ_ID_TYPE sectionNumber, QString isbn);
+                   quint16 sectionNumber, QString isbn);
 
     OBJ_ID_TYPE getChapterID()   const { return chapterID;   }
     void setChapterID(OBJ_ID_TYPE id)   { chapterID = id; }
 
-    OBJ_ID_TYPE getSectionNumber()   const { return number;   }
-    void setSectionNumber(OBJ_ID_TYPE n)   { number = n; }
+    quint16 getSectionNumber()   const { return number;   }
+    void setSectionNumber(quint16 n)   { number = n; }
 
     QString getISBN() const { return isbn; }
     void setISBN(const QString& i) { isbn = i; }
@@ -72,7 +72,7 @@ public:
 
 private:
     OBJ_ID_TYPE chapterID;
-    OBJ_ID_TYPE number;
+    quint16 number;
     QString isbn;
 };
 

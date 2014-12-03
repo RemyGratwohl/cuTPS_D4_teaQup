@@ -14,7 +14,7 @@ Book::Book() :
 
 Book::Book(OBJ_ID_TYPE id, QString title, OBJ_ID_TYPE courseID,
            PurchasingDetails *pd, QString st, QString a,
-           QString is, QString w, OBJ_ID_TYPE y,
+           QString is, QString w, quint16 y,
            QString p, QString c, QString il) :
     ContentItem(id, title, courseID, pd),
     subtitle(st),

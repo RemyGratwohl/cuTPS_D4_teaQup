@@ -10,7 +10,7 @@ Chapter::Chapter() :
 
 Chapter::Chapter(OBJ_ID_TYPE id, QString title, OBJ_ID_TYPE courseID,
                  PurchasingDetails *pd, OBJ_ID_TYPE bID,
-                 OBJ_ID_TYPE cn, QString is) :
+                 quint16 cn, QString is) :
     ContentItem(id, title, courseID, pd),
     bookID(bID),
     number(cn),

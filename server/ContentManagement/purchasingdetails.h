@@ -28,7 +28,7 @@
 class PurchasingDetails : public SerializableQObject
 {
     Q_OBJECT
-    Q_PROPERTY(OBJ_ID_TYPE price READ getPrice WRITE setPrice)
+    Q_PROPERTY(quint16 price READ getPrice WRITE setPrice)
     Q_PROPERTY(QString vendor READ getVendor WRITE setVendor)
     Q_PROPERTY(OBJ_ID_TYPE contentID READ getContentID WRITE setContentID)
     Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
@@ -49,15 +49,15 @@ public:
      */
     PurchasingDetails(
             OBJ_ID_TYPE id,
-            OBJ_ID_TYPE price,
+            quint16 price,
             QString vendor,
             OBJ_ID_TYPE contentID);
 
     OBJ_ID_TYPE getID()   const { return identifier;   }
     void setID(OBJ_ID_TYPE id)   { identifier = id; }
 
-    OBJ_ID_TYPE getPrice()   const { return price;   }
-    void setPrice(OBJ_ID_TYPE p)   { price = p; }
+    quint16 getPrice()   const { return price;   }
+    void setPrice(quint16 p)   { price = p; }
 
     QString getVendor() const { return vendor; }
     void setVendor(const QString& v) { vendor = v; }
@@ -84,7 +84,7 @@ public:
 
 private:
     OBJ_ID_TYPE identifier;
-    OBJ_ID_TYPE price; // Cents
+    quint16 price; // Cents
     QString vendor;
     OBJ_ID_TYPE contentID;
 };

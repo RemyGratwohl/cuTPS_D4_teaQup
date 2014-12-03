@@ -11,7 +11,7 @@ ChapterSection::ChapterSection() :
 ChapterSection::ChapterSection(
         OBJ_ID_TYPE id, QString title, OBJ_ID_TYPE courseID,
         PurchasingDetails *pd, OBJ_ID_TYPE cID,
-        OBJ_ID_TYPE sn, QString is) :
+        quint16 sn, QString is) :
     ContentItem(id, title, courseID, pd),
     chapterID(cID),
     number(sn),

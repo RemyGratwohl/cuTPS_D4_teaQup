@@ -29,8 +29,8 @@
 class Message : public SerializableQObject
 {
    Q_OBJECT
-   Q_PROPERTY(OBJ_ID_TYPE destType READ getDestType_quint16 WRITE setDestType_quint16)
-   Q_PROPERTY(OBJ_ID_TYPE actionType READ getActionType_quint16 WRITE setActionType_quint16)
+   Q_PROPERTY(quint16 destType READ getDestType_quint16 WRITE setDestType_quint16)
+   Q_PROPERTY(quint16 actionType READ getActionType_quint16 WRITE setActionType_quint16)
 
 protected:
     /* Constructor
@@ -57,11 +57,11 @@ public:
     DEST_TYPE getDestType()   const { return destType;   }
     ACTION_TYPE getActionType() const { return actionType; }
 
-    OBJ_ID_TYPE getDestType_quint16()   const { return (OBJ_ID_TYPE)destType;   }
-    OBJ_ID_TYPE getActionType_quint16() const { return (OBJ_ID_TYPE)actionType; }
+    quint16 getDestType_quint16()   const { return (quint16)destType;   }
+    quint16 getActionType_quint16() const { return (quint16)actionType; }
 
-    void setDestType_quint16(OBJ_ID_TYPE dt)   { destType = static_cast<DEST_TYPE>(dt); }
-    void setActionType_quint16(OBJ_ID_TYPE at) { actionType = static_cast<ACTION_TYPE>(at); }
+    void setDestType_quint16(quint16 dt)   { destType = static_cast<DEST_TYPE>(dt); }
+    void setActionType_quint16(quint16 at) { actionType = static_cast<ACTION_TYPE>(at); }
 
     /* Member Function: getUser
      *   Returns the User pointer stored in this object.

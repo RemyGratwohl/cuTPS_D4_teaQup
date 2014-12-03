@@ -8,7 +8,7 @@ Term::Term() :
 {}
 
 Term::Term(const OBJ_ID_TYPE id,
-           const QString& s, const OBJ_ID_TYPE year) :
+           const QString& s, const quint16 year) :
     identifier(id),
     semester(static_cast<SEMESTER>(0)),
     year(year)

@@ -29,7 +29,7 @@ class User : public SerializableQObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ getName WRITE setName)
-    Q_PROPERTY(OBJ_ID_TYPE type READ getType WRITE setType)
+    Q_PROPERTY(quint16 type READ getType WRITE setType)
     Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
 public:
 
@@ -73,8 +73,8 @@ public:
     QString getName() const { return name; }
     void setName(const QString& n) { name = n; }
 
-    OBJ_ID_TYPE getType()   const { return (OBJ_ID_TYPE)type;   }
-    void setType(OBJ_ID_TYPE t)   { type = static_cast<TYPE>(t); }
+    quint16 getType()   const { return (quint16)type;   }
+    void setType(quint16 t)   { type = static_cast<TYPE>(t); }
 
     OBJ_ID_TYPE getID()   const { return identifier;   }
     void setID(OBJ_ID_TYPE id)   { identifier = id; }
