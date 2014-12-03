@@ -1,6 +1,5 @@
 #include "loginwindow.h"
 #include "ui_loginwindow.h"
-#include "QMessageBox"
 #include "viewcontrol.h"
 
 LoginWindow::LoginWindow(ViewControl *control, QWidget *parent) :
@@ -9,7 +8,6 @@ LoginWindow::LoginWindow(ViewControl *control, QWidget *parent) :
     ui(new Ui::LoginWindow)
 {
     ui->setupUi(this);
-
 }
 
 LoginWindow::~LoginWindow()

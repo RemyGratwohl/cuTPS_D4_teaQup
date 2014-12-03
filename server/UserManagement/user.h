@@ -34,8 +34,6 @@ public:
 
     enum TYPE { ADMIN, STUDENT, CONTENTMGR };
 
-    User();
-
     /* Constructor
      *   To be used to create a container for deserialized data.
      * Side Effects: None

@@ -3,13 +3,11 @@
 ClientDispatcher::ClientDispatcher(QObject *parent,
                                    ContentViewControl* contentControl,
                                    CourseViewControl* courseControl,
-                                   ShoppingCartControl* shoppingControl,
-                                   UserViewControl* userControl) :
+                                   ShoppingCartControl* shoppingControl) :
     QObject(parent),
     contentViewControl(contentControl),
     courseViewControl(courseControl),
-    shoppingCartControl(shoppingControl),
-    userViewControl(userControl)
+    shoppingCartControl(shoppingControl)
 {
     networkLink = new NetworkLink(this);
 }
