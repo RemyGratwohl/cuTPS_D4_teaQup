@@ -14,6 +14,7 @@
 *
 * UserStorageControl class:
 * - handles the user aspect of the storage system
+* - This is a singleton class
 *
 * Traceability: CT-038
 *
@@ -24,18 +25,36 @@
 #include "UserManagement/user.h"
 #include "mainstoragecontrol.h"
 #include <string>
+#include <QSharedPointer>
 
 
 class UserStorageControl : public QObject
 {
     Q_OBJECT
+
 public:
+    /* Static Member Function: getUserStorageControl
+     * out: Instance of UserStorageControl, or nothing, if
+     *        the UserStorageControl instance failed to initialize.
+     * Side Effects: None
+     * Return Value: True, if the UserStorageControl object
+     *   is properly initialized.
+     */
+    static bool getUserStorageControl(QSharedPointer<UserStorageControl>& ptr);
+
+protected:
     /* Constructor
-     *   Creates a fully-initialized UserStorageControl object
-     * in: parent QObject
+     *   Essentially does nothing
      * Side Effects: None
      */
-    explicit UserStorageControl(QObject* parent = 0);
+    UserStorageControl(void);
+
+    /* Member Function: initialize
+     * Returns false if this object does not initialize properly.
+     */
+    bool initialize(void);
+
+public:
 
     /* Get User
      *  Retrieves the user from MainStorageControl
@@ -52,8 +71,13 @@ public:
     //bool getUserList(QVector<User> users);
 
 private:
+    QSharedPointer<MainStorageControl> mainStorage;
 
-    MainStorageControl* storage;
+private:
+    // Singleton instance
+    static QSharedPointer<UserStorageControl> userStorage;
+    static bool isInitialized;
+    static bool initializationAttempted;
 };
 
 #endif // USERSTORAGECONTROL_H

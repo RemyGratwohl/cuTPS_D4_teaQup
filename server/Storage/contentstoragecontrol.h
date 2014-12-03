@@ -14,6 +14,7 @@
 *
 * ContentStorageControl class:
 * - handles the content item aspect of the storage system
+* - This is a singleton class
 *
 * Traceability: CT-036
 *
@@ -21,17 +22,43 @@
 */
 
 #include <QObject>
+#include <QSharedPointer>
+#include "mainstoragecontrol.h"
 
 class ContentStorageControl : public QObject
 {
     Q_OBJECT
+
 public:
+    /* Static Member Function: getContentStorageControl
+     * out: Instance of ContentStorageControl, or nothing, if
+     *        the ContentStorageControl instance failed to initialize.
+     * Side Effects: None
+     * Return Value: True, if the ContentStorageControl object
+     *   is properly initialized.
+     */
+    static bool getContentStorageControl(QSharedPointer<ContentStorageControl>& ptr);
+
+protected:
     /* Constructor
-     *   Creates a fully-initialized ContentStorageControl object
-     * in: parent QObject
+     *   Essentially does nothing
      * Side Effects: None
      */
-    explicit ContentStorageControl(QObject* parent = 0);
+    ContentStorageControl(void);
+
+    /* Member Function: initialize
+     * Returns false if this object does not initialize properly.
+     */
+    bool initialize(void);
+
+private:
+    QSharedPointer<MainStorageControl> mainStorage;
+
+private:
+    // Singleton instance
+    static QSharedPointer<ContentStorageControl> contentStorage;
+    static bool isInitialized;
+    static bool initializationAttempted;
 };
 
 #endif // CONTENTSTORAGECONTROL_H
