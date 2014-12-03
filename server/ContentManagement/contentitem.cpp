@@ -5,9 +5,9 @@ ContentItem::ContentItem() :
 {
 }
 
-ContentItem::ContentItem(quint16 id,
+ContentItem::ContentItem(OBJ_ID_TYPE id,
                          QString t,
-                         quint16 cID,
+                         OBJ_ID_TYPE cID,
                          PurchasingDetails *pd) :
     identifier(id), title(t), courseID(cID), purchaseDetails(pd)
 {

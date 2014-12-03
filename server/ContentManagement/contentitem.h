@@ -29,9 +29,9 @@
 class ContentItem : public SerializableQObject
 {
     Q_OBJECT
-    Q_PROPERTY(quint16 id READ getID WRITE setID)
+    Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
     Q_PROPERTY(QString title READ getTitle WRITE setTitle)
-    Q_PROPERTY(quint16 courseID READ getCourseID WRITE setCourseID)
+    Q_PROPERTY(OBJ_ID_TYPE courseID READ getCourseID WRITE setCourseID)
 
 public:
     /* Constructor
@@ -49,21 +49,21 @@ public:
      *   as a child of this object.
      */
     ContentItem(
-            quint16 id,
+            OBJ_ID_TYPE id,
             QString title,
-            quint16 courseID,
+            OBJ_ID_TYPE courseID,
             PurchasingDetails *purchaseDetails);
 
     virtual ~ContentItem(void);
 
-    quint16 getID()   const { return identifier;   }
-    void setID(quint16 id)   { identifier = id; }
+    OBJ_ID_TYPE getID()   const { return identifier;   }
+    void setID(OBJ_ID_TYPE id)   { identifier = id; }
 
     QString getTitle() const { return title; }
     void setTitle(const QString& t) { title = t; }
 
-    quint16 getCourseID()   const { return courseID;   }
-    void setCourseID(quint16 id)   { courseID = id; }
+    OBJ_ID_TYPE getCourseID()   const { return courseID;   }
+    void setCourseID(OBJ_ID_TYPE id)   { courseID = id; }
 
     PurchasingDetails* getPurchasingDetails() const { return purchaseDetails; }
 
@@ -97,9 +97,9 @@ public:
     virtual void extractFromDataStream(QDataStream& ds);
 
 private:
-    quint16 identifier;
+    OBJ_ID_TYPE identifier;
     QString title;
-    quint16 courseID;
+    OBJ_ID_TYPE courseID;
     PurchasingDetails *purchaseDetails;
 };
 

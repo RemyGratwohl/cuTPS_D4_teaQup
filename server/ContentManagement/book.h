@@ -59,7 +59,7 @@ public:
      * Side Effects: Purchasing details is adopted
      *   as a child of this object.
      */
-    Book(quint16 bookID, QString title, quint16 courseID,
+    Book(OBJ_ID_TYPE bookID, QString title, OBJ_ID_TYPE courseID,
          PurchasingDetails *purchaseDetails,
          QString subTitle, QString authors,
          QString isbn, QString website, quint16 yearPublished,
