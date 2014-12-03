@@ -1,7 +1,9 @@
 #include "shoppingcartview.h"
 #include "ui_shoppingcartview.h"
+#include "shoppingcartcontrol.h"
 
-ShoppingCartView::ShoppingCartView(QWidget *parent) :
+ShoppingCartView::ShoppingCartView(ShoppingCartControl *control, QWidget *parent) :
+    controller(control),
     QWidget(parent),
     ui(new Ui::ShoppingCartView)
 {
@@ -11,4 +13,9 @@ ShoppingCartView::ShoppingCartView(QWidget *parent) :
 ShoppingCartView::~ShoppingCartView()
 {
     delete ui;
+}
+
+void ShoppingCartView::on_orderButton_clicked()
+{
+
 }

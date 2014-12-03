@@ -1,7 +1,8 @@
 #include "coursemanagementview.h"
 #include "ui_coursemanagementview.h"
 
-CourseManagementView::CourseManagementView(QWidget *parent) :
+CourseManagementView::CourseManagementView(CourseViewControl *control, QWidget *parent) :
+    controller(control),
     QWidget(parent),
     ui(new Ui::CourseManagementView)
 {

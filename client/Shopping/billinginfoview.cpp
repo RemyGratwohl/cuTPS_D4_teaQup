@@ -1,7 +1,8 @@
 #include "billinginfoview.h"
 #include "ui_billinginfoview.h"
 
-BillingInfoView::BillingInfoView(QWidget *parent) :
+BillingInfoView::BillingInfoView(ShoppingCartControl *control, QWidget *parent) :
+    controller(control),
     QWidget(parent),
     ui(new Ui::BillingInfoView)
 {

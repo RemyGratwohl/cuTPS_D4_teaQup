@@ -29,8 +29,6 @@ SOURCES += main.cpp\
     CourseView/coursemanagementview.cpp \
     ContentView/contentview.cpp \
     ContentView/contentviewcontrol.cpp \
-    UserView/usermanagementview.cpp \
-    UserView/userviewcontrol.cpp \
     ../server/ServerCommunication/serializableqobject.cpp \
     ClientCommunication/errormessage.cpp \
     ClientCommunication/datamessage.cpp \
@@ -60,8 +58,6 @@ HEADERS  += ClientInterface/mainwindow.h \
     CourseView/coursemanagementview.h \
     ContentView/contentview.h \
     ContentView/contentviewcontrol.h \
-    UserView/usermanagementview.h \
-    UserView/userviewcontrol.h \
     ../server/ServerCommunication/serializableqobject.h \
     ../server/ServerCommunication/messageroutingtypes.h \
     ClientCommunication/errormessage.h \
@@ -84,5 +80,4 @@ FORMS    += ClientInterface/mainwindow.ui \
     Shopping/shoppingcartview.ui \
     Shopping/billinginfoview.ui \
     CourseView/coursemanagementview.ui \
-    ContentView/contentview.ui \
-    UserView/usermanagementview.ui
+    ContentView/contentview.ui

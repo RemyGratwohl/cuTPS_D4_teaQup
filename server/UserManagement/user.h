@@ -45,10 +45,10 @@ public:
      *   to create a User object that gets fully initialized
      *   on the server and then sent back to complete
      *   the authentication process.
-     * in: Username
+     * in: User ID
      * Side Effects: None
      */
-    User(const QString& name);
+    User(const quint16 id);
 
     /* Constructor
      *   Creates a fully-initialized User object

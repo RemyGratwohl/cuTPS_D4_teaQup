@@ -1,8 +1,6 @@
 #ifndef MAINWINDOW_H
 #define MAINWINDOW_H
 
-#include <QMainWindow>
-
 /*
 * mainwindow.h
 * ----------------------
@@ -22,6 +20,11 @@
 * Acknowledgements: None
 */
 
+#include <QMainWindow>
+#include <../server/UserManagement/user.h>
+
+class ViewControl;
+
 namespace Ui {
 class MainWindow;
 }
@@ -31,11 +34,15 @@ class MainWindow : public QMainWindow
     Q_OBJECT
 
 public:
-    explicit MainWindow(QWidget *parent = 0);
+    explicit MainWindow(ViewControl *controller = 0);
     ~MainWindow();
+
+private slots:
+    void on_shoppingCartButton_clicked();
 
 private:
     Ui::MainWindow *ui;
+    ViewControl  *controller;
 };
 
 #endif // MAINWINDOW_H

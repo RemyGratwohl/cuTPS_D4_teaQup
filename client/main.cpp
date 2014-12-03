@@ -1,5 +1,5 @@
-#include "ClientInterface/loginwindow.h"
 #include <QApplication>
+#include "ClientInterface/viewcontrol.h"
 
 #include "ClientCommunication/clientdispatcher.h"
 #include "ClientCommunication/errormessage.h"
@@ -14,18 +14,24 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     /* testing start - feel free to comment this stuff out */
-    ClientDispatcher* clientDispatcher = new ClientDispatcher(0,0,0,0,0);
+
+    ClientDispatcher* clientDispatcher = new ClientDispatcher(0,0,0,0);
     clientDispatcher->initialize();
+
     Message* errorMessage = new ErrorMessage(ORDERING, CREATE, new User(), "Client: Hello, Server.");
     clientDispatcher->deliverMsg(errorMessage);
-    QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
-    Message* newMessage = new DataMessage(CONTENT, CREATE, new User(), data);
+
+    //QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
+    //Message* newMessage = new DataMessage(CONTENT, CREATE, new User(), data);
     //clientDispatcher->deliverMsg(newMessage);
 
     /* testing end */
 
     LoginWindow lw;
     lw.show();
+
+    ViewControl vc;
+
 
     return a.exec();
 }

@@ -21,17 +21,26 @@
 */
 
 #include <QObject>
+#include "shoppingcartview.h"
+#include "billinginfoview.h"
+
+class ViewControl;
 
 class ShoppingCartControl : public QObject
 {
     Q_OBJECT
 public:
-    explicit ShoppingCartControl(QObject *parent = 0);
+    explicit ShoppingCartControl(ViewControl *viewController = 0, QObject *parent = 0);
 
+    QWidget* getView();
 signals:
 
 public slots:
 
+private:
+    ViewControl      *viewController;
+    ShoppingCartView *shoppingCartView;
+    BillingInfoView  *billingInfoView;
 };
 
 #endif // SHOPPINGCARTCONTROL_H

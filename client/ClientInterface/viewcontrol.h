@@ -14,7 +14,7 @@
 *
 * ViewControl class:
 * - Top-level control class for the client interface subsystem
-* - Responsible for managing the client user interface
+* - Responsible for managing the client user interface and other control objects
 *
 * Traceability: CT-014
 *
@@ -24,18 +24,44 @@
 #include <QObject>
 #include <QWidget>
 
+#include "loginwindow.h"
+#include "mainwindow.h"
+#include "userauthenticationcontrol.h"
+
+#include "ContentView/contentviewcontrol.h"
+#include "CourseView/courseviewcontrol.h"
+#include "Shopping/shoppingcartcontrol.h"
+
 class ViewControl : public QObject
 {
     Q_OBJECT
+
 public:
     explicit ViewControl(QObject *parent = 0);
 
-    //bool changeView(ViewType subsystem);
+     enum TYPE {CONTENT = 0, COURSE, SHOPPING,BILLING};
 
+     bool changeView(TYPE subsystem);
+     bool authenticateUser(quint16 id);
+
+     void displayCommunicationError();
+     void displayErrorString(QString &err);
 
 private:
-    bool displayView(QWidget widget);
-    bool changeWindow(QWidget window);
+    User                      *currentUser;  // The User currently logged in
+
+    LoginWindow               *loginWindow;
+    MainWindow                *mainWindow;
+
+    UserAuthenticationControl *authenticator;
+
+    /* Subsystem Controllers */
+    ContentViewControl        *contentController;
+    CourseViewControl         *courseController;
+    ShoppingCartControl       *shoppingController;
+
+    bool displayView(QWidget *widget);
+    bool changeWindow(QWidget *window);
 
 };
 

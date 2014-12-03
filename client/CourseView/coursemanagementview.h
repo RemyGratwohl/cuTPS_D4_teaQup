@@ -27,16 +27,19 @@ namespace Ui {
 class CourseManagementView;
 }
 
+class CourseViewControl;
+
 class CourseManagementView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit CourseManagementView(QWidget *parent = 0);
+    explicit CourseManagementView(CourseViewControl *control = 0, QWidget *parent = 0);
     ~CourseManagementView();
 
 private:
     Ui::CourseManagementView *ui;
+    CourseViewControl *controller;
 };
 
 #endif // COURSEMANAGEMENTVIEW_H

@@ -21,17 +21,25 @@
 */
 
 #include <QObject>
+#include "contentview.h"
+
+class ViewControl;
 
 class ContentViewControl : public QObject
 {
     Q_OBJECT
 public:
-    explicit ContentViewControl(QObject *parent = 0);
+    explicit ContentViewControl(ViewControl *viewController = 0, QObject *parent = 0);
 
+    QWidget* getView();
 signals:
 
 public slots:
 
+private:
+    ViewControl      *viewController;
+    ContentView      *contentView;
 };
 
 #endif // CONTENTVIEWCONTROL_H
+

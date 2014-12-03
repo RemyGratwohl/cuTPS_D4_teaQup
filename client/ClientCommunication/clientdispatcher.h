@@ -25,8 +25,8 @@
 #include "ContentView/contentviewcontrol.h"
 #include "CourseView/courseviewcontrol.h"
 #include "Shopping/shoppingcartcontrol.h"
-#include "UserView/userviewcontrol.h"
 #include "ClientCommunication/message.h"
+#include "ClientCommunication/errormessage.h"
 
 class ClientDispatcher : public QObject
 {
@@ -36,8 +36,16 @@ public:
     explicit ClientDispatcher(QObject *parent,
                               ContentViewControl* contentControl,
                               CourseViewControl* courseControl,
-                              ShoppingCartControl* shoppingControl,
-                              UserViewControl* userControl);
+                              ShoppingCartControl* shoppingControl
+                              );
+
+    /* Member Function: directMsg
+     *   Sends the message to the proper client subsystem
+     * in: The message object to send
+     * Side Effects: None
+     * Return Value: Success indicator
+     */
+    bool directMsg(Message *msg) const;
 
     /* Member Function: deliverMsg
      *   Sends the message to the client process
@@ -63,7 +71,6 @@ private:
     ContentViewControl*  contentViewControl;
     CourseViewControl*   courseViewControl;
     ShoppingCartControl* shoppingCartControl;
-    UserViewControl*     userViewControl;
 };
 
 #endif // CLIENTDISPATCHER_H

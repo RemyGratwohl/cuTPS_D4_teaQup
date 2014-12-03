@@ -21,6 +21,7 @@
 */
 
 #include <QObject>
+#include "../server/UserManagement/user.h"
 
 class UserAuthenticationControl : public QObject
 {
@@ -28,9 +29,12 @@ class UserAuthenticationControl : public QObject
 public:
     explicit UserAuthenticationControl(QObject *parent = 0);
 
+    bool authenticateUser(quint16 id, User **user);
+
 signals:
 
 public slots:
+
 
 };
 
