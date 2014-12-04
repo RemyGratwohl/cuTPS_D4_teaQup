@@ -24,7 +24,7 @@
 #include <QObject>
 #include "UserManagement/user.h"
 #include "mainstoragecontrol.h"
-#include <string>
+#include <QString>
 #include <QSharedPointer>
 
 
@@ -62,7 +62,7 @@ public:
      * out: user User, errorMsg string
      * Side Effects: TBD
      */
-    bool getUser(int userid, User& user, std::string& errorMsg);
+    bool getUser(OBJ_ID_TYPE& userid, User*& user, QString& errorMsg);
 
     //bool processMsg(Message message);
     //bool addUser(User user);

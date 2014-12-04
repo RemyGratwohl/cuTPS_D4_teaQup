@@ -1,4 +1,5 @@
 #include "userstoragecontrol.h"
+#include <QDebug>
 
 using namespace std;
 
@@ -31,8 +32,9 @@ bool UserStorageControl::initialize(void) {
 /*
  * TODO Also put user querying functionality in the UserStorageControl class.
  */
-bool UserStorageControl::getUser(int userid, User& user, string& errorMsg) {
-
+bool UserStorageControl::getUser(OBJ_ID_TYPE& userid, User*& user, QString& errorMsg) {
+    QString id = QString::number(userid);
+    qDebug() << "GetUser() called with userid: " + id;
 
     return false;
 }
