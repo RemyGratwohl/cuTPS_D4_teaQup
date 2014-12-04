@@ -1,5 +1,4 @@
 #include "user.h"
-#include <QDebug>
 
 User::User(void) : name(), type(User::STUDENT), identifier(0) {}
 

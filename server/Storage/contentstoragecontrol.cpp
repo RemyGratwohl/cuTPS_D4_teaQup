@@ -25,6 +25,7 @@ bool ContentStorageControl::initialize(void) {
 }
 
 bool ContentStorageControl::addBook(Book* book) {
+    qDebug() << "Add Book() Called";
     return false;
 }
 

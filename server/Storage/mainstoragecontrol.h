@@ -66,8 +66,7 @@ public:
 
     /* Member Function: runQuery
      * in: QString containing the query to be executed
-     * out:
-     * Side Effects:
+     * Side Effects: Depending on the query, database may be modified.
      * Return Value: QSqlQuery containing the result set
      */
     QSqlQuery runQuery(QString query);

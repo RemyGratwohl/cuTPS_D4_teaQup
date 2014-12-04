@@ -24,6 +24,7 @@
 #include <QObject>
 #include <QSharedPointer>
 #include <QVector>
+#include <QDebug>
 #include "mainstoragecontrol.h"
 #include "../ContentManagement/book.h"
 #include "../ContentManagement/chapter.h"
