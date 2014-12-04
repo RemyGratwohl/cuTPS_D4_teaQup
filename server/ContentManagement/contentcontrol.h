@@ -38,13 +38,16 @@ public:
      * in: Dispatcher to use for sending messages to the client
      * in: Course management subsystem control object,
      *       used when content operations involve course management.
-     * in: Storage system for content
      * Side Effects: None
      * All input pointers are treated as shared pointers.
      */
     ContentControl(ServerDispatcher *dispatcher,
-                   CourseControl *courseControl,
-                   ContentStorageControl *contentStorageControl);
+                   CourseControl *courseControl);
+
+    /* Member Function: initialize
+     * Returns false if this object does not initialize properly.
+     */
+    bool initialize(void);
 
     /* Member Function: processMsg
      *   Handles a message received from the dispatcher,
