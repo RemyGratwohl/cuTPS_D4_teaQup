@@ -1,7 +1,8 @@
 #include "contentview.h"
 #include "ui_contentview.h"
 
-ContentView::ContentView(QWidget *parent) :
+ContentView::ContentView(ContentViewControl *control,QWidget *parent) :
+    controller(control),
     QWidget(parent),
     ui(new Ui::ContentView)
 {

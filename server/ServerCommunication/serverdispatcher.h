@@ -23,6 +23,7 @@
 
 #include <QObject>
 #include <QCoreApplication>
+#include <QDebug>
 
 #include "networklink.h"
 #include "../ContentManagement/contentcontrol.h"
@@ -31,6 +32,8 @@
 #include "../UserManagement/usercontrol.h"
 #include "../Storage/mainstoragecontrol.h"
 #include "../../client/ClientCommunication/message.h"
+#include "../../client/ClientCommunication/errormessage.h"
+#include "../../client/ClientCommunication/datamessage.h"
 
 class ServerDispatcher : public QCoreApplication
 {
@@ -43,11 +46,13 @@ public:
      */
     explicit ServerDispatcher(int & argc, char ** argv);
 
-    /* Member Function: initialize()
-     * The effective constructor, which returns
-     * false if system startup is unsuccessful.
+    /* Member Function: directMsg
+     *   Sends the message to the proper server subsystem
+     * in: The message object to send
+     * Side Effects: None
+     * Return Value: Success indicator
      */
-    bool initialize(void);
+    bool directMsg(Message *msg) const;
 
     /* Member Function: deliverMsg
      *   Sends the message to the client process
@@ -56,7 +61,13 @@ public:
      * Side Effects: 'msg' is deleted.
      * Return Value: Success indicator
      */
-    bool deliverMsg(const Message*& msg) const;
+    bool deliverMsg(Message *&msg) const;
+
+    /* Member Function: initialize()
+     * The effective constructor, which returns
+     * false if system startup is unsuccessful.
+     */
+    bool initialize(void);
 
 signals:
 

@@ -37,6 +37,9 @@ public:
     explicit MainWindow(ViewControl *controller = 0);
     ~MainWindow();
 
+private slots:
+    void on_shoppingCartButton_clicked();
+
 private:
     Ui::MainWindow *ui;
     ViewControl  *controller;

@@ -72,4 +72,5 @@ HEADERS += \
     ServerCommunication/networklink.h \
     ServerCommunication/serializableobjectfactory.h \
     ../client/ClientCommunication/errormessage.h \
-    ../client/ClientCommunication/datamessage.h
+    ../client/ClientCommunication/datamessage.h \
+    Storage/idtypes.h

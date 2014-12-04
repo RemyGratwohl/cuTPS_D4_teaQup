@@ -21,17 +21,35 @@
 */
 
 #include <QObject>
+#include "coursemanagementview.h"
+#include "ClientCommunication/message.h"
+#include "ClientCommunication/datamessage.h"
+
+class ViewControl;
 
 class CourseViewControl : public QObject
 {
     Q_OBJECT
 public:
-    explicit CourseViewControl(QObject *parent = 0);
+    explicit CourseViewControl(ViewControl *viewController = 0, QObject *parent = 0);
 
+    /* Member Function: processMsg
+     *   Let the subsystem handle the message
+     * in: The message object to handle
+     * Side Effects: msg is deleted
+     * Return Value: Success indicator
+     */
+    bool processMsg(Message *msg);
+
+    QWidget* getView();
 signals:
 
 public slots:
 
+private:
+    ViewControl          *viewController;
+    CourseManagementView *courseView;
 };
 
 #endif // COURSEVIEWCONTROL_H
+

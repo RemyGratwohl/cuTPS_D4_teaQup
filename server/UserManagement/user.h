@@ -23,13 +23,14 @@
 
 #include "../ServerCommunication/serializableqobject.h"
 #include <QString>
+#include "../Storage/idtypes.h"
 
 class User : public SerializableQObject
 {
     Q_OBJECT
     Q_PROPERTY(QString name READ getName WRITE setName)
     Q_PROPERTY(quint16 type READ getType WRITE setType)
-    Q_PROPERTY(quint16 id READ getID WRITE setID)
+    Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
 public:
 
     enum TYPE { ADMIN, STUDENT, CONTENTMGR };
@@ -45,10 +46,10 @@ public:
      *   to create a User object that gets fully initialized
      *   on the server and then sent back to complete
      *   the authentication process.
-     * in: Username
+     * in: User ID
      * Side Effects: None
      */
-    User(const QString& name);
+    User(const OBJ_ID_TYPE id);
 
     /* Constructor
      *   Creates a fully-initialized User object
@@ -57,7 +58,7 @@ public:
      * in: User ID
      * Side Effects: None
      */
-    User(const QString& name, const TYPE type, const quint16 id);
+    User(const QString& name, const TYPE type, const OBJ_ID_TYPE id);
 
     /* Member Function: insertToDataStream
      *   Serialization function, which is overridden to
@@ -75,8 +76,8 @@ public:
     quint16 getType()   const { return (quint16)type;   }
     void setType(quint16 t)   { type = static_cast<TYPE>(t); }
 
-    quint16 getID()   const { return identifier;   }
-    void setID(quint16 id)   { identifier = id; }
+    OBJ_ID_TYPE getID()   const { return identifier;   }
+    void setID(OBJ_ID_TYPE id)   { identifier = id; }
 
     /* Member Function: isOfType
      *   Returns true if this user is of the same
@@ -94,7 +95,7 @@ public slots:
 private:
     QString name;
     TYPE type;
-    quint16 identifier;
+    OBJ_ID_TYPE identifier;
 };
 
 #endif // USER_H

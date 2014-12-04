@@ -12,7 +12,7 @@ Book::Book() :
     imageLink()
 {}
 
-Book::Book(quint16 id, QString title, quint16 courseID,
+Book::Book(OBJ_ID_TYPE id, QString title, OBJ_ID_TYPE courseID,
            PurchasingDetails *pd, QString st, QString a,
            QString is, QString w, quint16 y,
            QString p, QString c, QString il) :

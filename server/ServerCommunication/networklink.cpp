@@ -1,11 +1,12 @@
 #include "networklink.h"
 #include "serializableobjectfactory.h"
+#include "serverdispatcher.h"
 
-NetworkLink::NetworkLink(QObject *parent)
-    : QObject(parent), tcpServer(0), networkSession(0), serverPortNumber(0), blockSize(0)
+NetworkLink::NetworkLink(QObject *parent, ServerDispatcher* serverDispatch)
+    : QObject(parent), tcpServer(0), networkSession(0), serverPortNumber(0), blockSize(0), serverDispatcher(serverDispatch)
 {} // handle initialization in the initialize function (to return a success indicator)
 
-bool NetworkLink::sendClientResponse(const Message *&message)
+bool NetworkLink::sendClientResponse(Message *&message)
 {
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
@@ -57,19 +58,9 @@ bool NetworkLink::readClientRequest()
     Message* newMessage = qobject_cast<Message*>(theObj);
 
     if(newMessage != 0) {
-        qDebug() << "Message action type: " << newMessage->getActionType();
+        serverDispatcher->directMsg(newMessage);
+
         return true;
-
-        /*
-        QEvent::Type eventType = static_cast<QEvent::Type>(newMessage->getEventType());
-
-        QCoreApplication::postEvent(SEND_INTER_SUBSYSTEM_SERVER,
-                                    new ServerResponseEvent(eventType,newMessage));
-
-        QCoreApplication::postEvent(SEND_INTER_SUBSYSTEM_SERVER,
-        new ServerResponseEvent(ServerEventDispatcher::networkEventType(),
-                                newMessage));
-        */
     } else {
         qDebug() << "Failed object read.";
     }

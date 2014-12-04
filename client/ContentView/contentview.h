@@ -26,16 +26,21 @@ namespace Ui {
 class ContentView;
 }
 
+class ContentViewControl;
+
 class ContentView : public QWidget
 {
     Q_OBJECT
 
 public:
-    explicit ContentView(QWidget *parent = 0);
+    explicit ContentView(ContentViewControl *control = 0, QWidget *parent = 0);
     ~ContentView();
 
 private:
     Ui::ContentView *ui;
+    ContentViewControl *controller;
 };
 
 #endif // CONTENTVIEW_H
+
+

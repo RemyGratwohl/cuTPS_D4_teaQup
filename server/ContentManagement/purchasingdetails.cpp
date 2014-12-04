@@ -7,10 +7,10 @@ PurchasingDetails::PurchasingDetails() :
 }
 
 PurchasingDetails::PurchasingDetails(
-        quint16 id,
+        OBJ_ID_TYPE id,
         quint16 p,
         QString v,
-        quint16 cID) :
+        OBJ_ID_TYPE cID) :
     identifier(id), price(p), vendor(v), contentID(cID) {}
 
 void PurchasingDetails::insertToDataStream(QDataStream& ds) const {
