@@ -58,13 +58,21 @@ public:
 
     /* Get User
      *  Retrieves the user from MainStorageControl
-     * in: userid int
-     * out: user User, errorMsg string
-     * Side Effects: TBD
+     * in: quint64 userid used to identify the user
+     * in: User to be altered
+     * in: QString to be altered in the event of an error
+     * Side Effects: None
+     * Return Value: True, if operation succeeded.
+     * *******************************************
+     * Note: -TBR (to be removed before 'release') If a user doesn't exist, it will return FALSE.
+     * I may add error numbers, so that you can check that if the function returns false
+     * You can check the first character in the string and if its a certain number
+     * then you can handle each error differently.
      */
     bool getUser(OBJ_ID_TYPE& userid, User*& user, QString& errorMsg);
 
     //bool processMsg(Message message);
+    // We don't need the functions below since there are no administrators right?
     //bool addUser(User user);
     //bool updateUser(User user);
     //bool removeUser(User user);

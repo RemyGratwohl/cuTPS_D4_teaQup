@@ -25,6 +25,7 @@ MainStorageControl::MainStorageControl(void)
 
 bool MainStorageControl::initialize(void)
 {
+    // TODO: Database name + sql script to be configurable
     db = QSqlDatabase::addDatabase("QSQLITE");
     // Database path may need to also be configurable
     db.setDatabaseName("../../cuTPS_D4_teaQup/cuTPSDB");
