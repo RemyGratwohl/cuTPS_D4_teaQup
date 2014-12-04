@@ -64,7 +64,12 @@ protected:
 
 public:
 
-    bool getUser(int userid, User& user, std::string errorMsg);
+    /* Member Function: runQuery
+     * in: QString containing the query to be executed
+     * out:
+     * Side Effects:
+     * Return Value: QSqlQuery containing the result set
+     */
     QSqlQuery runQuery(QString query);
 
 private:

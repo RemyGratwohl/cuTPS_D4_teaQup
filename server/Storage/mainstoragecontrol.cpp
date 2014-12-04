@@ -33,7 +33,7 @@ bool MainStorageControl::initialize(void)
 }
 
 
-bool MainStorageControl::getUser(int userid, User& user, string errorMsg){
+/*bool MainStorageControl::getUser(int userid, User& user, string errorMsg){
     // Query: select * from users where userid = userid;
 
     // Send query to DB TODO: Function for running queries
@@ -44,7 +44,7 @@ bool MainStorageControl::getUser(int userid, User& user, string errorMsg){
     // Why not just return a string instead of a boolean?
     // Otherwise create a new user, set user equal to newUser return true.
     return false;
-}
+}*/
 
 
 QSqlQuery MainStorageControl::runQuery(QString query){

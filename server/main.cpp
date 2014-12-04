@@ -11,12 +11,6 @@ int main(int argc, char *argv[])
 {
     qRegisterMetaType<OBJ_ID_TYPE>("OBJ_ID_TYPE");
 
-
-    /*
-     * TODO Also put user querying functionality in the UserStorageControl class.
-     */
-
-
     //QCoreApplication a(argc, argv);
 
     /* testing start - feel free to comment this stuff out */

@@ -26,8 +26,13 @@ bool UserStorageControl::initialize(void) {
     return MainStorageControl::getMainStorageControl(mainStorage);
 }
 
+
+
+/*
+ * TODO Also put user querying functionality in the UserStorageControl class.
+ */
 bool UserStorageControl::getUser(int userid, User& user, string& errorMsg) {
 
-    bool success = mainStorage->getUser(userid, user, errorMsg);
+
     return false;
 }
