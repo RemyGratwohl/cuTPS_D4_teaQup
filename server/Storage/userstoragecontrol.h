@@ -72,11 +72,6 @@ public:
     bool getUser(OBJ_ID_TYPE& userid, User*& user, QString& errorMsg);
 
     //bool processMsg(Message message);
-    // We don't need the functions below since there are no administrators right?
-    //bool addUser(User user);
-    //bool updateUser(User user);
-    //bool removeUser(User user);
-    //bool getUserList(QVector<User> users);
 
 private:
     QSharedPointer<MainStorageControl> mainStorage;
