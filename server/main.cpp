@@ -15,29 +15,6 @@ int main(int argc, char *argv[])
 
     //QCoreApplication a(argc, argv);
 
-    // TEST - USER DB START
-    QSharedPointer<UserStorageControl> userAccess;
-    userAccess->getUserStorageControl(userAccess);
-    qDebug() << "UserAccess Initialized";
-
-    OBJ_ID_TYPE userid = 100945234;
-    User* user = new User(userid);
-
-    QString error = "";
-    qDebug() << "Before getting user from storage";
-
-    bool Success = userAccess->getUser(userid, user, error);
-
-    if(!Success){
-        qDebug() << "Get User failed";
-        qDebug() << "Error message: " + error;
-    }
-    else {
-        qDebug() << "User's name: " + user->getName();
-    }
-
-    // TEST - USER DB END
-
     /* testing start - feel free to comment this stuff out */
 
     ServerDispatcher* serverDispatcher = new ServerDispatcher(argc, argv);

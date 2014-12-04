@@ -28,11 +28,6 @@ bool UserStorageControl::initialize(void) {
     return MainStorageControl::getMainStorageControl(mainStorage);
 }
 
-
-
-/*
- * TODO Also put user querying functionality in the UserStorageControl class.
- */
 bool UserStorageControl::getUser(OBJ_ID_TYPE& userid, User*& user, QString& errorMsg) {
     QString id = QString::number(userid);
     qDebug() << "GetUser() called with userid: " + id;
@@ -47,10 +42,8 @@ bool UserStorageControl::getUser(OBJ_ID_TYPE& userid, User*& user, QString& erro
 
     if(result.first()){
         QString name = result.value("name").toString();
-        qDebug() << "User's Name: " + name;
         user->setName(name);
         quint16 type = result.value("usertype").toInt();
-        qDebug() << "Type: " + QString::number(type);
         user->setType(type);
     }
     else if (result.next()){
@@ -61,7 +54,6 @@ bool UserStorageControl::getUser(OBJ_ID_TYPE& userid, User*& user, QString& erro
         errorMsg = "User does not exist";
         return false;
     }
-
 
     return true;
 }
