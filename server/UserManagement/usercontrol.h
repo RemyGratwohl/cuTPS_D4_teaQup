@@ -21,6 +21,8 @@
 */
 
 #include <QObject>
+#include "../client/ClientCommunication/message.h"
+#include "../client/ClientCommunication/datamessage.h"
 
 class UserControl : public QObject
 {
@@ -32,6 +34,14 @@ public:
      * Side Effects: None
      */
     explicit UserControl(QObject* parent = 0);
+
+    /* Member Function: processMsg
+     *   Let the subsystem handle the message
+     * in: The message object to handle
+     * Side Effects: msg is deleted
+     * Return Value: Success indicator
+     */
+    bool processMsg(Message *msg);
 };
 
 #endif // USERCONTROL_H

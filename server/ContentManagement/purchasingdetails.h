@@ -23,14 +23,15 @@
 
 #include "../ServerCommunication/serializableqobject.h"
 #include <QString>
+#include "../Storage/idtypes.h"
 
 class PurchasingDetails : public SerializableQObject
 {
     Q_OBJECT
     Q_PROPERTY(quint16 price READ getPrice WRITE setPrice)
     Q_PROPERTY(QString vendor READ getVendor WRITE setVendor)
-    Q_PROPERTY(quint16 contentID READ getContentID WRITE setContentID)
-    Q_PROPERTY(quint16 id READ getID WRITE setID)
+    Q_PROPERTY(OBJ_ID_TYPE contentID READ getContentID WRITE setContentID)
+    Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
 
 public:
     /* Constructor
@@ -47,13 +48,13 @@ public:
      * Side Effects: None
      */
     PurchasingDetails(
-            quint16 id,
+            OBJ_ID_TYPE id,
             quint16 price,
             QString vendor,
-            quint16 contentID);
+            OBJ_ID_TYPE contentID);
 
-    quint16 getID()   const { return identifier;   }
-    void setID(quint16 id)   { identifier = id; }
+    OBJ_ID_TYPE getID()   const { return identifier;   }
+    void setID(OBJ_ID_TYPE id)   { identifier = id; }
 
     quint16 getPrice()   const { return price;   }
     void setPrice(quint16 p)   { price = p; }
@@ -61,8 +62,8 @@ public:
     QString getVendor() const { return vendor; }
     void setVendor(const QString& v) { vendor = v; }
 
-    quint16 getContentID()   const { return contentID;   }
-    void setContentID(quint16 id)   { contentID = id; }
+    OBJ_ID_TYPE getContentID()   const { return contentID;   }
+    void setContentID(OBJ_ID_TYPE id)   { contentID = id; }
 
     /* Member Function: insertToDataStream
      *   Serialization function, which inserts the appropriate type constant
@@ -82,10 +83,10 @@ public:
     virtual void extractFromDataStream(QDataStream& ds);
 
 private:
-    quint16 identifier;
+    OBJ_ID_TYPE identifier;
     quint16 price; // Cents
     QString vendor;
-    quint16 contentID;
+    OBJ_ID_TYPE contentID;
 };
 
 #endif // PURCHASINGDETAILS_H

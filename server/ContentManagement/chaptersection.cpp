@@ -9,8 +9,8 @@ ChapterSection::ChapterSection() :
 }
 
 ChapterSection::ChapterSection(
-        quint16 id, QString title, quint16 courseID,
-        PurchasingDetails *pd, quint16 cID,
+        OBJ_ID_TYPE id, QString title, OBJ_ID_TYPE courseID,
+        PurchasingDetails *pd, OBJ_ID_TYPE cID,
         quint16 sn, QString is) :
     ContentItem(id, title, courseID, pd),
     chapterID(cID),

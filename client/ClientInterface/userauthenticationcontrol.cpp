@@ -5,10 +5,10 @@ UserAuthenticationControl::UserAuthenticationControl(QObject *parent) :
 {
 }
 
-bool UserAuthenticationControl::authenticateUser(QString username, User **user)
+bool UserAuthenticationControl::authenticateUser(OBJ_ID_TYPE id, User **user)
 {
     // TODO: Implement Authentication
-    *user = new User(username,User::STUDENT,0);
+    *user = new User("TEST USER",User::STUDENT,0);
 
     return true;
 }

@@ -43,13 +43,15 @@ static const QString SERVER_FILE_NAME("ServerPortFile.txt");
 static const QString SERVER_PORT_NUMBER_FIELD("SERVER_PORT_NUMBER");
 static const quint16 DEFAULT_SERVER_PORT(55505);
 
+class ClientDispatcher;
+
 class NetworkLink : public QObject
 {
     Q_OBJECT
 public:
-    explicit NetworkLink(QObject *parent = 0);
+    explicit NetworkLink(QObject *parent = 0, ClientDispatcher* clientDispatch = 0);
 
-    bool sendServerRequest(const Message*& message);
+    bool sendServerRequest(Message *&message);
     bool initialize();
 
 private slots:
@@ -62,6 +64,7 @@ private:
     quint16 serverPortNumber;
     QString serverIP;
     quint16 blockSize;
+    ClientDispatcher* clientDispatcher;
 
     bool initializeServerPort();
     bool initializeNetworkSession();

@@ -40,6 +40,8 @@ static const QString SERVER_FILE_NAME("ServerPortFile.txt");
 static const QString SERVER_PORT_NUMBER_FIELD("SERVER_PORT_NUMBER");
 static const quint16 DEFAULT_SERVER_PORT(55505);
 
+class ServerDispatcher;
+
 class NetworkLink : public QObject
 {
     Q_OBJECT
@@ -49,14 +51,14 @@ public:
      * in: parent QObject
      * Side Effects: None
      */
-    explicit NetworkLink(QObject *parent = 0);
+    explicit NetworkLink(QObject *parent = 0, ServerDispatcher* serverDispatch = 0);
 
     /* Member Function
      *   Sends a message to the client network link
      * in: Message
      * Side Effects: None
      */
-    bool sendClientResponse(const Message*& message);
+    bool sendClientResponse(Message *&message);
 
     /* Member Function
      *   Fully-initializes the NetworkLink object
@@ -96,6 +98,7 @@ private:
     quint16 serverPortNumber;
     QString serverIP;
     quint16 blockSize;
+    ServerDispatcher* serverDispatcher;
 
     /* Member Function
      *   Initializes server port number

@@ -27,6 +27,8 @@
 #include "book.h"
 #include "chapter.h"
 #include "chaptersection.h"
+#include "../client/ClientCommunication/message.h"
+#include "../client/ClientCommunication/datamessage.h"
 
 class ContentControl : public QObject
 {
@@ -51,7 +53,7 @@ public:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool processMsg(Message* const msg);
+    bool processMsg(Message* msg);
 
     // Helper functions used by processMsg()
 private:
