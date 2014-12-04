@@ -69,6 +69,8 @@ public:
 private:
     QSqlDatabase db;
 
+    void runSqlScript();
+
 private:
     // Singleton instance
     static QSharedPointer<MainStorageControl> mainStorage;

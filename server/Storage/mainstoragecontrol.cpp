@@ -1,4 +1,6 @@
 #include "mainstoragecontrol.h"
+#include <QStringList>
+#include <QFile>
 
 using namespace std;
 
@@ -41,12 +43,18 @@ bool MainStorageControl::getUser(int userid, User& user, string errorMsg){
     // Error message is useful if there's a db connection problem.
     // Why not just return a string instead of a boolean?
     // Otherwise create a new user, set user equal to newUser return true.
+    return false;
 }
 
 
 QSqlQuery MainStorageControl::runQuery(QString query){
     if(db.open()){
             qDebug()  << "Database connected!";
+            if(db.tables().isEmpty())
+            {
+                qDebug() << "Database is empty! Running script.";
+                runSqlScript();
+            }
             qDebug() << query;
 
             // Retrieve info
@@ -70,4 +78,25 @@ QSqlQuery MainStorageControl::runQuery(QString query){
             QSqlQuery q(query);
             return q;
         }
+}
+
+void MainStorageControl::runSqlScript() {
+    QFile schemaFile("../../cuTPS_D4_teaQup/cuTPS.sql");
+
+    schemaFile.open(QFile::ReadOnly);
+
+    QStringList schemaList = QString(schemaFile.readAll()).split(";");
+    foreach(const QString schemaTable, schemaList)
+    {
+        if(!schemaTable.trimmed().isEmpty())
+        {
+            db.exec(schemaTable);
+        }
+    }
+    schemaFile.close();
+
+    if(db.tables().isEmpty())
+        qDebug() << "Script running failed.";
+    else
+        qDebug() << "Script successful!";
 }
