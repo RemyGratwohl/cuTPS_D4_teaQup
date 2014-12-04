@@ -24,7 +24,7 @@
 #include <QObject>
 #include "UserManagement/user.h"
 #include "mainstoragecontrol.h"
-#include <string>
+#include <QString>
 #include <QSharedPointer>
 
 
@@ -58,17 +58,20 @@ public:
 
     /* Get User
      *  Retrieves the user from MainStorageControl
-     * in: userid int
-     * out: user User, errorMsg string
-     * Side Effects: TBD
+     * in: quint64 userid used to identify the user
+     * in: User to be altered
+     * in: QString to be altered in the event of an error
+     * Side Effects: None
+     * Return Value: True, if operation succeeded.
+     * *******************************************
+     * Note: -TBR (to be removed before 'release') If a user doesn't exist, it will return FALSE.
+     * I may add error numbers, so that you can check that if the function returns false
+     * You can check the first character in the string and if its a certain number
+     * then you can handle each error differently.
      */
-    bool getUser(int userid, User& user, std::string& errorMsg);
+    bool getUser(OBJ_ID_TYPE& userid, User*& user, QString& errorMsg);
 
     //bool processMsg(Message message);
-    //bool addUser(User user);
-    //bool updateUser(User user);
-    //bool removeUser(User user);
-    //bool getUserList(QVector<User> users);
 
 private:
     QSharedPointer<MainStorageControl> mainStorage;

@@ -36,7 +36,7 @@ drop table if exists chapterSection;
 drop table if exists purchasingDetails; 
 
 -- TODO
-drop table if exists course_books;
+drop table if exists course_book;
 
 -- =========================== Table Creation ===========================
 
@@ -127,8 +127,8 @@ create table course_book (
 --inserting data into the table names
 --insert into names (name) values('');
 
-insert into users (userid, name, usertype) values (845934, 'Timmy Tortoise', 0);
-insert into users (userid, name, usertype) values (945234, 'Harold DaHare', 0);
+insert into users (userid, name, usertype) values (100845934, 'Timmy Tortoise', 0);
+insert into users (userid, name, usertype) values (100945234, 'Harold DaHare', 0);
 
 insert into term (termid, semester, term_year) values (1, 'F', 2014);
 

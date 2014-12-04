@@ -1,4 +1,6 @@
 #include "mainstoragecontrol.h"
+#include <QStringList>
+#include <QFile>
 
 using namespace std;
 
@@ -23,6 +25,7 @@ MainStorageControl::MainStorageControl(void)
 
 bool MainStorageControl::initialize(void)
 {
+    // TODO: Database name + sql script to be configurable
     db = QSqlDatabase::addDatabase("QSQLITE");
     // Database path may need to also be configurable
     db.setDatabaseName("../../cuTPS_D4_teaQup/cuTPSDB");
@@ -30,44 +33,67 @@ bool MainStorageControl::initialize(void)
     return true;
 }
 
-
-bool MainStorageControl::getUser(int userid, User& user, string errorMsg){
-    // Query: select * from users where userid = userid;
-
-    // Send query to DB TODO: Function for running queries
-    // Get back the result
-    // Is the error message neccessary for this one? Maybe not.
-    // Set User to null if not found - better yet return false, set user to null and errorMsg = '';
-    // Error message is useful if there's a db connection problem.
-    // Why not just return a string instead of a boolean?
-    // Otherwise create a new user, set user equal to newUser return true.
-}
-
-
+// The debug statements will remain until the entire database storage system is complete
+// If they're bothering you, set bool DEBUG to false.
 QSqlQuery MainStorageControl::runQuery(QString query){
+    bool DEBUG = true;
     if(db.open()){
-            qDebug()  << "Database connected!";
-            qDebug() << query;
+            if(DEBUG)
+                qDebug()  << "Database connected!";
+            if(db.tables().isEmpty())
+            {
+                // Shouldn't run very often, so not determined by DEBUG
+                qDebug() << "Database is empty! Running script.";
+                runSqlScript();
+            }
+
+            if(DEBUG)
+                qDebug() << query;
 
             // Retrieve info
 
             QSqlQuery q(query);
 
             if(q.exec()){
-                qDebug() << "Query Executed!";
+                if(DEBUG)
+                    qDebug() << "Query Executed!";
                 db.close();
                 return q;
             }
             else{
-                qDebug() << "Query failed!";
-                qDebug() << q.lastError();
+                if(DEBUG){
+                    qDebug() << "Query failed!";
+                    qDebug() << q.lastError();
+                }
                 db.close();
                 return q;
             }
         }
         else{
-            qDebug()  << "Database failed to open!";
+            if(DEBUG)
+                qDebug()  << "Database failed to open!";
             QSqlQuery q(query);
             return q;
         }
+}
+
+void MainStorageControl::runSqlScript() {
+    QFile schemaFile("../../cuTPS_D4_teaQup/cuTPS.sql");
+
+    schemaFile.open(QFile::ReadOnly);
+
+    QStringList schemaList = QString(schemaFile.readAll()).split(";");
+    foreach(const QString schemaTable, schemaList)
+    {
+        if(!schemaTable.trimmed().isEmpty())
+        {
+            db.exec(schemaTable);
+        }
+    }
+    schemaFile.close();
+
+    if(db.tables().isEmpty())
+        qDebug() << "Script running failed.";
+    else
+        qDebug() << "Script successful!";
 }

@@ -42,16 +42,6 @@ class MainStorageControl : public QObject
     friend class UserStorageControl;
 
 protected:
-    /* Static Member Function: getMainStorageControl
-     * out: Instance of MainStorageControl, or nothing, if
-     *        the MainStorageControl instance failed to initialize.
-     * Side Effects: None
-     * Return Value: True, if the MainStorageControl object
-     *   is properly initialized.
-     */
-    static bool getMainStorageControl(QSharedPointer<MainStorageControl>& ptr);
-
-public:
     /* Constructor
      *   Essentially does nothing
      * Side Effects: None
@@ -63,11 +53,29 @@ public:
      */
     bool initialize(void);
 
-    bool getUser(int userid, User& user, std::string errorMsg);
+    /* Static Member Function: getMainStorageControl
+     * out: Instance of MainStorageControl, or nothing, if
+     *        the MainStorageControl instance failed to initialize.
+     * Side Effects: None
+     * Return Value: True, if the MainStorageControl object
+     *   is properly initialized.
+     */
+    static bool getMainStorageControl(QSharedPointer<MainStorageControl>& ptr);
+
+public:
+
+    /* Member Function: runQuery
+     * in: QString containing the query to be executed
+     * out:
+     * Side Effects:
+     * Return Value: QSqlQuery containing the result set
+     */
     QSqlQuery runQuery(QString query);
 
 private:
     QSqlDatabase db;
+
+    void runSqlScript();
 
 private:
     // Singleton instance
