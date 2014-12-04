@@ -28,7 +28,13 @@ int main(int argc, char *argv[])
 
     bool Success = userAccess->getUser(userid, user, error);
 
-    qDebug() << Success;
+    if(!Success){
+        qDebug() << "Get User failed";
+        qDebug() << "Error message: " + error;
+    }
+    else {
+        qDebug() << "User's name: " + user->getName();
+    }
 
     // TEST - USER DB END
 

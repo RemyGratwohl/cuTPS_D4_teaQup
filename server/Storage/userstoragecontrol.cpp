@@ -1,5 +1,6 @@
 #include "userstoragecontrol.h"
 #include <QDebug>
+#include <QSqlQuery>
 
 using namespace std;
 
@@ -36,5 +37,31 @@ bool UserStorageControl::getUser(OBJ_ID_TYPE& userid, User*& user, QString& erro
     QString id = QString::number(userid);
     qDebug() << "GetUser() called with userid: " + id;
 
-    return false;
+    QString query = "Select name, usertype from users where userid=" + id;
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+
+    if(result.first()){
+        QString name = result.value("name").toString();
+        qDebug() << "User's Name: " + name;
+        user->setName(name);
+        quint16 type = result.value("usertype").toInt();
+        qDebug() << "Type: " + QString::number(type);
+        user->setType(type);
+    }
+    else if (result.next()){
+        errorMsg = "More than one user returned. Database is corrupted.";
+        return false;
+    }
+    else {
+        errorMsg = "User does not exist";
+        return false;
+    }
+
+
+    return true;
 }
