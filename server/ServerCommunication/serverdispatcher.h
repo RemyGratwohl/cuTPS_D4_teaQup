@@ -26,7 +26,6 @@
 #include <QDebug>
 
 #include "networklink.h"
-#include "../ContentManagement/contentcontrol.h"
 #include "../CourseManagement/coursecontrol.h"
 #include "../Purchasing/ordercontrol.h"
 #include "../UserManagement/usercontrol.h"
@@ -34,6 +33,8 @@
 #include "../../client/ClientCommunication/message.h"
 #include "../../client/ClientCommunication/errormessage.h"
 #include "../../client/ClientCommunication/datamessage.h"
+
+class ContentControl;
 
 class ServerDispatcher : public QCoreApplication
 {

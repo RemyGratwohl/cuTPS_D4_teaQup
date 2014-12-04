@@ -1,18 +1,20 @@
 #include "serverdispatcher.h"
+#include "../ContentManagement/contentcontrol.h"
 
 ServerDispatcher::ServerDispatcher(int & argc, char ** argv) :
     QCoreApplication(argc, argv)
 {
     networkLink = new NetworkLink(this, this);
-    contentControl = new ContentControl(this);
     courseControl = new CourseControl(this);
     orderControl = new OrderControl(this);
     userControl = new UserControl(this);
+    contentControl = new ContentControl(this, courseControl);
 }
 
 bool ServerDispatcher::initialize(void)
 {
-    if(networkLink->initialize() == false) return false;
+    if(!networkLink->initialize()) return false;
+    if(!contentControl->initialize()) return false;
     return true;
 }
 
@@ -33,7 +35,7 @@ bool ServerDispatcher::directMsg(Message* msg) const
     ErrorMessage* errMsg = qobject_cast<ErrorMessage*>(msg);
     if(errMsg != 0) {
         qDebug() << errMsg->getError();
-        Message* errorMessage = new ErrorMessage(CONTENT, CREATE, new User((quint64)0), "Server: Hello, Client.");
+        Message* errorMessage = new ErrorMessage(CONTENT, CREATE, new User((quint64)0), "Server: Can't process an error message.");
         networkLink->sendClientResponse(errorMessage);
         delete errMsg;
         return true;

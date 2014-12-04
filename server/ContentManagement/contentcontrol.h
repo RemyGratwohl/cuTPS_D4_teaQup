@@ -128,6 +128,7 @@ private:
      *     user is enrolled.
      * in: User whose books are to be retrieved. (Must be a student user.)
      * out: Books for the courses in which the student is enrolled
+     *      (passed in null)
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
@@ -136,15 +137,23 @@ private:
     /* Member Function: getBookDetails
      *   Retrieves a single Book and all of its associated chapters
      *     and chapter sections.
-     * out: Book information, including sub-items
+     * in: Book for which to retrieve details
+     * out: Book information, including sub-items, ordered as follows
+     *      {book,
+     *       chapter0, chapter sections corresponding to chapter0,
+     *       chapter1, chapter sections corresponding to chapter1,
+     *       etc.
+     *      }
+     *     (passed in null)
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool getBookDetails(QVector<SerializableQObject*>*& items);
+    bool getBookDetails(const Book* book, QVector<SerializableQObject*>*& items);
 
     /* Member Function: getBooks
      *   Retrieves all Books in the system.
      * out: All Books
+     *     (passed in null)
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
@@ -153,7 +162,7 @@ private:
 private:
     ServerDispatcher *dispatcher;
     CourseControl *courseControl;
-    ContentStorageControl *contentStorageControl;
+    QSharedPointer<ContentStorageControl> contentStorageControl;
 };
 
 #endif // CONTENTCONTROL_H
