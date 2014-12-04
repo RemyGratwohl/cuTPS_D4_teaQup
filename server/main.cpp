@@ -11,17 +11,6 @@ int main(int argc, char *argv[])
 {
     qRegisterMetaType<OBJ_ID_TYPE>("OBJ_ID_TYPE");
 
-
-    /* TODO make MainStorageControl constructor and initialization functions protected
-     * once finished with this test code.
-     *
-     * TODO Also put user querying functionality in the UserStorageControl class.
-     */
-    MainStorageControl* storage = new MainStorageControl();
-    storage->initialize();
-    QString string = "Select * from users";
-    storage->runQuery(string);
-
     //QCoreApplication a(argc, argv);
 
     /* testing start - feel free to comment this stuff out */
