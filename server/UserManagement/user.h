@@ -98,4 +98,6 @@ private:
     OBJ_ID_TYPE identifier;
 };
 
+Q_DECLARE_METATYPE(OBJ_ID_TYPE)
+
 #endif // USER_H
