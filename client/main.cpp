@@ -12,6 +12,8 @@
 
 int main(int argc, char *argv[])
 {
+    qRegisterMetaType<OBJ_ID_TYPE>("OBJ_ID_TYPE");
+
     QApplication a(argc, argv);
 
     /* testing start - feel free to comment this stuff out */
@@ -23,7 +25,7 @@ int main(int argc, char *argv[])
     //clientDispatcher->deliverMsg(errorMessage);
 
     QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
-    Message* newMessage = new DataMessage(ORDERING, UPDATE, new User((quint64)0), data);
+    Message* newMessage = new DataMessage(ORDERING, UPDATE, new User((quint64)25), data);
     clientDispatcher->deliverMsg(newMessage);
 
     /* testing end */

@@ -40,10 +40,15 @@ bool ServerDispatcher::directMsg(Message* msg) const
     }
 
     QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
-    Message* newMessage = new DataMessage(CONTENT, DELETE, new User((quint64)0), data);
+    Message* newMessage = new DataMessage(CONTENT, DELETE, new User((quint64)265), data);
     networkLink->sendClientResponse(newMessage);
 
     DEST_TYPE msgDest = msg->getDestType();
+
+    DataMessage* dataMsg = qobject_cast<DataMessage*>(msg);
+    if(dataMsg != 0) {
+        qDebug() << "Received data message from user: " << dataMsg->getUser()->getID();
+    }
 
     switch(msgDest)
     {

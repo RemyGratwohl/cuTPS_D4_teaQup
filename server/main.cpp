@@ -7,6 +7,8 @@
 
 int main(int argc, char *argv[])
 {
+    qRegisterMetaType<OBJ_ID_TYPE>("OBJ_ID_TYPE");
+
     //QCoreApplication a(argc, argv);
 
     /* TODO make MainStorageControl constructor and initialization functions protected
