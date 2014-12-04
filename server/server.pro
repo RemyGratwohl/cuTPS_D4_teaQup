@@ -42,7 +42,8 @@ SOURCES += main.cpp \
     ContentManagement/purchasingdetails.cpp \
     ServerCommunication/networklink.cpp \
     ../client/ClientCommunication/errormessage.cpp \
-    ../client/ClientCommunication/datamessage.cpp
+    ../client/ClientCommunication/datamessage.cpp \
+    ../client/ClientCommunication/successmessage.cpp
 
 HEADERS += \
     ServerCommunication/serializableqobject.h \
@@ -73,4 +74,5 @@ HEADERS += \
     ServerCommunication/serializableobjectfactory.h \
     ../client/ClientCommunication/errormessage.h \
     ../client/ClientCommunication/datamessage.h \
-    Storage/idtypes.h
+    Storage/idtypes.h \
+    ../client/ClientCommunication/successmessage.h

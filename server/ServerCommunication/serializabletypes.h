@@ -31,6 +31,7 @@ enum SerializableType {
     TERMOBJ,
     COURSEOBJ,
     ERRORMESSAGE,
+    SUCCESSMESSAGE,
     DATAMESSAGE
 };
 
