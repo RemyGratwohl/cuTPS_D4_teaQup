@@ -3,7 +3,7 @@
 #include "../server/ServerCommunication/serializableobjectfactory.h"
 
 NetworkLink::NetworkLink(QObject* parent, ClientDispatcher *clientDispatch)
-    : QObject(parent), clientDispatcher(clientDispatch), tcpSocket(0), networkSession(0), serverPortNumber(0)
+    : QObject(parent), tcpSocket(0), networkSession(0), serverPortNumber(0), clientDispatcher(clientDispatch)
 {} // handle initialization in the initialize function (to return a success indicator)
 
 bool NetworkLink::sendServerRequest(Message*& message)

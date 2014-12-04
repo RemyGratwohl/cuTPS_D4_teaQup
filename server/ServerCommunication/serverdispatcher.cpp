@@ -34,11 +34,15 @@ bool ServerDispatcher::directMsg(Message* msg) const
     ErrorMessage* errMsg = qobject_cast<ErrorMessage*>(msg);
     if(errMsg != 0) {
         qDebug() << errMsg->getError();
-        Message* errorMessage = new ErrorMessage(CONTENT, CREATE, new User(), "Server: Hello, Client.");
+        Message* errorMessage = new ErrorMessage(CONTENT, CREATE, new User((quint64)0), "Server: Hello, Client.");
         networkLink->sendClientResponse(errorMessage);
         delete errMsg;
         return true;
     }
+
+    QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
+    Message* newMessage = new DataMessage(CONTENT, DELETE, new User((quint64)0), data);
+    networkLink->sendClientResponse(newMessage);
 
     DEST_TYPE msgDest = msg->getDestType();
 

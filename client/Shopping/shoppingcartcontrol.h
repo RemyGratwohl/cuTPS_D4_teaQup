@@ -23,6 +23,8 @@
 #include <QObject>
 #include "shoppingcartview.h"
 #include "billinginfoview.h"
+#include "ClientCommunication/message.h"
+#include "ClientCommunication/datamessage.h"
 
 class ViewControl;
 
@@ -31,6 +33,14 @@ class ShoppingCartControl : public QObject
     Q_OBJECT
 public:
     explicit ShoppingCartControl(ViewControl *viewController = 0, QObject *parent = 0);
+
+    /* Member Function: processMsg
+     *   Let the subsystem handle the message
+     * in: The message object to handle
+     * Side Effects: msg is deleted
+     * Return Value: Success indicator
+     */
+    bool processMsg(Message *msg);
 
     QWidget* getView();
 signals:

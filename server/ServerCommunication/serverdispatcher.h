@@ -33,6 +33,7 @@
 #include "../Storage/mainstoragecontrol.h"
 #include "../../client/ClientCommunication/message.h"
 #include "../../client/ClientCommunication/errormessage.h"
+#include "../../client/ClientCommunication/datamessage.h"
 
 class ServerDispatcher : public QCoreApplication
 {

@@ -36,25 +36,26 @@ bool ClientDispatcher::directMsg(Message* msg) const
     {
     case ORDERING:
         // orderControl handles message
+        return shoppingCartControl->processMsg(msg);
         break;
     case USER:
         // userControl handles message
+        //return userControl->processMsg(msg);
         break;
     case CONTENT:
-        qDebug() << "\nReceived message with CONTENT destination.\n";
         // contentControl handles message
+        return contentViewControl->processMsg(msg);
         break;
     case COURSE:
         // courseControl handles message
+        return courseViewControl->processMsg(msg);
         break;
     default:
+        return false;
         break;
     }
 
-    // control systems delete message?
-    //delete msg;
-
-    return true;
+    return false;
 }
 
 bool ClientDispatcher::initialize()
