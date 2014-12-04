@@ -8,7 +8,6 @@ ServerDispatcher::ServerDispatcher(int & argc, char ** argv) :
     courseControl = new CourseControl(this);
     orderControl = new OrderControl(this);
     userControl = new UserControl(this);
-    storageControl = new MainStorageControl(this);
 }
 
 bool ServerDispatcher::initialize(void) {

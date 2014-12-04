@@ -16,6 +16,7 @@
 * - handles all of the aspects of the storage system
 * - is the main control for the storage system,
 *   interacts with the other storage controls.
+* - Singleton class
 *
 * Traceability: CT-035
 *
@@ -23,27 +24,56 @@
 */
 
 #include <QObject>
-#include "contentstoragecontrol.h"
-#include "coursestoragecontrol.h"
-#include "orderstoragecontrol.h"
-#include "userstoragecontrol.h"
+#include <QDebug>
+#include <QVector>
+#include <QSqlDatabase>
+#include <QSqlQuery>
+#include <QSqlError>
+#include <QSqlRecord>
+#include "UserManagement/user.h"
+#include <QSharedPointer>
 
 class MainStorageControl : public QObject
 {
     Q_OBJECT
+
+    friend class CourseStorageControl;
+    friend class ContentStorageControl;
+    friend class UserStorageControl;
+
+protected:
+    /* Static Member Function: getMainStorageControl
+     * out: Instance of MainStorageControl, or nothing, if
+     *        the MainStorageControl instance failed to initialize.
+     * Side Effects: None
+     * Return Value: True, if the MainStorageControl object
+     *   is properly initialized.
+     */
+    static bool getMainStorageControl(QSharedPointer<MainStorageControl>& ptr);
+
 public:
     /* Constructor
-     *   Creates a fully-initialized MainStorageControl object
-     * in: parent QObject
+     *   Essentially does nothing
      * Side Effects: None
      */
-    explicit MainStorageControl(QObject* parent = 0);
+    MainStorageControl(void);
+
+    /* Member Function: initialize
+     * Returns false if this object does not initialize properly.
+     */
+    bool initialize(void);
+
+    bool getUser(int userid, User& user, std::string errorMsg);
+    QSqlQuery runQuery(QString query);
 
 private:
-    ContentStorageControl* contentControl;
-    CourseStorageControl*  courseControl;
-    OrderStorageControl*   orderControl;
-    UserStorageControl*    userControl;
+    QSqlDatabase db;
+
+private:
+    // Singleton instance
+    static QSharedPointer<MainStorageControl> mainStorage;
+    static bool isInitialized;
+    static bool initializationAttempted;
 };
 
 #endif // MAINSTORAGECONTROL_H

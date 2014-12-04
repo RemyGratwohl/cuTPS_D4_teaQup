@@ -6,6 +6,7 @@
 
 QT       += core
 QT       += network
+QT       += sql
 
 QT       -= gui
 
@@ -27,7 +28,6 @@ SOURCES += main.cpp \
     ContentManagement/contentcontrol.cpp \
     UserManagement/usercontrol.cpp \
     UserManagement/userauthenticationservercontrol.cpp \
-    Storage/orderstoragecontrol.cpp \
     Storage/mainstoragecontrol.cpp \
     Storage/userstoragecontrol.cpp \
     Storage/coursestoragecontrol.cpp \
@@ -57,7 +57,6 @@ HEADERS += \
     ContentManagement/contentcontrol.h \
     UserManagement/usercontrol.h \
     UserManagement/userauthenticationservercontrol.h \
-    Storage/orderstoragecontrol.h \
     Storage/mainstoragecontrol.h \
     Storage/userstoragecontrol.h \
     Storage/coursestoragecontrol.h \
