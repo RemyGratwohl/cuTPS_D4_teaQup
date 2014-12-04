@@ -33,6 +33,7 @@
 #include "../UserManagement/user.h"
 #include "../CourseManagement/course.h"
 #include "../CourseManagement/term.h"
+#include "../../client/ClientCommunication/successmessage.h"
 #include "../../client/ClientCommunication/errormessage.h"
 #include "../../client/ClientCommunication/datamessage.h"
 
@@ -191,6 +192,13 @@ bool SerializableObjectFactory::deserializeObject(
         ErrorMessage* newErrorMessage = new ErrorMessage();
         newErrorMessage->extractFromDataStream(ds);
         obj = qobject_cast<T*>(newErrorMessage);
+        break;
+    }
+    case SUCCESSMESSAGE:
+    {
+        SuccessMessage* newSuccessMessage = new SuccessMessage();
+        newSuccessMessage->extractFromDataStream(ds);
+        obj = qobject_cast<T*>(newSuccessMessage);
         break;
     }
     case DATAMESSAGE:
