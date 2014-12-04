@@ -26,6 +26,17 @@ bool ContentStorageControl::initialize(void) {
 
 bool ContentStorageControl::addBook(Book* book) {
     qDebug() << "Add Book() Called";
+
+    /* Step 1: Verify Course
+     * Step 2: Get ContentID
+     * Step 3: Verify Purchasing Details
+     * Step 4: Add Content Item
+     * Step 5: Add Book
+     * Step 6: IF PD exists, add it
+     * Step 7: If all steps above check out true, then return true else, roll back.
+     *
+     */
+
     return false;
 }
 
