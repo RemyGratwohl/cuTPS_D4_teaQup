@@ -29,10 +29,14 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
     QVector<QString> queries;
     QString termid = "??";
     QString semester = "";
+    QString courseid = "??";
+    QString contentid = "??";
 
-    //Verify Course and Term
+    // NEED TO VERIFY CONTENT ITEM. ISBN's should be unique.
+
+    // Verify Term
     if(!isTerm(term, termid)){
-        // Get latest ID and set that to termid;
+        // Get latest ID and set that to termid
         termid = QString::number(mainStorage->getLatestID("termid", "term"));
         qDebug() << "Term does not exist! New Term ID: " + termid;
         if(term->getSemester() == "Fall")
@@ -52,16 +56,30 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         qDebug() << "Term ID: " + termid;
     }
 
+    course->setTermID(termid.toInt());
 
-    /*if(!isCourse){
+    // Verify Course
+    if(!isCourse(course, courseid)){
+        // Get latest ID and set that to courseid
+        courseid = QString::number(mainStorage->getLatestID("courseid", "course"));
+        qDebug() << "Course does not exist! New Course ID: " + courseid;
+
         // Add Course to DB
-    }*/
+        queries.push_back("insert into course (courseid, name, termid) values (" +
+                          courseid + ", '" + course->getName() + "', " + termid + ")");
+        qDebug() << queries.last();
+    }
+    else {
+        qDebug() << "Course ID: " + courseid;
+    }
 
 
-    //int contentid = GetLatestIDFunction();
+    contentid = QString::number(mainStorage->getLatestID("contentid", "contentItem"));
+    qDebug() << "New ContentID: " + contentid;
 
     // Add ContentItem pushback
     // Add Book pushback
+    // Add Course _ Book Relationship
     // Check for PD, if exists add PD and push back
 
     /*QString response = mainStorage->runTransaction(queries);
@@ -69,13 +87,13 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
     {
         return true;
     }*/
-    /* Step 1: Verify Course (add course, if not null, but first add Term, if not null)
-     * Step 2: Get ContentID
+    /*
+     *
      * Step 3: Verify Purchasing Details
      * Step 4: Add Content Item
      * Step 5: Add Book
      * Step 6: IF PD exists, add it
-     * Step 7: If all steps above check out true, then return true else, roll back.
+     * Step 7: If all steps above check out true, then commit & return true else, roll back & return false.
      *
      */
 
@@ -134,7 +152,7 @@ bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) 
     return false;
 }
 
-bool ContentStorageControl::isTerm(Term *term, QString& id){
+bool ContentStorageControl::isTerm(Term *term, QString& id) {
 
     QString query;
     QString semester;
@@ -178,4 +196,36 @@ bool ContentStorageControl::isTerm(Term *term, QString& id){
     return false;
 }
 
+bool ContentStorageControl::isCourse(Course* course, QString& id){
+    QString query;
 
+    query = "Select courseid from course where termid=" + QString::number(course->getTermID()) + " AND name='" + course->getName() + "'";
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return false;
+    }
+
+    if(result.first()){
+        id = result.value("courseid").toString();
+        return true;
+    }
+    // If there is more than one user returned, return false because something is wrong with the database
+    else if (result.next()){
+        return false;
+    }
+    // If there are no results and there were no errors, then the term does not exist.
+    else {
+        return false;
+    }
+
+    //Should never reach here
+    qDebug() << "???";
+    return false;
+
+}
