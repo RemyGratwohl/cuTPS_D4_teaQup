@@ -2,6 +2,7 @@
 #include "../../client/ClientCommunication/successmessage.h"
 #include "../client/ClientCommunication/datamessage.h"
 #include <QDebug>
+#include <QMultiHash>
 
 ContentControl::ContentControl(ServerDispatcher *d, CourseControl *courseCtrl)
     : AbstractManager(d, CONTENT), courseControl(courseCtrl), contentStorageControl(0)
@@ -71,6 +72,8 @@ bool ContentControl::processMsg(const Message *msg)
     Book* book = qobject_cast<Book*>(item);
     Chapter* chapter = qobject_cast<Chapter*>(item);
     ChapterSection* chapterSection = qobject_cast<ChapterSection*>(item);
+    Course* course = 0;
+    Term* term = 0;
     QVector<SerializableQObject*>* output = 0;
 
     switch(msgAction)
@@ -80,8 +83,6 @@ bool ContentControl::processMsg(const Message *msg)
         qDebug() << "ContentControl: received CREATE message.";
         if( book != 0 ) {
             // Check if a Course and Term are present
-            Course* course = 0;
-            Term* term = 0;
             if( data->size() == 2 || data->size() == 3 ) {
                 course = qobject_cast<Course*>(data->at(1));
                 if( course == 0 ) {
@@ -121,7 +122,22 @@ bool ContentControl::processMsg(const Message *msg)
     case UPDATE:
         qDebug() << "ContentControl: received UPDATE message.";
         if( book != 0 ) {
-            result =  updateBook(book, error);
+            // Check if a Course and Term are present
+            if( data->size() == 2 || data->size() == 3 ) {
+                course = qobject_cast<Course*>(data->at(1));
+                if( course == 0 ) {
+                    error =  "ContentControl: Error - Object after Book to be updated is not a Course.";
+                    return sendError(msgDest, msgAction, user, error);
+                }
+            }
+            if( data->size() == 3 ) {
+                term = qobject_cast<Term*>(data->at(2));
+                if( term == 0 ) {
+                    error =  "ContentControl: Error - Object after Course to be added (as part of Book update) is not a Term.";
+                    return sendError(msgDest, msgAction, user, error);
+                }
+            }
+            result =  updateBook(book, course, term, error);
         } else if( chapter != 0 ) {
             result =  updateChapter(chapter, error);
         } else if( chapterSection != 0 ) {
@@ -158,30 +174,198 @@ bool ContentControl::processMsg(const Message *msg)
     }
 }
 
-/*
+bool ContentControl::addBook(Book* book, Course* course, Term* term, QString& errorMsg) {
+    return contentStorageControl->addBook(book, course, term, errorMsg);
+}
 
-bool ContentControl::addBook(Book* book, Course* course, Term* term, String& errorMsg);
+bool ContentControl::addChapter(Chapter* chapter, QString& errorMsg) {
+    return contentStorageControl->addChapter(chapter, errorMsg);
+}
 
-bool ContentControl::addChapter(Chapter* chapter, QString& errorMsg);
+bool ContentControl::addSection(ChapterSection* section, QString& errorMsg) {
+    return contentStorageControl->addSection(section, errorMsg);
+}
 
-bool ContentControl::addSection(ChapterSection* section, QString& errorMsg);
+bool ContentControl::updateBook(Book* book, Course* course, Term* term, QString& errorMsg) {
+    return contentStorageControl->updateBook(book, course, term, errorMsg);
+}
 
-bool ContentControl::updateBook(Book* book, QString& errorMsg);
+bool ContentControl::updateChapter(Chapter* chapter, QString& errorMsg) {
+    return contentStorageControl->updateChapter(chapter, errorMsg);
+}
 
-bool ContentControl::updateChapter(Chapter* chapter, QString& errorMsg);
+bool ContentControl::updateSection(ChapterSection* section, QString& errorMsg) {
+    return contentStorageControl->updateSection(section, errorMsg);
+}
 
-bool ContentControl::updateSection(ChapterSection* section, QString& errorMsg);
+bool ContentControl::removeBook(Book* book, QString& errorMsg) {
+    return contentStorageControl->removeBook(book, errorMsg);
+}
 
-bool ContentControl::removeBook(Book* book, QString& errorMsg);
+bool ContentControl::removeChapter(Chapter* chapter, QString& errorMsg) {
+    return contentStorageControl->removeChapter(chapter, errorMsg);
+}
 
-bool ContentControl::removeChapter(Chapter* chapter, QString& errorMsg);
+bool ContentControl::removeSection(ChapterSection* section, QString& errorMsg) {
+    return contentStorageControl->removeSection(section, errorMsg);
+}
 
-bool ContentControl::removeSection(ChapterSection* section, QString& errorMsg);
+bool ContentControl::getBookList(User* student, QVector<SerializableQObject*>*& items, QString& errorMsg) {
+    bool result = true;
+    items = 0;
 
-bool ContentControl::getBookList(User* student, QVector<SerializableQObject*>*& items, QString& errorMsg);
+    // First retrieve Book list for the student
+    QVector<Book*>* books = 0;
+    result = contentStorageControl->getBookList(student, books, errorMsg);
+    if( !result ) return result;
 
-bool ContentControl::getBookDetails(const Book* book, QVector<SerializableQObject*>*& items, QString& errorMsg);
+    // Organize the books by course
+    QMultiHash<OBJ_ID_TYPE, Book*> groupedBooks;
+    QVectorIterator<Book*> bookItr(*books);
+    Book* currentBook = 0;
+    while (bookItr.hasNext()) {
+        currentBook = bookItr.next();
+        groupedBooks.insert(currentBook->getCourseID(), currentBook);
+    }
 
-bool ContentControl::getBooks(QVector<SerializableQObject*>*& items, QString& errorMsg);
+    // Get the list of course IDs
+    QList<OBJ_ID_TYPE> courseIDs = groupedBooks.keys();
 
-*/
+    // Retrieve the courses
+    QVector<Course*>* courses = 0;
+    result = courseControl->getCourses(courseIDs, courses, errorMsg);
+    if( !result ) {
+        bookItr = *books;
+        while (bookItr.hasNext()) {
+            delete bookItr.next();
+        }
+        delete books;
+        return result;
+    }
+
+    // Organize the courses by term
+    QMultiHash<OBJ_ID_TYPE, Course*> groupedCourses;
+    QVectorIterator<Course*> courseItr(*courses);
+    Course* currentCourse = 0;
+    while (courseItr.hasNext()) {
+        currentCourse = courseItr.next();
+        groupedCourses.insert(currentCourse->getTermID(), currentCourse);
+    }
+
+    // Get the list of term IDs
+    QList<OBJ_ID_TYPE> termIDs = groupedCourses.keys();
+
+    // Retrieve the terms
+    QVector<Term*>* terms = 0;
+    result = courseControl->getTerms(termIDs, terms, errorMsg);
+    if( !result ) {
+        bookItr = *books;
+        while (bookItr.hasNext()) {
+            delete bookItr.next();
+        }
+        delete books;
+        courseItr = *courses;
+        while (courseItr.hasNext()) {
+            delete courseItr.next();
+        }
+        delete courses;
+        return result;
+    }
+
+    // Assemble the results for output
+    items = new QVector<SerializableQObject*>();
+    QVectorIterator<Term*> termItr(*terms);
+    Term* currentTerm = 0;
+    OBJ_ID_TYPE termID = 0;
+    QHash<OBJ_ID_TYPE, Course*>::iterator termCourseItr;
+    OBJ_ID_TYPE courseID = 0;
+    QHash<OBJ_ID_TYPE, Book*>::iterator courseBookItr;
+
+    while (termItr.hasNext()) {
+        currentTerm = termItr.next();
+        termID = currentTerm->getID();
+        items->append(currentTerm);
+
+        termCourseItr = groupedCourses.find(termID);
+        while (termCourseItr != groupedCourses.end() && termCourseItr.key() == termID) {
+            currentCourse = termCourseItr.value();
+            courseID = currentCourse->getID();
+            items->append(currentCourse);
+            ++termCourseItr;
+
+            courseBookItr = groupedBooks.find(courseID);
+            while (courseBookItr != groupedBooks.end() && courseBookItr.key() == courseID) {
+                currentBook = courseBookItr.value();
+                items->append(currentBook);
+                ++courseBookItr;
+            }
+        }
+    }
+
+    delete books;
+    delete courses;
+    delete terms;
+    return result;
+}
+
+bool ContentControl::getBookDetails(const Book* bookIn, QVector<SerializableQObject*>*& items, QString& errorMsg) {
+    bool result = true;
+    items = 0;
+
+    // Retrieve the Book
+    Book* book = 0;
+    result = contentStorageControl->getBook(bookIn->getID(), book, errorMsg);
+    if( !result ) return result;
+
+    // Retrieve the Chapters of the Book
+    QVector<Chapter*>* chapters = 0;
+    result = contentStorageControl->getChapters(book, chapters, errorMsg);
+    if( !result ) {
+        delete book;
+        return result;
+    }
+
+    // Retrieve the ChapterSections of each chapter
+    QVector<SerializableQObject*>* output = new QVector<SerializableQObject*>();
+    output->append(book);
+
+    QVectorIterator<Chapter*> chapterItr(*chapters);
+    Chapter* currentChapter = 0;
+    QVector<ChapterSection*>* chapterSections = 0;
+
+    while (chapterItr.hasNext()) {
+        currentChapter = chapterItr.next();
+        output->append(currentChapter);
+
+        chapterSections = 0;
+        result = contentStorageControl->getSections(currentChapter, chapterSections, errorMsg);
+        if( !result ) {
+            QVectorIterator<SerializableQObject*> itemItr(*output);
+            while (itemItr.hasNext()) {
+                delete itemItr.next();
+            }
+            delete output;
+            return result;
+        } else {
+            QVectorIterator<ChapterSection*> sectionItr = *chapterSections;
+            while(sectionItr.hasNext()) {
+                output->append(sectionItr.next());
+            }
+        }
+    }
+
+    return result;
+}
+
+bool ContentControl::getBooks(QVector<SerializableQObject*>*& items, QString& errorMsg) {
+    QVector<Book*>* books = 0;
+    if(!contentStorageControl->getBooks(books, errorMsg)) {
+        return false;
+    }
+    items = new QVector<SerializableQObject*>();
+    QVectorIterator<Book*> bookItr(*books);
+    while(bookItr.hasNext()) {
+        items->append(bookItr.next());
+    }
+    return true;
+}

@@ -23,7 +23,7 @@ int main(int argc, char *argv[])
 
    QString error = "";
    qDebug() << "Before adding Book to storage";
-   bool Success = contentAccess->addBook(testbook, error);
+   bool Success = contentAccess->addBook(testbook, 0, 0, error);
    if(!Success){
    qDebug() << "Add Book failed";
    qDebug() << "Error message: " + error;

@@ -24,10 +24,10 @@ bool ContentStorageControl::initialize(void) {
     return MainStorageControl::getMainStorageControl(mainStorage);
 }
 
-bool ContentStorageControl::addBook(Book* book, QString& errorMsg) {
+bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QString& errorMsg) {
     qDebug() << "Add Book() Called";
 
-    /* Step 1: Verify Course
+    /* Step 1: Verify Course (add course, if not null, but first add Term, if not null)
      * Step 2: Get ContentID
      * Step 3: Verify Purchasing Details
      * Step 4: Add Content Item
@@ -48,7 +48,7 @@ bool ContentStorageControl::addSection(ChapterSection* section, QString& errorMs
     return false;
 }
 
-bool ContentStorageControl::updateBook(Book* book, QString& errorMsg) {
+bool ContentStorageControl::updateBook(Book* book, Course* course, Term* term, QString& errorMsg) {
     return false;
 }
 
@@ -69,6 +69,10 @@ bool ContentStorageControl::removeChapter(Chapter* chapter, QString& errorMsg) {
 }
 
 bool ContentStorageControl::removeSection(ChapterSection* section, QString& errorMsg) {
+    return false;
+}
+
+bool ContentStorageControl::getBook(OBJ_ID_TYPE bookID, Book* book, QString& errorMsg) {
     return false;
 }
 

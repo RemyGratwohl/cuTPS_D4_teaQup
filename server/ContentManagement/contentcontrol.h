@@ -89,11 +89,14 @@ private:
 
     /* Member Function: updateBook
      * in: Book whose information is to be altered
+     * in: Course to be added to the system, if the Book now refers to a new course
+     * in: Term to be added to the system, if the Book now refers to a new course
+     *       and the course is for a new term.
      * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool updateBook(Book* book, QString& errorMsg);
+    bool updateBook(Book* book, Course* course, Term* term, QString& errorMsg);
 
     /* Member Function: updateChapter
      * in: Chapter whose information is to be altered
@@ -141,7 +144,7 @@ private:
      * in: User whose books are to be retrieved. (Must be a student user.)
      * out: Books for the courses in which the student is enrolled,
      *      and their corresponding courses
-     *      (passed in null).
+     *      (Passed in null, and remains null if the operation fails.).
      *
      *      Format:
      *      {term0
@@ -168,7 +171,7 @@ private:
      *       chapter1, chapter sections corresponding to chapter1,
      *       etc.
      *      }
-     *     (passed in null)
+     *     (Passed in null, and remains null if the operation fails.)
      * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
@@ -178,7 +181,7 @@ private:
     /* Member Function: getBooks
      *   Retrieves all Books in the system.
      * out: All Books
-     *     (passed in null)
+     *     (Passed in null, and remains null if the operation fails.)
      * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.

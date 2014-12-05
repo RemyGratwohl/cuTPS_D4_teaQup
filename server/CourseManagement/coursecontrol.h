@@ -54,22 +54,22 @@ public:
     /* Member Function: getCourses
      *   Retrieves the courses with the given ID numbers
      * in: ID numbers of courses
-     * out: Course information
+     * out: Course information (ordered to match the input ID numbers)
      * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool getCourses(QVector<OBJ_ID_TYPE>& courseIDs, QVector<SerializableQObject*>*& courses, QString& errorMsg);
+    bool getCourses(QList<OBJ_ID_TYPE>& courseIDs, QVector<Course*>*& courses, QString& errorMsg);
 
     /* Member Function: getTerms
      *   Retrieves the terms with the given ID numbers
      * in: ID numbers of terms
-     * out: Term information
+     * out: Term information (ordered to match the input ID numbers)
      * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool getTerms(QVector<OBJ_ID_TYPE>& termIDs, QVector<SerializableQObject*>*& terms, QString& errorMsg);
+    bool getTerms(QList<OBJ_ID_TYPE>& termIDs, QVector<Term*>*& terms, QString& errorMsg);
 
     // Helper functions used by processMsg()
 private:

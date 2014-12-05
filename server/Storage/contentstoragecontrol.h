@@ -29,6 +29,8 @@
 #include "../ContentManagement/book.h"
 #include "../ContentManagement/chapter.h"
 #include "../ContentManagement/chaptersection.h"
+#include "../CourseManagement/course.h"
+#include "../CourseManagement/term.h"
 
 class ContentStorageControl : public QObject
 {
@@ -48,11 +50,14 @@ public:
 public:
     /* Member Function: addBook
     * in: Book to be added to the system
+    * in: Course to be added to the system, if the Book is for a new course
+    * in: Term to be added to the system, if the Book is for a new course
+    *       and the course is for a new term.
     * out: QString to be altered in the event of an error to hold an error message
     * Side Effects: None
     * Return Value: True, if the operation succeeded.
     */
-    bool addBook(Book* book, QString& errorMsg);
+    bool addBook(Book* book, Course* course, Term* term, QString& errorMsg);
 
     /* Member Function: addChapter
     * in: Chapter to be added to the system
@@ -72,11 +77,14 @@ public:
 
     /* Member Function: updateBook
     * in: Book whose information is to be altered
+    * in: Course to be added to the system, if the Book now refers to a new course
+    * in: Term to be added to the system, if the Book now refers to a new course
+    *       and the course is for a new term.
     * out: QString to be altered in the event of an error to hold an error message
     * Side Effects: None
     * Return Value: True, if the operation succeeded.
     */
-    bool updateBook(Book* book, QString& errorMsg);
+    bool updateBook(Book* book, Course* course, Term* term, QString& errorMsg);
 
     /* Member Function: updateChapter
     * in: Chapter whose information is to be altered
@@ -118,11 +126,23 @@ public:
     */
     bool removeSection(ChapterSection* section, QString& errorMsg);
 
+    /* Member Function: getBook
+    * Returns a single book
+    * in: ID of the Book to retrieve
+    * out: Book retrieved
+    *      (Passed in null, and remains null if the operation fails.)
+    * out: QString to be altered in the event of an error to hold an error message
+    * Side Effects: None
+    * Return Value: True, if the operation succeeded.
+    */
+    bool getBook(OBJ_ID_TYPE bookID, Book* book, QString& errorMsg);
+
     /* Member Function: getBookList
     * Retrieves the list of Books for the courses in which the student
     * user is enrolled.
     * in: User whose books are to be retrieved. (Must be a student user.)
     * out: Books for the courses in which the student is enrolled
+    *      (Passed in null, and remains null if the operation fails.)
     * out: QString to be altered in the event of an error to hold an error message
     * Side Effects: None
     * Return Value: True, if the operation succeeded.
@@ -133,6 +153,7 @@ public:
     * Retrieves a all of the associated chapters of a book
     * in: Book for which chapters are to be retrieved
     * out: Chapters corresponding to the book
+    *      (Passed in null, and remains null if the operation fails.)
     * out: QString to be altered in the event of an error to hold an error message
     * Side Effects: None
     * Return Value: True, if the operation succeeded.
@@ -143,6 +164,7 @@ public:
     * Retrieves a all of the associated chapter sections of a chapter
     * in: Chapter for which chapter sections are to be retrieved
     * out: Chapter sections corresponding to the chapter
+    *      (Passed in null, and remains null if the operation fails.)
     * out: QString to be altered in the event of an error to hold an error message
     * Side Effects: None
     * Return Value: True, if the operation succeeded.
@@ -152,6 +174,7 @@ public:
     /* Member Function: getBooks
     * Retrieves all Books in the system.
     * out: All Books
+    *      (Passed in null, and remains null if the operation fails.)
     * out: QString to be altered in the event of an error to hold an error message
     * Side Effects: None
     * Return Value: True, if the operation succeeded.
