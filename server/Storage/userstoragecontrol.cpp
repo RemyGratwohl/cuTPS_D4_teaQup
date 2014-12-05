@@ -52,6 +52,7 @@ bool UserStorageControl::getUser(OBJ_ID_TYPE& userid, User*& user, QString& erro
         user->setName(name);
         quint16 type = result.value("usertype").toInt();
         user->setType(type);
+        user->setID(userid);
     }
     // If there is more than one user returned, return false because something is wrong with the database
     else if (result.next()){

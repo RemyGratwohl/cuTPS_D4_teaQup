@@ -27,7 +27,6 @@ SOURCES += main.cpp \
     Storage/contentstoragecontrol.cpp \
     ContentManagement/contentcontrol.cpp \
     UserManagement/usercontrol.cpp \
-    UserManagement/userauthenticationservercontrol.cpp \
     Storage/mainstoragecontrol.cpp \
     Storage/userstoragecontrol.cpp \
     Storage/coursestoragecontrol.cpp \
@@ -58,7 +57,6 @@ HEADERS += \
     Storage/contentstoragecontrol.h \
     ContentManagement/contentcontrol.h \
     UserManagement/usercontrol.h \
-    UserManagement/userauthenticationservercontrol.h \
     Storage/mainstoragecontrol.h \
     Storage/userstoragecontrol.h \
     Storage/coursestoragecontrol.h \

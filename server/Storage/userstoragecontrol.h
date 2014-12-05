@@ -57,8 +57,8 @@ protected:
 public:
 
     /* Get User
-     *  Retrieves the user from MainStorageControl
-     * in: quint64 userid used to identify the user
+     *   Retrieves the user from MainStorageControl
+     * in: OBJ_ID_TYPE userid used to identify the user
      * out: User to be altered
      * out: QString to be altered in the event of an error
      * Side Effects: None
@@ -70,8 +70,6 @@ public:
      * then you can handle each error differently.
      */
     bool getUser(OBJ_ID_TYPE& userid, User*& user, QString& errorMsg);
-
-    //bool processMsg(Message message);
 
 private:
     QSharedPointer<MainStorageControl> mainStorage;

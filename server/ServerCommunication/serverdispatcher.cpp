@@ -17,6 +17,8 @@ ServerDispatcher::ServerDispatcher(int & argc, char ** argv) :
 bool ServerDispatcher::initialize(void)
 {
     if(!networkLink->initialize()) return false;
+    if(!userControl->initialize()) return false;
+    if(!courseControl->initialize()) return false;
     if(!contentControl->initialize()) return false;
     return true;
 }
