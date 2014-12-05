@@ -87,8 +87,7 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
     qDebug() << "New ContentID: " + contentid;
 
     // Add ContentItem pushback
-    queries.push_back("insert into contentItem (contentid, title, courseid) values (" +
-                      contentid + ", '" + book->getTitle() + "', " + courseid + ")");
+    queries.push_back("insert into contentItem (title, courseid) values ('" + book->getTitle() + "', " + courseid + ")");
     // Add Book pushback
     queries.push_back("insert into book (contentid, subtitle, authors, publisher, ISBN, website, citation, year_publish) values (" +
                       contentid + ", '" + book->getSubtitle() + "', '" + book->getAuthors() + "', '" +
@@ -109,11 +108,13 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         // Verify there isn't already a PD for this content Item
     }
 
-    /*QString response = mainStorage->runTransaction(queries);
+    QString response = mainStorage->runTransaction(queries);
     if(response == "success")
     {
+        qDebug() << "IT WORKED";
         return true;
-    }*/
+    }
+
     /*
      *
      * Step 3: Verify Purchasing Details

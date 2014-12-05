@@ -20,7 +20,7 @@ int main(int argc, char *argv[])
    Book * testbook = new Book(-1, "The Host", 1, new PurchasingDetails(), "", "Stephanie Meyer", "978-0316068048",
                               "http://www.stepheniemeyer.com/thehost.html", 2008,
                               "Little Brown and Company", "", "");
-   Term * testTerm = new Term(-1, "W", 2014);
+   Term * testTerm = new Term(-1, "F", 2014);
    Course * testCourse = new Course(-1, "CHEM1004: Generic Chemistry", 1);
 
    QString error = "";

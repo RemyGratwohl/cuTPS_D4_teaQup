@@ -93,7 +93,7 @@ QString MainStorageControl::runTransaction(QVector<QString> queries){
                 if(DEBUG){
                     qDebug() << "Query Executed!";
                     qDebug() << "The query: " + query;
-                    qDebug() << "Number of rows affected: " + q.numRowsAffected();
+                    qDebug() << "Number of rows affected: " + QString::number(q.numRowsAffected());
                 }
                 /*if(q.numRowsAffected() > 1){
                     errorMsg = "More than one row updated. Possible corruption. Cancelling transaction.";
@@ -105,6 +105,7 @@ QString MainStorageControl::runTransaction(QVector<QString> queries){
             else{
                 if(DEBUG){
                     qDebug() << "Query failed!";
+                    qDebug() << "FAILED QUERY: " + query;
                     qDebug() << q.lastError();
                 }
                 db.rollback();
