@@ -202,7 +202,7 @@ private:
 
     bool isTerm(Term* term, QString& id);
     bool isCourse(Course* course);
-    int  getLatestID(QString columnName, QString table);
+
 
 private:
     // Singleton instance

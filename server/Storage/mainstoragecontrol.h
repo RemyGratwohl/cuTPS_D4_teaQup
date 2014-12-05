@@ -74,6 +74,7 @@ public:
      */
     QSqlQuery runQuery(QString query);
     QString runTransaction(QVector<QString> queries);
+    int getLatestID(QString columnName, QString table);
 
 private:
     QSqlDatabase db;

@@ -28,11 +28,25 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
     qDebug() << "Add Book() Called";
     QVector<QString> queries;
     QString termid = "??";
+    QString semester = "";
+
     //Verify Course and Term
     if(!isTerm(term, termid)){
-        // Add term to DB
         // Get latest ID and set that to termid;
-        qDebug() << "Term does not exist!";
+        termid = QString::number(mainStorage->getLatestID("termid", "term"));
+        qDebug() << "Term does not exist! New Term ID: " + termid;
+        if(term->getSemester() == "Fall")
+            semester = "F";
+        else if(term->getSemester() == "Winter")
+            semester = "W";
+        else if(term->getSemester() == "Summer")
+            semester = "S";
+        else // There's an error with the Term object
+            return false;
+        // Add term to DB
+        queries.push_back("insert into term (termid, semester, term_year) values (" +
+                          termid + ", '" + semester + "', " + QString::number(term->getYear()) + ")");
+        qDebug() << queries.at(0);
     }
     else {
         qDebug() << "Term ID: " + termid;
@@ -163,3 +177,5 @@ bool ContentStorageControl::isTerm(Term *term, QString& id){
     qDebug() << "???";
     return false;
 }
+
+

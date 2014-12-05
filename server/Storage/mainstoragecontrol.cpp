@@ -148,3 +148,33 @@ void MainStorageControl::runSqlScript() {
     else
         qDebug() << "Script successful!";
 }
+
+int  MainStorageControl::getLatestID(QString columnName, QString table){
+
+    // Build Query
+    QString query = "Select MAX(" + columnName + ")+1 from " + table;
+
+    // Run query and get result set object
+    QSqlQuery result = runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return -1;
+    }
+
+    if(result.first()){
+        QString id = result.value("MAX(" + columnName + ")+1").toString();
+        return id.toInt();
+    }
+    // Should never happen with Max() select statement
+    else if (result.next()){
+        return -1;
+    }
+
+
+    // Shouldn't reach here
+    qDebug() << "YOU SHALL NOT PASS!";
+    return -1;
+}
