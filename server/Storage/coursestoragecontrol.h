@@ -24,6 +24,8 @@
 #include <QObject>
 #include <QSharedPointer>
 #include "mainstoragecontrol.h"
+#include "../CourseManagement/course.h"
+#include "../CourseManagement/term.h"
 
 class CourseStorageControl : public QObject
 {
@@ -38,6 +40,81 @@ public:
      *   is properly initialized.
      */
     static bool getCourseStorageControl(QSharedPointer<CourseStorageControl>& ptr);
+
+    // Public interface needed by the CourseManagement subsystem
+public:
+
+    /* Member Function: getCourses
+     *   Retrieves the courses with the given ID numbers
+     * in: ID numbers of courses
+     * out: Course information (ordered to match the input ID numbers)
+     *      (Passed in null, and remains null if the operation fails.)
+     * out: QString to be altered in the event of an error to hold an error message
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool getCourses(QList<OBJ_ID_TYPE>& courseIDs, QVector<Course*>*& courses, QString& errorMsg);
+
+    /* Member Function: getTerms
+     *   Retrieves the terms with the given ID numbers
+     * in: ID numbers of terms
+     * out: Term information (ordered to match the input ID numbers)
+     *      (Passed in null, and remains null if the operation fails.)
+     * out: QString to be altered in the event of an error to hold an error message
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool getTerms(QList<OBJ_ID_TYPE>& termIDs, QVector<Term*>*& terms, QString& errorMsg);
+
+    /* Member Function: addCourse
+     * in: Course to be added to the system
+     * in: Term to be added to the system, if the new
+     *       course is for a new term.
+     * out: QString to be altered in the event of an error to hold an error message
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool addCourse(Course* course, Term* term, QString& errorMsg);
+
+    /* Member Function: updateCourse
+     * in: Course whose information is to be altered
+     * in: Term to be added to the system, if the course
+     *       now refers to a new term.
+     * out: QString to be altered in the event of an error to hold an error message
+     * Side Effects: If the course referred to a different term,
+     *   and it was the only course referring to that term,
+     *   the term is deleted.
+     * Return Value: True, if the operation succeeded.
+     */
+    bool updateCourse(Course* course, Term* term, QString& errorMsg);
+
+    /* Member Function: removeCourse
+     * in: Course to be removed from the system
+     * out: QString to be altered in the event of an error to hold an error message
+     * Side Effects: If the course was the only course referring
+     *   to a particular term, the term is deleted.
+     * Return Value: True, if the operation succeeded.
+     */
+    bool removeCourse(Course* course, QString& errorMsg);
+
+    /* Member Function: getCourses
+     *   Retrieves the courses offered in the given term
+     * in: Term for which to retrieve the courses
+     * out: Courses referring to the input Term.
+     * out: QString to be altered in the event of an error to hold an error message
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool getCourses(Term* term, QVector<SerializableQObject*>*& courses, QString& errorMsg);
+
+    /* Member Function: getTerms
+     *   Retrieves all terms
+     * out: List of all Terms
+     * out: QString to be altered in the event of an error to hold an error message
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
+     */
+    bool getTerms(QVector<SerializableQObject*>*& terms, QString& errorMsg);
 
 protected:
     /* Constructor

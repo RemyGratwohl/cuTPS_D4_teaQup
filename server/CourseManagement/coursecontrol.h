@@ -55,6 +55,7 @@ public:
      *   Retrieves the courses with the given ID numbers
      * in: ID numbers of courses
      * out: Course information (ordered to match the input ID numbers)
+     *      (Passed in null, and remains null if the operation fails.)
      * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
@@ -65,6 +66,7 @@ public:
      *   Retrieves the terms with the given ID numbers
      * in: ID numbers of terms
      * out: Term information (ordered to match the input ID numbers)
+     *      (Passed in null, and remains null if the operation fails.)
      * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
