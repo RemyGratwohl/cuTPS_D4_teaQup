@@ -12,7 +12,7 @@
 * Analee Chicot  ID: 100822791
 * Remy Gratwohl  ID: 100891970
 *
-* ContentStorageControl class:
+* CourseStorageControl class:
 * - handles the courses aspect of the storage system
 * - This is a singleton class
 *

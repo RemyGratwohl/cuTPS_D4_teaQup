@@ -40,6 +40,7 @@ class MainStorageControl : public QObject
     friend class CourseStorageControl;
     friend class ContentStorageControl;
     friend class UserStorageControl;
+    friend class OrderStorageControl;
 
 protected:
     /* Constructor
