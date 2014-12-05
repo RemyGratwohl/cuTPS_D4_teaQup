@@ -17,7 +17,7 @@ int main(int argc, char *argv[])
    QSharedPointer<ContentStorageControl> contentAccess;
    contentAccess->getContentStorageControl(contentAccess);
    qDebug() << "ContentAccess Initialized";
-   Book * testbook = new Book(-1, "The Host", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
+   Book * testbook = new Book(-1, "The Host", 1, new PurchasingDetails(), "", "Stephanie Meyer", "978-0316068048",
                               "http://www.stepheniemeyer.com/thehost.html", 2008,
                               "Little Brown and Company", "", "");
    Term * testTerm = new Term(-1, "W", 2014);

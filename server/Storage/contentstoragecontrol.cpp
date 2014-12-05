@@ -26,13 +26,20 @@ bool ContentStorageControl::initialize(void) {
 
 bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QString& errorMsg) {
     qDebug() << "Add Book() Called";
+
     QVector<QString> queries;
     QString termid = "??";
     QString semester = "";
     QString courseid = "??";
     QString contentid = "??";
+    QString ISBN = book->getISBN();
 
     // NEED TO VERIFY CONTENT ITEM. ISBN's should be unique.
+    if(isContentItem(ISBN))
+    {
+        errorMsg="Content Item ISBN already exists. Please make sure that the Content Item does not already exist.";
+        return false;
+    }
 
     // Verify Term
     if(!isTerm(term, termid)){
@@ -45,8 +52,10 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
             semester = "W";
         else if(term->getSemester() == "Summer")
             semester = "S";
-        else // There's an error with the Term object
+        else { // There's an error with the Term object
+            errorMsg = "Error with Term object.";
             return false;
+        }
         // Add term to DB
         queries.push_back("insert into term (termid, semester, term_year) values (" +
                           termid + ", '" + semester + "', " + QString::number(term->getYear()) + ")");
@@ -228,4 +237,77 @@ bool ContentStorageControl::isCourse(Course* course, QString& id){
     qDebug() << "???";
     return false;
 
+}
+bool ContentStorageControl::isContentItem(QString& ISBN) {
+    QString query;
+
+    query = "Select ISBN from book where ISBN='" + ISBN + "'";
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return false;
+    }
+
+    // Just need to check for results
+    if(result.first()){
+        return true;
+    }
+
+    // If there are no results and there were no errors, then the term does not exist.
+    else {
+        return false;
+    }
+
+    query = "Select ISBN from chapter where ISBN='" + ISBN + "'";
+
+    // Run query and get result set object
+    result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return false;
+    }
+
+    // Just need to check for results
+    if(result.first()){
+        return true;
+    }
+
+    // If there are no results and there were no errors, then the term does not exist.
+    else {
+        return false;
+    }
+
+    query = "Select ISBN from chapterSection where ISBN='" + ISBN + "'";
+
+    // Run query and get result set object
+    result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return false;
+    }
+
+    // Just need to check for results
+    if(result.first()){
+        return true;
+    }
+
+    // If there are no results and there were no errors, then the term does not exist.
+    else {
+        return false;
+    }
+
+    //Should never reach here
+    qDebug() << "???";
+    return false;
 }
