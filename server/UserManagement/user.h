@@ -33,19 +33,21 @@ class User : public SerializableQObject
     Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
 public:
 
-    enum TYPE { ADMIN, STUDENT, CONTENTMGR };
+    enum TYPE { ADMIN, STUDENT, CONTENTMGR, INVALID };
 
     /* Constructor
      *   To be used to create a container for deserialized data.
+     *   User type is set to INVALID.
      * Side Effects: None
      */
     User(void);
 
     /* Constructor
      *   To be used by the client process
-     *   to create a User object that gets fully initialized
-     *   on the server and then sent back to complete
-     *   the authentication process.
+     *     to create a User object that gets fully initialized
+     *     on the server and then sent back to complete
+     *     the authentication process.
+     *   User type is set to INVALID.
      * in: User ID
      * Side Effects: None
      */
