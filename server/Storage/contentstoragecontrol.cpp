@@ -26,7 +26,7 @@ bool ContentStorageControl::initialize(void) {
 
 bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QString& errorMsg) {
     qDebug() << "Add Book() Called";
-    mainStorage->runQuery("Select * from users");
+
     /* Step 1: Verify Course (add course, if not null, but first add Term, if not null)
      * Step 2: Get ContentID
      * Step 3: Verify Purchasing Details

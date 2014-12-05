@@ -1,7 +1,5 @@
 #include "mainstoragecontrol.h"
-#include <QStringList>
 #include <QFile>
-#include <QSqlDriver>
 
 using namespace std;
 
@@ -40,7 +38,6 @@ bool MainStorageControl::initialize(void)
 QSqlQuery MainStorageControl::runQuery(QString query){
     bool DEBUG = true;
     if(db.open()){
-        qDebug() << db.driver()->hasFeature(QSqlDriver::Transactions);
             if(DEBUG)
                 qDebug()  << "Database connected!";
             if(db.tables().isEmpty())
@@ -78,6 +75,48 @@ QSqlQuery MainStorageControl::runQuery(QString query){
             QSqlQuery q(query);
             return q;
         }
+}
+
+QString MainStorageControl::runTransaction(QVector<QString> queries){
+    bool DEBUG = true;
+    QString errorMsg = "";
+    QSqlQuery q;
+    if(db.open()){
+        if(DEBUG)
+            qDebug() << "Transaction: Database connected.";
+        db.transaction();
+        foreach(const QString query, queries)
+        {
+            QSqlQuery qu(query);
+            q = qu;
+            if(q.exec()){
+                if(DEBUG){
+                    qDebug() << "Query Executed!";
+                    qDebug() << "The query: " + query;
+                    qDebug() << "Number of rows affected: " + q.numRowsAffected();
+                }
+                /*if(q.numRowsAffected() > 1){
+                    errorMsg = "More than one row updated. Possible corruption. Cancelling transaction.";
+                    db.rollback();
+                    return errorMsg;
+                }*/
+            }
+            else{
+                if(DEBUG){
+                    qDebug() << "Query failed!";
+                    qDebug() << q.lastError();
+                }
+                db.rollback();
+
+                return q.lastError().text();
+            }
+        }
+    }
+
+    if(!db.commit()){
+        return q.lastError().text();
+    }
+    return "success";
 }
 
 void MainStorageControl::runSqlScript() {

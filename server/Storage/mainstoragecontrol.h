@@ -30,6 +30,8 @@
 #include <QSqlQuery>
 #include <QSqlError>
 #include <QSqlRecord>
+#include <QString>
+#include <QStringList>
 #include "UserManagement/user.h"
 #include <QSharedPointer>
 
@@ -71,6 +73,7 @@ public:
      * Return Value: QSqlQuery containing the result set
      */
     QSqlQuery runQuery(QString query);
+    QString runTransaction(QVector<QString> queries);
 
 private:
     QSqlDatabase db;
