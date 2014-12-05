@@ -139,8 +139,19 @@ private:
      *   Retrieves the list of Books for the courses in which the student
      *     user is enrolled.
      * in: User whose books are to be retrieved. (Must be a student user.)
-     * out: Books for the courses in which the student is enrolled
-     *      (passed in null)
+     * out: Books for the courses in which the student is enrolled,
+     *      and their corresponding courses
+     *      (passed in null).
+     *
+     *      Format:
+     *      {term0
+     *       course0 in term0, books corresponding to course0,
+     *       course1 in term0, books corresponding to course1,
+     *       etc.
+     *       term1
+     *       etc.
+     *      }
+     *
      * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
