@@ -48,6 +48,15 @@ public:
      void displayErrorString(QString &err);
 
      User* getCurrentUser(void) const { return currentUser; }
+     bool setCurrentUser(User* user) {
+         if( currentUser == 0 ) {
+            currentUser = user;
+            currentUser->setParent(this);
+            return true;
+         } else {
+             return false;
+         }
+     }
 
 private:
     User                      *currentUser;  // The User currently logged in

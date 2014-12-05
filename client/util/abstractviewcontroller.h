@@ -58,6 +58,8 @@ protected:
     /* Member Function: sendData
      *   Constructs a DataMessage object and sends it to the corresponding
      *   subsystem on the server.
+     *   Cannot be used prior to user authentication, as it takes
+     *   the current user from ViewControl.
      * in: Verb of the message
      * in: Contents of the data message, treated as an owned pointer
      * Side Effects: None
@@ -69,11 +71,9 @@ signals:
 
 public slots:
 
-private:
-    ClientDispatcher *dispatcher;
-
 protected:
     ViewControl* viewControl;
+    ClientDispatcher *dispatcher;
     DEST_TYPE ownDest;
 };
 
