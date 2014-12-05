@@ -51,8 +51,10 @@ public:
     /* Member Function: addBook
     * in: Book to be added to the system
     * in: Course to be added to the system, if the Book is for a new course
+    *       (otherwise null)
     * in: Term to be added to the system, if the Book is for a new course
     *       and the course is for a new term.
+    *       (otherwise null)
     * out: QString to be altered in the event of an error to hold an error message
     * Side Effects: None
     * Return Value: True, if the operation succeeded.
@@ -78,8 +80,10 @@ public:
     /* Member Function: updateBook
     * in: Book whose information is to be altered
     * in: Course to be added to the system, if the Book now refers to a new course
+    *       (otherwise null)
     * in: Term to be added to the system, if the Book now refers to a new course
     *       and the course is for a new term.
+    *       (otherwise null)
     * out: QString to be altered in the event of an error to hold an error message
     * Side Effects: None
     * Return Value: True, if the operation succeeded.

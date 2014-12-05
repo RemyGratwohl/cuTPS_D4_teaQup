@@ -50,7 +50,8 @@ public:
      * Return Value: True, if all PurchasingDetails were found in the database.
      *               False otherwise, or in case of errors.
      */
-    bool allPurchasingDetailsValid(QVector<PurchasingDetails*>*& purchasingDetails, QString& errorMsg);
+    bool allPurchasingDetailsValid(
+            QVector<PurchasingDetails*>*& purchasingDetails, QString& errorMsg);
 
 protected:
     /* Constructor

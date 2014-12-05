@@ -24,6 +24,7 @@ bool OrderStorageControl::initialize(void) {
     return MainStorageControl::getMainStorageControl(mainStorage);
 }
 
-bool OrderStorageControl::allPurchasingDetailsValid(QVector<PurchasingDetails*>*& purchasingDetails, QString& errorMsg) {
+bool OrderStorageControl::allPurchasingDetailsValid(
+        QVector<PurchasingDetails*>*& purchasingDetails, QString& errorMsg) {
     return false;
 }

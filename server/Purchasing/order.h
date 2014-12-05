@@ -91,7 +91,13 @@ public:
      *     during deserialization, but is shared if it was initialized
      *     at construction.
      */
-    QVector<ContentItem*>* getContents(void) { return content; }
+    QVector<ContentItem*>* getContents(void) const { return content; }
+
+    /* Member Function: getBillingInformation
+     *   Returns a pointer to the student billing information
+     *     stored in (and owned by) this object.
+     */
+    BillingInformation* getBillingInformation(void) const { return billingInfo; }
 
 private:
     BillingInformation *billingInfo;

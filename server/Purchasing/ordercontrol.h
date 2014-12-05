@@ -55,13 +55,19 @@ private:
     /* Member Function: processOrder
      *   Validates and then sends an Order to the external payment system.
      *   Sends a success (confirmation) or error message back to the client.
+     *
+     * The first two parameters are used for passing messages
+     * in: Action type of the return message
+     * in: User associated with the current request
+     *
      * in: Order to be processed
+     *
      * Side Effects: None
      * Return Value: True, if the operation proceeded without
      *   internal errors (regardless of whether or not the order
      *   was valid or was sent successfully).
      */
-    bool processOrder(Order* order);
+    bool processOrder(ACTION_TYPE, User*, Order* order);
 
     // Helper functions used by processOrder()
 private:
@@ -71,7 +77,8 @@ private:
      * out: Null, if one or more of the order contents are
      *        non-existent (e.g. recently deleted) or not for sale.
      *      Otherwise, outputs the purchasing details corresponding
-     *        to the items being ordered.
+     *        to the items being ordered. (These are aliases
+     *        of the purchasing details in 'contentsIn'.)
      * out: QString to contain error messages, including warnings
      *        of invalid order contents
      * Side Effects: None
@@ -91,15 +98,23 @@ private:
      *     system's interface).
      *   For D4, it just returns an error message or a
      *     confirmation number.
+     *
+     * The first two parameters are used for passing messages
+     * in: Action type of the return message
+     * in: User associated with the current request
+     *
      * in: Student user's billing information
-     * in: Items to be purchased
+     * in: Items to be purchased (owned by the caller)
+     *
      * Side Effects: None
      * Return Value: True, if the operation proceeded without
      *   internal errors (regardless of whether or not the order
      *   was sent successfully - The connection with the payment
      *   system may be unreliable).
      */
-    bool sendToPaymentSystem(BillingInformation *billingInfo, QVector<PurchasingDetails*>*& validContents);
+    bool sendToPaymentSystem(ACTION_TYPE, User*,
+                             const BillingInformation *billingInfo,
+                             QVector<PurchasingDetails*>*& validContents);
 
 private:
     QSharedPointer<OrderStorageControl> orderStorageControl;
