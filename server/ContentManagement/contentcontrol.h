@@ -20,22 +20,20 @@
 * Acknowledgements: None
 */
 
-#include <QObject>
-#include "../ServerCommunication/serverdispatcher.h"
+#include "../util/abstractmanager.h"
 #include "../CourseManagement/coursecontrol.h"
 #include "../Storage/contentstoragecontrol.h"
 #include "book.h"
 #include "chapter.h"
 #include "chaptersection.h"
-#include "../client/ClientCommunication/message.h"
-#include "../client/ClientCommunication/datamessage.h"
 
-class ContentControl : public QObject
+class ContentControl : public AbstractManager
 {
     Q_OBJECT
 public:
     /* Constructor
      * in: Dispatcher to use for sending messages to the client
+     *       (Also the parent of this object.)
      * in: Course management subsystem control object,
      *       used when content operations involve course management.
      * Side Effects: None
@@ -56,7 +54,7 @@ public:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool processMsg(Message* msg);
+    virtual bool processMsg(const Message* msg);
 
     // Helper functions used by processMsg()
 private:
@@ -160,7 +158,6 @@ private:
     bool getBooks(QVector<SerializableQObject*>*& items);
 
 private:
-    ServerDispatcher *dispatcher;
     CourseControl *courseControl;
     QSharedPointer<ContentStorageControl> contentStorageControl;
 };

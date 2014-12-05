@@ -1,15 +1,15 @@
 #include "usercontrol.h"
 #include <QDebug>
+#include "../../client/ClientCommunication/datamessage.h"
 
-UserControl::UserControl(QObject *parent)
-    : QObject(parent)
-{
-}
+UserControl::UserControl(ServerDispatcher *d)
+    : AbstractManager(d)
+{}
 
-bool UserControl::processMsg(Message *msg)
+bool UserControl::processMsg(const Message *msg)
 {
     bool result = true;
-    DataMessage* dataMessage = qobject_cast<DataMessage*>(msg);
+    const DataMessage* dataMessage = qobject_cast<const DataMessage*>(msg);
     ACTION_TYPE msgAction = dataMessage->getActionType();
 
     switch(msgAction)

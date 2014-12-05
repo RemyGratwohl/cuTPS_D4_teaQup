@@ -1,5 +1,8 @@
 #include "serverdispatcher.h"
 #include "../ContentManagement/contentcontrol.h"
+#include "../CourseManagement/coursecontrol.h"
+#include "../Purchasing/ordercontrol.h"
+#include "../UserManagement/usercontrol.h"
 
 ServerDispatcher::ServerDispatcher(int & argc, char ** argv) :
     QCoreApplication(argc, argv)

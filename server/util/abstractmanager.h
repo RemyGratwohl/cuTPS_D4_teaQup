@@ -1,8 +1,8 @@
-#ifndef ORDERCONTROL_H
-#define ORDERCONTROL_H
+#ifndef ABSTRACTMANAGER_H
+#define ABSTRACTMANAGER_H
 
 /*
-* ordercontrol.h
+* abstractmanager.h
 * ----------------------
 * COMP3004A: cuTPS Project
 * Team Name: teaQup
@@ -12,28 +12,31 @@
 * Analee Chicot  ID: 100822791
 * Remy Gratwohl  ID: 100891970
 *
-* OrderControl class:
-* - handles the Student user's orders.
+* AbstractManager class:
+* - A helper class containing functionality common
+*   to all server-side management subsystem control objects
 *
-* Traceability: CT-015
+* Traceability: CT-045
 *
 * Acknowledgements: None
 */
 
-#include "../util/abstractmanager.h"
+#include <QObject>
+#include "../ServerCommunication/serverdispatcher.h"
+#include "../client/ClientCommunication/message.h"
 
-class OrderControl : public AbstractManager
+class AbstractManager : public QObject
 {
     Q_OBJECT
-public:
+protected:
     /* Constructor
      * in: Dispatcher to use for sending messages to the client
      *       (Also the parent of this object.)
      * Side Effects: None
-     * All input pointers are treated as shared pointers.
      */
-    OrderControl(ServerDispatcher *dispatcher);
+    AbstractManager(ServerDispatcher *dispatcher);
 
+public:
     /* Member Function: processMsg
      *   Handles a message received from the dispatcher,
      *     possibly resulting in messages sent back through the dispatcher
@@ -41,7 +44,14 @@ public:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    virtual bool processMsg(const Message* msg);
+    virtual bool processMsg(const Message* msg) = 0;
+
+signals:
+
+public slots:
+
+private:
+    ServerDispatcher *dispatcher;
 };
 
-#endif // ORDERCONTROL_H
+#endif // ABSTRACTMANAGER_H

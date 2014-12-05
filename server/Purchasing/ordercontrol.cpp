@@ -1,15 +1,15 @@
 #include "ordercontrol.h"
 #include <QDebug>
+#include "../../client/ClientCommunication/datamessage.h"
 
-OrderControl::OrderControl(QObject *parent)
-    : QObject(parent)
-{
-}
+OrderControl::OrderControl(ServerDispatcher *d)
+    : AbstractManager(d)
+{}
 
-bool OrderControl::processMsg(Message *msg)
+bool OrderControl::processMsg(const Message *msg)
 {
     bool result = true;
-    DataMessage* dataMessage = qobject_cast<DataMessage*>(msg);
+    const DataMessage* dataMessage = qobject_cast<const DataMessage*>(msg);
     ACTION_TYPE msgAction = dataMessage->getActionType();
 
     switch(msgAction)

@@ -1,16 +1,17 @@
 #include "contentcontrol.h"
 #include "../../client/ClientCommunication/successmessage.h"
+#include "../client/ClientCommunication/datamessage.h"
 #include <QDebug>
 
 ContentControl::ContentControl(ServerDispatcher *d, CourseControl *courseCtrl)
-    : QObject(d), dispatcher(d), courseControl(courseCtrl), contentStorageControl(0)
+    : AbstractManager(d), courseControl(courseCtrl), contentStorageControl(0)
 {}
 
 bool ContentControl::initialize(void) {
     return ContentStorageControl::getContentStorageControl(contentStorageControl);
 }
 
-bool ContentControl::processMsg(Message *msg)
+bool ContentControl::processMsg(const Message *msg)
 {
     QString error;
     bool result = false;
@@ -19,7 +20,7 @@ bool ContentControl::processMsg(Message *msg)
 {
     // Input validation concerning the message dispatching
     // ---------------------------------------------------
-    DataMessage* dataMessage = qobject_cast<DataMessage*>(msg);
+    const DataMessage* dataMessage = qobject_cast<const DataMessage*>(msg);
     if(dataMessage == 0) {
         error = "ContentControl: Error - received a message which is not of type DataMessage.";
         goto PROCESSMSG_ERROR;
@@ -136,13 +137,13 @@ bool ContentControl::processMsg(Message *msg)
     } else {
         outputMsg = new SuccessMessage(CONTENT, msgAction, user);
     }
-    dispatcher->deliverMsg(outputMsg);
+    // dispatcher->deliverMsg(outputMsg);
     return result;
 }
 
 PROCESSMSG_ERROR:
     qDebug() << error;
     ErrorMessage* outputError = new ErrorMessage(CONTENT, msgAction, user, error);
-    dispatcher->deliverMsg(outputError);
+    // dispatcher->deliverMsg(outputError);
     return result;
 }

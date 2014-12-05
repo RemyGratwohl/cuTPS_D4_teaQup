@@ -20,28 +20,28 @@
 * Acknowledgements: None
 */
 
-#include <QObject>
-#include "../client/ClientCommunication/message.h"
-#include "../client/ClientCommunication/datamessage.h"
+#include "../util/abstractmanager.h"
 
-class CourseControl : public QObject
+class CourseControl : public AbstractManager
 {
     Q_OBJECT
 public:
     /* Constructor
-     *   Creates a fully-initialized CourseControl object
-     * in: parent QObject
+     * in: Dispatcher to use for sending messages to the client
+     *       (Also the parent of this object.)
      * Side Effects: None
+     * All input pointers are treated as shared pointers.
      */
-    explicit CourseControl(QObject* parent = 0);
+    CourseControl(ServerDispatcher *dispatcher);
 
     /* Member Function: processMsg
-     *   Let the subsystem handle the message
-     * in: The message object to handle
-     * Side Effects: msg is deleted
-     * Return Value: Success indicator
+     *   Handles a message received from the dispatcher,
+     *     possibly resulting in messages sent back through the dispatcher
+     * in: Message to be processed
+     * Side Effects: None
+     * Return Value: True, if the operation succeeded.
      */
-    bool processMsg(Message *msg);
+    virtual bool processMsg(const Message* msg);
 };
 
 #endif // COURSECONTROL_H

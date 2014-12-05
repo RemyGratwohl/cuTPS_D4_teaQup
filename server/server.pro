@@ -43,7 +43,8 @@ SOURCES += main.cpp \
     ServerCommunication/networklink.cpp \
     ../client/ClientCommunication/errormessage.cpp \
     ../client/ClientCommunication/datamessage.cpp \
-    ../client/ClientCommunication/successmessage.cpp
+    ../client/ClientCommunication/successmessage.cpp \
+    util/abstractmanager.cpp
 
 HEADERS += \
     ServerCommunication/serializableqobject.h \
@@ -75,4 +76,5 @@ HEADERS += \
     ../client/ClientCommunication/errormessage.h \
     ../client/ClientCommunication/datamessage.h \
     Storage/idtypes.h \
-    ../client/ClientCommunication/successmessage.h
+    ../client/ClientCommunication/successmessage.h \
+    util/abstractmanager.h

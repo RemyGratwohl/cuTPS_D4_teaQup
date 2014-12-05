@@ -26,15 +26,14 @@
 #include <QDebug>
 
 #include "networklink.h"
-#include "../CourseManagement/coursecontrol.h"
-#include "../Purchasing/ordercontrol.h"
-#include "../UserManagement/usercontrol.h"
-#include "../Storage/mainstoragecontrol.h"
 #include "../../client/ClientCommunication/message.h"
 #include "../../client/ClientCommunication/errormessage.h"
 #include "../../client/ClientCommunication/datamessage.h"
 
 class ContentControl;
+class CourseControl;
+class OrderControl;
+class UserControl;
 
 class ServerDispatcher : public QCoreApplication
 {
@@ -80,8 +79,6 @@ private:
     CourseControl*      courseControl;
     OrderControl*       orderControl;
     UserControl*        userControl;
-    MainStorageControl* storageControl;
-
 };
 
 #endif // SERVERDISPATCHER_H

@@ -1,15 +1,15 @@
 #include "coursecontrol.h"
 #include <QDebug>
+#include "../../client/ClientCommunication/datamessage.h"
 
-CourseControl::CourseControl(QObject* parent)
-    : QObject(parent)
-{
-}
+CourseControl::CourseControl(ServerDispatcher *d)
+    : AbstractManager(d)
+{}
 
-bool CourseControl::processMsg(Message *msg)
+bool CourseControl::processMsg(const Message *msg)
 {
     bool result = true;
-    DataMessage* dataMessage = qobject_cast<DataMessage*>(msg);
+    const DataMessage* dataMessage = qobject_cast<const DataMessage*>(msg);
     ACTION_TYPE msgAction = dataMessage->getActionType();
 
     switch(msgAction)
