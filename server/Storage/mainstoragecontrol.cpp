@@ -1,6 +1,7 @@
 #include "mainstoragecontrol.h"
 #include <QStringList>
 #include <QFile>
+#include <QSqlDriver>
 
 using namespace std;
 
@@ -27,6 +28,7 @@ bool MainStorageControl::initialize(void)
 {
     // TODO: Database name + sql script to be configurable
     db = QSqlDatabase::addDatabase("QSQLITE");
+
     // Database path may need to also be configurable
     db.setDatabaseName("../../cuTPS_D4_teaQup/cuTPSDB");
 
@@ -38,6 +40,7 @@ bool MainStorageControl::initialize(void)
 QSqlQuery MainStorageControl::runQuery(QString query){
     bool DEBUG = true;
     if(db.open()){
+        qDebug() << db.driver()->hasFeature(QSqlDriver::Transactions);
             if(DEBUG)
                 qDebug()  << "Database connected!";
             if(db.tables().isEmpty())
