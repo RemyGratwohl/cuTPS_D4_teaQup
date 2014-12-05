@@ -14,7 +14,7 @@ ViewControl::ViewControl(QObject *parent) :
 
 bool ViewControl::authenticateUser(OBJ_ID_TYPE id)
 {
-    if(authenticator->authenticateUser(id, &currentUser))
+    if(authenticator->authenticateUser(id, currentUser))
     {
         loginWindow->hide();
         mainWindow->show();

@@ -45,8 +45,7 @@ protected:
 
 public:
     /* Member Function: processMsg
-     *   Handles a message received from the dispatcher,
-     *     possibly resulting in messages sent back through the dispatcher
+     *   Handles a message received from the dispatcher.
      * in: Message to be processed
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
