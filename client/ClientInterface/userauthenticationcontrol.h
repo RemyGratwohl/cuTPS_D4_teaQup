@@ -13,7 +13,7 @@
 * Remy Gratwohl  ID: 100891970
 *
 * UserAuthenticationControl class:
-* - Manages the authentication request for the client
+* - Manages the user authentication request for the client
 *
 * Traceability: CT-030
 *
@@ -29,7 +29,7 @@ class UserAuthenticationControl : public QObject
 public:
     explicit UserAuthenticationControl(QObject *parent = 0);
 
-    bool authenticateUser(OBJ_ID_TYPE id, User **user);
+    bool authenticateUser(OBJ_ID_TYPE id, User*& user);
 
 signals:
 

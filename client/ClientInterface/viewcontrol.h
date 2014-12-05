@@ -47,6 +47,8 @@ public:
      void displayCommunicationError();
      void displayErrorString(QString &err);
 
+     User* getCurrentUser(void) const { return currentUser; }
+
 private:
     User                      *currentUser;  // The User currently logged in
 

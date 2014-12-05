@@ -42,7 +42,8 @@ SOURCES += main.cpp\
     ../server/Purchasing/billinginformation.cpp \
     ../server/CourseManagement/term.cpp \
     ../server/CourseManagement/course.cpp \
-    ClientCommunication/successmessage.cpp
+    ClientCommunication/successmessage.cpp \
+    util/abstractviewcontroller.cpp
 
 HEADERS  += ClientInterface/mainwindow.h \
     ClientCommunication/networklink.h \
@@ -75,7 +76,8 @@ HEADERS  += ClientInterface/mainwindow.h \
     ../server/Purchasing/billinginformation.h \
     ../server/CourseManagement/term.h \
     ../server/CourseManagement/course.h \
-    ClientCommunication/successmessage.h
+    ClientCommunication/successmessage.h \
+    util/abstractviewcontroller.h
 
 FORMS    += ClientInterface/mainwindow.ui \
     ClientInterface/loginwindow.ui \
