@@ -26,37 +26,33 @@
 
 #include "loginwindow.h"
 #include "mainwindow.h"
-#include "userauthenticationcontrol.h"
 
 #include "ContentView/contentviewcontrol.h"
 #include "CourseView/courseviewcontrol.h"
 #include "Shopping/shoppingcartcontrol.h"
 
+class UserAuthenticationControl;
+
 class ViewControl : public QObject
 {
     Q_OBJECT
+public:
+    enum TYPE {CONTENT = 0, COURSE, SHOPPING,BILLING};
 
 public:
-    explicit ViewControl(QObject *parent = 0);
-
-     enum TYPE {CONTENT = 0, COURSE, SHOPPING,BILLING};
+    /* Constructor
+     * High-level control flow initialization.
+     */
+     ViewControl(void);
 
      bool changeView(TYPE subsystem);
-     bool authenticateUser(OBJ_ID_TYPE id);
+     bool requestAuthentication(OBJ_ID_TYPE id);
 
      void displayCommunicationError();
      void displayErrorString(QString &err);
 
      User* getCurrentUser(void) const { return currentUser; }
-     bool setCurrentUser(User* user) {
-         if( currentUser == 0 ) {
-            currentUser = user;
-            currentUser->setParent(this);
-            return true;
-         } else {
-             return false;
-         }
-     }
+     bool setCurrentUser(User* user);
 
 private:
     User                      *currentUser;  // The User currently logged in

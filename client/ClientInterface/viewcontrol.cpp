@@ -53,3 +53,13 @@ bool ViewControl::changeView(TYPE subsystem){
         break;
     }
 }
+
+bool ViewControl::setCurrentUser(User* user) {
+    if( currentUser == 0 ) {
+       currentUser = user;
+       currentUser->setParent(this);
+       return true;
+    } else {
+        return false;
+    }
+}
