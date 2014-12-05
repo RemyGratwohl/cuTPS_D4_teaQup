@@ -98,6 +98,7 @@ QString MainStorageControl::runTransaction(QVector<QString> queries){
                 /*if(q.numRowsAffected() > 1){
                     errorMsg = "More than one row updated. Possible corruption. Cancelling transaction.";
                     db.rollback();
+                    db.close();
                     return errorMsg;
                 }*/
             }
@@ -107,15 +108,23 @@ QString MainStorageControl::runTransaction(QVector<QString> queries){
                     qDebug() << q.lastError();
                 }
                 db.rollback();
-
+                db.close();
                 return q.lastError().text();
             }
         }
+        if(!db.commit()){
+            db.close();
+            return q.lastError().text();
+        }
+    }
+    else{
+        if(DEBUG)
+            qDebug()  << "Database failed to open!";
+        return "Database did not open.";
     }
 
-    if(!db.commit()){
-        return q.lastError().text();
-    }
+
+    db.close();
     return "success";
 }
 

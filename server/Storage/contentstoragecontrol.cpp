@@ -26,7 +26,35 @@ bool ContentStorageControl::initialize(void) {
 
 bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QString& errorMsg) {
     qDebug() << "Add Book() Called";
+    QVector<QString> queries;
+    QString termid = "??";
+    //Verify Course and Term
+    if(!isTerm(term, termid)){
+        // Add term to DB
+        // Get latest ID and set that to termid;
+        qDebug() << "Term does not exist!";
+    }
+    else {
+        qDebug() << "Term ID: " + termid;
+    }
 
+
+    /*if(!isCourse){
+        // Add Course to DB
+    }*/
+
+
+    //int contentid = GetLatestIDFunction();
+
+    // Add ContentItem pushback
+    // Add Book pushback
+    // Check for PD, if exists add PD and push back
+
+    /*QString response = mainStorage->runTransaction(queries);
+    if(response == "success")
+    {
+        return true;
+    }*/
     /* Step 1: Verify Course (add course, if not null, but first add Term, if not null)
      * Step 2: Get ContentID
      * Step 3: Verify Purchasing Details
@@ -89,5 +117,49 @@ bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection
 }
 
 bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) {
+    return false;
+}
+
+bool ContentStorageControl::isTerm(Term *term, QString& id){
+
+    QString query;
+    QString semester;
+
+    if(term->getSemester() == "Fall")
+        semester = "F";
+    else if(term->getSemester() == "Winter")
+        semester = "W";
+    else if(term->getSemester() == "Summer")
+        semester = "S";
+    else // There's an error with the Term object
+        return false;
+
+    query = "Select termid from term where semester='" + semester + "' AND term_year=" + QString::number(term->getYear());
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return false;
+    }
+
+    if(result.first()){
+        id = result.value("termid").toString();
+        return true;
+    }
+    // If there is more than one user returned, return false because something is wrong with the database
+    else if (result.next()){
+        return false;
+    }
+    // If there are no results and there were no errors, then the term does not exist.
+    else {
+        return false;
+    }
+
+    //Should never reach here
+    qDebug() << "???";
     return false;
 }

@@ -200,6 +200,10 @@ protected:
 private:
     QSharedPointer<MainStorageControl> mainStorage;
 
+    bool isTerm(Term* term, QString& id);
+    bool isCourse(Course* course);
+    int  getLatestID(QString columnName, QString table);
+
 private:
     // Singleton instance
     static QSharedPointer<ContentStorageControl> contentStorage;
