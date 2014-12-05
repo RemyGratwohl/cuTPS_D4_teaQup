@@ -34,7 +34,7 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
     QString contentid = "??";
     QString ISBN = book->getISBN();
 
-    // NEED TO VERIFY CONTENT ITEM. ISBN's should be unique.
+    // Verify content Item TODO: MOVE ISBN TO CONTENTITEM TABLE
     if(isContentItem(ISBN))
     {
         errorMsg="Content Item ISBN already exists. Please make sure that the Content Item does not already exist.";
@@ -87,9 +87,27 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
     qDebug() << "New ContentID: " + contentid;
 
     // Add ContentItem pushback
+    queries.push_back("insert into contentItem (contentid, title, courseid) values (" +
+                      contentid + ", '" + book->getTitle() + "', " + courseid + ")");
     // Add Book pushback
+    queries.push_back("insert into book (contentid, subtitle, authors, publisher, ISBN, website, citation, year_publish) values (" +
+                      contentid + ", '" + book->getSubtitle() + "', '" + book->getAuthors() + "', '" +
+                      book->getPublisher() + "', '" + book->getISBN() + "', '" + book->getWebsite() + "', '" +
+                      book->getCitation() + "', " + QString::number(book->getYearPublished()) + ")");
     // Add Course _ Book Relationship
+    queries.push_back("insert into course_book (contentid, courseid) values (" +
+                      contentid + ", " + courseid + ")");
+
+    foreach(const QString query, queries)
+    {
+        qDebug() << "QUERY LIST: " + query;
+    }
+
     // Check for PD, if exists add PD and push back
+    if(book->getPurchasingDetails()->getVendor() != NULL)
+    {
+        // Verify there isn't already a PD for this content Item
+    }
 
     /*QString response = mainStorage->runTransaction(queries);
     if(response == "success")

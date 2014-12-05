@@ -36,7 +36,7 @@ bool MainStorageControl::initialize(void)
 // The debug statements will remain until the entire database storage system is complete
 // If they're bothering you, set bool DEBUG to false.
 QSqlQuery MainStorageControl::runQuery(QString query){
-    bool DEBUG = true;
+    bool DEBUG = false;
     if(db.open()){
             if(DEBUG)
                 qDebug()  << "Database connected!";
