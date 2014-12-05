@@ -3,7 +3,7 @@
 #include "../../client/ClientCommunication/datamessage.h"
 
 UserControl::UserControl(ServerDispatcher *d)
-    : AbstractManager(d)
+    : AbstractManager(d, USER)
 {}
 
 bool UserControl::processMsg(const Message *msg)

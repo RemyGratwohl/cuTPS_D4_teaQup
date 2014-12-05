@@ -3,7 +3,7 @@
 #include "../../client/ClientCommunication/datamessage.h"
 
 OrderControl::OrderControl(ServerDispatcher *d)
-    : AbstractManager(d)
+    : AbstractManager(d, ORDERING)
 {}
 
 bool OrderControl::processMsg(const Message *msg)

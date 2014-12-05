@@ -3,7 +3,7 @@
 #include "../../client/ClientCommunication/datamessage.h"
 
 CourseControl::CourseControl(ServerDispatcher *d)
-    : AbstractManager(d)
+    : AbstractManager(d, COURSE)
 {}
 
 bool CourseControl::processMsg(const Message *msg)

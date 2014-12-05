@@ -60,66 +60,75 @@ public:
 private:
     /* Member Function: addBook
      * in: Book to be added to the system
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool addBook(Book* book);
+    bool addBook(Book* book, QString& errorMsg);
 
     /* Member Function: addChapter
      * in: Chapter to be added to the system
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool addChapter(Chapter* chapter);
+    bool addChapter(Chapter* chapter, QString& errorMsg);
 
     /* Member Function: addSection
      * in: Chapter section to be added to the system
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool addSection(ChapterSection* section);
+    bool addSection(ChapterSection* section, QString& errorMsg);
 
     /* Member Function: updateBook
      * in: Book whose information is to be altered
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool updateBook(Book* book);
+    bool updateBook(Book* book, QString& errorMsg);
 
     /* Member Function: updateChapter
      * in: Chapter whose information is to be altered
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool updateChapter(Chapter* chapter);
+    bool updateChapter(Chapter* chapter, QString& errorMsg);
 
     /* Member Function: updateSection
      * in: Chapter section whose information is to be altered
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool updateSection(ChapterSection* section);
+    bool updateSection(ChapterSection* section, QString& errorMsg);
 
     /* Member Function: removeBook
      * in: Book to be removed from the system
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool removeBook(Book* book);
+    bool removeBook(Book* book, QString& errorMsg);
 
     /* Member Function: removeChapter
      * in: Chapter to be removed from the system
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool removeChapter(Chapter* chapter);
+    bool removeChapter(Chapter* chapter, QString& errorMsg);
 
     /* Member Function: removeSection
      * in: Chapter section to be removed from the system
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool removeSection(ChapterSection* section);
+    bool removeSection(ChapterSection* section, QString& errorMsg);
 
     /* Member Function: getBookList
      *   Retrieves the list of Books for the courses in which the student
@@ -127,10 +136,11 @@ private:
      * in: User whose books are to be retrieved. (Must be a student user.)
      * out: Books for the courses in which the student is enrolled
      *      (passed in null)
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool getBookList(User* student, QVector<SerializableQObject*>*& items);
+    bool getBookList(User* student, QVector<SerializableQObject*>*& items, QString& errorMsg);
 
     /* Member Function: getBookDetails
      *   Retrieves a single Book and all of its associated chapters
@@ -143,19 +153,21 @@ private:
      *       etc.
      *      }
      *     (passed in null)
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool getBookDetails(const Book* book, QVector<SerializableQObject*>*& items);
+    bool getBookDetails(const Book* book, QVector<SerializableQObject*>*& items, QString& errorMsg);
 
     /* Member Function: getBooks
      *   Retrieves all Books in the system.
      * out: All Books
      *     (passed in null)
+     * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool getBooks(QVector<SerializableQObject*>*& items);
+    bool getBooks(QVector<SerializableQObject*>*& items, QString& errorMsg);
 
 private:
     CourseControl *courseControl;
