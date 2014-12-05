@@ -59,8 +59,8 @@ public:
     /* Get User
      *  Retrieves the user from MainStorageControl
      * in: quint64 userid used to identify the user
-     * in: User to be altered
-     * in: QString to be altered in the event of an error
+     * out: User to be altered
+     * out: QString to be altered in the event of an error
      * Side Effects: None
      * Return Value: True, if operation succeeded.
      * *******************************************
