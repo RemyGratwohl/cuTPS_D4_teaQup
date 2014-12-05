@@ -31,7 +31,7 @@ class SuccessMessage : public Message
     Q_OBJECT
     Q_PROPERTY(QString info READ getInfoString WRITE setInfoString)
     Q_PROPERTY(OBJ_ID_TYPE reference READ getReference_unchecked WRITE setReference)
-    Q_PROPERTY(OBJ_ID_TYPE referenceValidity READ getReferenceValidity WRITE setReferenceValidity)
+    Q_PROPERTY(bool referenceValidity READ getReferenceValidity WRITE setReferenceValidity)
 
 public:
     /* Constructor

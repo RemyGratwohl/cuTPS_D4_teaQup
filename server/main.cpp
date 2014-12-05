@@ -36,7 +36,9 @@ int main(int argc, char *argv[])
     /* testing start - feel free to comment this stuff out */
 
     ServerDispatcher* serverDispatcher = new ServerDispatcher(argc, argv);
-    serverDispatcher->initialize();
+    if( !serverDispatcher->initialize() ) {
+        return -1;
+    }
 
     /* testing end */
 

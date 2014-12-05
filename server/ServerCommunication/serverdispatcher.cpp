@@ -20,6 +20,7 @@ bool ServerDispatcher::initialize(void)
     if(!userControl->initialize()) return false;
     if(!courseControl->initialize()) return false;
     if(!contentControl->initialize()) return false;
+    if(!orderControl->initialize()) return false;
     return true;
 }
 
@@ -39,16 +40,14 @@ bool ServerDispatcher::directMsg(Message* msg) const
 {
     ErrorMessage* errMsg = qobject_cast<ErrorMessage*>(msg);
     if(errMsg != 0) {
-        qDebug() << errMsg->getError();
-        Message* errorMessage = new ErrorMessage(CONTENT, CREATE, new User((quint64)0), "Server: Can't process an error message.");
+        qDebug() << "Received error message from client: \"" << errMsg->getError() << "\"";
+        qDebug() << "Error messages are not dispatched.";
+        Message* errorMessage = new ErrorMessage(INVALIDDEST, INVALIDACTION, msg->getUser(), "Server cannot process an error message.");
         networkLink->sendClientResponse(errorMessage);
+        delete errorMessage;
         delete errMsg;
         return true;
     }
-
-    QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
-    Message* newMessage = new DataMessage(CONTENT, DELETE, new User((quint64)265), data);
-    networkLink->sendClientResponse(newMessage);
 
     DEST_TYPE msgDest = msg->getDestType();
 
@@ -57,28 +56,38 @@ bool ServerDispatcher::directMsg(Message* msg) const
         qDebug() << "Received data message from user: " << dataMsg->getUser()->getID();
     }
 
+    // Message routing
+    bool result = true;
     switch(msgDest)
     {
     case ORDERING:
         // orderControl handles message
-        return orderControl->processMsg(msg);
+        result = orderControl->processMsg(msg);
         break;
     case USER:
         // userControl handles message
-        return userControl->processMsg(msg);
+        result = userControl->processMsg(msg);
         break;
     case CONTENT:
         // contentControl handles message
-        return contentControl->processMsg(msg);
+        result = contentControl->processMsg(msg);
         break;
     case COURSE:
         // courseControl handles message
-        return courseControl->processMsg(msg);
+        result = courseControl->processMsg(msg);
         break;
     default:
-        return false;
+    {
+        QString error = "ServerDispatcher : Unknown message destination.";
+        qDebug() << error;
+        Message* errorMessage = new ErrorMessage(INVALIDDEST, INVALIDACTION, msg->getUser(), error);
+        networkLink->sendClientResponse(errorMessage);
+        delete errorMessage;
+        result = true;
         break;
     }
+    }
 
-    return false;
+    delete msg;
+    return result;
 }

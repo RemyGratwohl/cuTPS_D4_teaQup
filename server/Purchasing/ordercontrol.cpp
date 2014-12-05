@@ -1,5 +1,5 @@
 #include "ordercontrol.h"
-#include <QDebug>
+#include <QTextStream>
 #include "../../client/ClientCommunication/datamessage.h"
 
 OrderControl::OrderControl(ServerDispatcher *d)
@@ -30,6 +30,14 @@ bool OrderControl::processMsg(const Message *msg)
 
     if(msgDest != ownDest) {
         error = "OrderControl: Error - received a message for another subsystem.";
+        return sendError(msgDest, msgAction, user, error);
+    }
+
+    // Input validation concerning the user
+    // ------------------------------------
+
+    if( !user->isOfType(User::STUDENT) ) {
+        error =  "OrderControl: Error - Non-Student users cannot order content.";
         return sendError(msgDest, msgAction, user, error);
     }
 
@@ -117,7 +125,12 @@ bool OrderControl::validateItems(const QVector<ContentItem*>* contentsIn,
 bool OrderControl::sendToPaymentSystem(ACTION_TYPE type, User* user,
                                        const BillingInformation *billingInfo,
                                        QVector<PurchasingDetails*>*& validContents) {
-    QString msg = QString("Order processed: #%1 since the last system startup.").arg(referenceNumber);
+    QString msg;
+    QTextStream textStream(&msg, QIODevice::ReadWrite);
+    textStream << "Order processed: #" << referenceNumber
+                  << " since the last system startup.";
+    textStream << " " << validContents->size() << " items ordered under the name \""
+               << billingInfo->getName() << "\".";
     ++referenceNumber;
     return sendSuccess(type, user, msg, referenceNumber, true);
 }

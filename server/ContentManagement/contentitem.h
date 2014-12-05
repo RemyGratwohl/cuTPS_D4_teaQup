@@ -32,7 +32,7 @@ class ContentItem : public SerializableQObject
     Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
     Q_PROPERTY(QString title READ getTitle WRITE setTitle)
     Q_PROPERTY(OBJ_ID_TYPE courseID READ getCourseID WRITE setCourseID)
-
+    Q_PROPERTY(bool purchaseable READ isForSale WRITE setPurchaseability)
 public:
     /* Constructor
      *   To be used to create a container for deserialized data.
@@ -63,8 +63,12 @@ public:
     void setTitle(const QString& t) { title = t; }
 
     OBJ_ID_TYPE getCourseID()   const { return courseID;   }
-    void setCourseID(OBJ_ID_TYPE id)   { courseID = id; }
+    void setCourseID(OBJ_ID_TYPE& id)   { courseID = id; }
 
+    bool isForSale() const { return purchaseable;   }
+    void setPurchaseability(const bool& b)   { purchaseable = b; }
+
+    /* Returns null if the content item is not for sale. */
     PurchasingDetails* getPurchasingDetails() const { return purchaseDetails; }
 
 protected:
@@ -101,6 +105,17 @@ private:
     QString title;
     OBJ_ID_TYPE courseID;
     PurchasingDetails *purchaseDetails;
+    /* Tracking whether or not purchaseDetails is null
+     * is an unsatisfactory way of determining if the
+     * ContentItem is for sale, because it would
+     * require serializing the pointer's value
+     * and testing the deserialized pointer value
+     * to determine whether or not to allocate
+     * PurchasingDetails.
+     *
+     * I felt that an explicit flag was more understandable.
+     */
+    bool purchaseable;
 };
 
 #endif // CONTENTITEM_H
