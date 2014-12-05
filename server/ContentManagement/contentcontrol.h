@@ -26,6 +26,8 @@
 #include "book.h"
 #include "chapter.h"
 #include "chaptersection.h"
+#include "../CourseManagement/course.h"
+#include "../CourseManagement/term.h"
 
 class ContentControl : public AbstractManager
 {
@@ -60,11 +62,14 @@ public:
 private:
     /* Member Function: addBook
      * in: Book to be added to the system
+     * in: Course to be added to the system, if the Book is for a new course
+     * in: Term to be added to the system, if the Book is for a new course
+     *       and the course is for a new term.
      * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool addBook(Book* book, QString& errorMsg);
+    bool addBook(Book* book, Course* course, Term* term, QString& errorMsg);
 
     /* Member Function: addChapter
      * in: Chapter to be added to the system

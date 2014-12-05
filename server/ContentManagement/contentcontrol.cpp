@@ -41,9 +41,9 @@ bool ContentControl::processMsg(const Message *msg)
     if( data == 0 && msgAction != RETRIEVE ) {
         error =  "ContentControl: Error - received a message with no data for a non-RETRIEVE action.";
         return sendError(msgDest, msgAction, user, error);
-    } else if( data != 0 && data->size() != 1 ) {
-        error =  "ContentControl: Error - Message data vector has a length other than 1."
-                 " Presently, all messages with data are expected to contain one item.";
+    } else if( data != 0 && data->size() < 1 ) {
+        error =  "ContentControl: Error - Message data vector has a length less than 1."
+                 " Presently, all messages with data are expected to contain at least one item.";
         return sendError(msgDest, msgAction, user, error);
     } else {
         item = qobject_cast<ContentItem*>(data->first());
@@ -79,7 +79,24 @@ bool ContentControl::processMsg(const Message *msg)
     case CREATE:
         qDebug() << "ContentControl: received CREATE message.";
         if( book != 0 ) {
-            result = addBook(book, error);
+            // Check if a Course and Term are present
+            Course* course = 0;
+            Term* term = 0;
+            if( data->size() == 2 || data->size() == 3 ) {
+                course = qobject_cast<Course*>(data->at(1));
+                if( course == 0 ) {
+                    error =  "ContentControl: Error - Object after Book to be added is not a Course.";
+                    return sendError(msgDest, msgAction, user, error);
+                }
+            }
+            if( data->size() == 3 ) {
+                term = qobject_cast<Term*>(data->at(2));
+                if( term == 0 ) {
+                    error =  "ContentControl: Error - Object after Course to be added (as part of Book addition) is not a Term.";
+                    return sendError(msgDest, msgAction, user, error);
+                }
+            }
+            result = addBook(book, course, term, error);
         } else if( chapter != 0 ) {
             result =  addChapter(chapter, error);
         } else if( chapterSection != 0 ) {
@@ -140,3 +157,31 @@ bool ContentControl::processMsg(const Message *msg)
         return sendSuccess(msgAction, user);
     }
 }
+
+/*
+
+bool ContentControl::addBook(Book* book, Course* course, Term* term, String& errorMsg);
+
+bool ContentControl::addChapter(Chapter* chapter, QString& errorMsg);
+
+bool ContentControl::addSection(ChapterSection* section, QString& errorMsg);
+
+bool ContentControl::updateBook(Book* book, QString& errorMsg);
+
+bool ContentControl::updateChapter(Chapter* chapter, QString& errorMsg);
+
+bool ContentControl::updateSection(ChapterSection* section, QString& errorMsg);
+
+bool ContentControl::removeBook(Book* book, QString& errorMsg);
+
+bool ContentControl::removeChapter(Chapter* chapter, QString& errorMsg);
+
+bool ContentControl::removeSection(ChapterSection* section, QString& errorMsg);
+
+bool ContentControl::getBookList(User* student, QVector<SerializableQObject*>*& items, QString& errorMsg);
+
+bool ContentControl::getBookDetails(const Book* book, QVector<SerializableQObject*>*& items, QString& errorMsg);
+
+bool ContentControl::getBooks(QVector<SerializableQObject*>*& items, QString& errorMsg);
+
+*/
