@@ -102,6 +102,8 @@ public slots:
 
 private:
     ServerDispatcher *dispatcher;
+
+protected:
     DEST_TYPE ownDest;
 };
 

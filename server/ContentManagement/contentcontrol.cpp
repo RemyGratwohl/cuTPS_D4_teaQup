@@ -30,7 +30,7 @@ bool ContentControl::processMsg(const Message *msg)
     msgAction = dataMessage->getActionType();
     msgDest = dataMessage->getDestType();
 
-    if(msgDest != CONTENT) {
+    if(msgDest != ownDest) {
         error = "ContentControl: Error - received a message for another subsystem.";
         return sendError(msgDest, msgAction, user, error);
     }
@@ -39,10 +39,7 @@ bool ContentControl::processMsg(const Message *msg)
     // ------------------------------------------------------
     QVector<SerializableQObject*>* data = dataMessage->getData();
     ContentItem* item = 0;
-    if( data == 0 && msgAction != RETRIEVE ) {
-        error =  "ContentControl: Error - received a message with no data for a non-RETRIEVE action.";
-        return sendError(msgDest, msgAction, user, error);
-    } else if( data != 0 && data->size() < 1 ) {
+    if( msgAction != RETRIEVE && data->size() < 1 ) {
         error =  "ContentControl: Error - Message data vector has a length less than 1."
                  " Presently, all messages with data are expected to contain at least one item.";
         return sendError(msgDest, msgAction, user, error);

@@ -44,10 +44,10 @@ bool CourseStorageControl::removeCourse(Course* course, QString& errorMsg) {
     return false;
 }
 
-bool CourseStorageControl::getCourses(Term* term, QVector<SerializableQObject*>*& courses, QString& errorMsg) {
+bool CourseStorageControl::getCourses(Term* term, QVector<Course*>*& courses, QString& errorMsg) {
     return false;
 }
 
-bool CourseStorageControl::getTerms(QVector<SerializableQObject*>*& terms, QString& errorMsg) {
+bool CourseStorageControl::getTerms(QVector<Term*>*& terms, QString& errorMsg) {
     return false;
 }

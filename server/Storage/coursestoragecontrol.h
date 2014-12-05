@@ -105,7 +105,7 @@ public:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool getCourses(Term* term, QVector<SerializableQObject*>*& courses, QString& errorMsg);
+    bool getCourses(Term* term, QVector<Course*>*& courses, QString& errorMsg);
 
     /* Member Function: getTerms
      *   Retrieves all terms
@@ -114,7 +114,7 @@ public:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool getTerms(QVector<SerializableQObject*>*& terms, QString& errorMsg);
+    bool getTerms(QVector<Term*>*& terms, QString& errorMsg);
 
 protected:
     /* Constructor
