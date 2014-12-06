@@ -1,13 +1,10 @@
 #include "clientdispatcher.h"
+#include "ClientInterface/viewcontrol.h"
 
 ClientDispatcher::ClientDispatcher(QObject *parent,
-                                   ContentViewControl* contentControl,
-                                   CourseViewControl* courseControl,
-                                   ShoppingCartControl* shoppingControl) :
+                                   ViewControl* vc) :
     QObject(parent),
-    contentViewControl(contentControl),
-    courseViewControl(courseControl),
-    shoppingCartControl(shoppingControl)
+    viewControl(vc)
 {}
 
 bool ClientDispatcher::deliverMsg(Message*& msg) const {
@@ -30,32 +27,7 @@ bool ClientDispatcher::directMsg(Message* msg) const
         return true;
     }
 
-    DEST_TYPE msgDest = msg->getDestType();
-
-    switch(msgDest)
-    {
-    case ORDERING:
-        // orderControl handles message
-        return shoppingCartControl->processMsg(msg);
-        break;
-    case USER:
-        // userControl handles message
-        //return userControl->processMsg(msg);
-        break;
-    case CONTENT:
-        // contentControl handles message
-        return contentViewControl->processMsg(msg);
-        break;
-    case COURSE:
-        // courseControl handles message
-        return courseViewControl->processMsg(msg);
-        break;
-    default:
-        return false;
-        break;
-    }
-
-    return false;
+    return viewControl->processMsg(msg);
 }
 
 bool ClientDispatcher::initialize()

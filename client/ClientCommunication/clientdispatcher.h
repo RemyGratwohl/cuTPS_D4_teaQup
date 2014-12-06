@@ -22,11 +22,10 @@
 
 #include <QObject>
 #include "ClientCommunication/networklink.h"
-#include "ContentView/contentviewcontrol.h"
-#include "CourseView/courseviewcontrol.h"
-#include "Shopping/shoppingcartcontrol.h"
 #include "ClientCommunication/message.h"
 #include "ClientCommunication/errormessage.h"
+
+class ViewControl;
 
 class ClientDispatcher : public QObject
 {
@@ -34,9 +33,7 @@ class ClientDispatcher : public QObject
 public:
     // owns control pointers that were created in another control object
     explicit ClientDispatcher(QObject *parent,
-                              ContentViewControl* contentControl,
-                              CourseViewControl* courseControl,
-                              ShoppingCartControl* shoppingControl
+                              ViewControl* vc
                               );
 
     /* Member Function: directMsg
@@ -67,10 +64,8 @@ signals:
 public slots:
 
 private:
-    NetworkLink*         networkLink;
-    ContentViewControl*  contentViewControl;
-    CourseViewControl*   courseViewControl;
-    ShoppingCartControl* shoppingCartControl;
+    NetworkLink* networkLink;
+    ViewControl* viewControl;
 };
 
 #endif // CLIENTDISPATCHER_H

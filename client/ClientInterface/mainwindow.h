@@ -21,6 +21,7 @@
 */
 
 #include <QMainWindow>
+#include <QListWidgetItem>
 #include <../server/UserManagement/user.h>
 
 class ViewControl;

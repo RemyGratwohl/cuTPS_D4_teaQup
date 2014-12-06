@@ -30,5 +30,5 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_shoppingCartButton_clicked()
 {
-  controller->changeView(ViewControl::SHOPPING);
+  controller->changeView(ViewControl::SHOPPING_VIEW);
 }
