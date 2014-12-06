@@ -202,6 +202,7 @@ private:
 
     bool isTerm(Term* term, QString& id);
     bool isCourse(Course* course, QString& id);
+    bool isPurchasable(QString& contentid);
     bool isContentItem(QString& ISBN);
 
 

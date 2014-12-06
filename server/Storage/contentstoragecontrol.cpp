@@ -27,16 +27,20 @@ bool ContentStorageControl::initialize(void) {
 bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QString& errorMsg) {
     qDebug() << "Add Book() Called";
 
+    if (book->getPurchasingDetails() == NULL || course == NULL || term == NULL){
+        errorMsg = "If you sent a null course or term, please send the object until further notice. If it was purchasingDetails, please initialize an empty container: new PurchasingDetails()";
+        return false;
+    }
+
     QVector<QSqlQuery> queries;
     QString termid = "??";
     bool existsTerm = true;
     bool existsCourse = true;
+    bool existsPurchasing = true;
     QString semester = "";
     QString courseid = "??";
     QString contentid = "??";
     QString ISBN = book->getISBN();
-
-
 
     // Verify content Item TODO: MOVE ISBN TO CONTENTITEM TABLE
     if(isContentItem(ISBN))
@@ -82,10 +86,19 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         qDebug() << "Course ID: " + courseid;
     }
 
-    // Needs to be replaced with some that gets the id that was inserted. Autoincrement does not strictly increment.
-    // It may decided to add a number in the middle.
+    // No autoincrement in favor of more control
     contentid = QString::number(mainStorage->getLatestID("contentid", "contentItem"));
     qDebug() << "New ContentID: " + contentid;
+
+    // Verify PurchasingDetails
+    if(!isPurchasable(contentid)){
+        existsPurchasing = false;
+        qDebug() << "Is not yet Purchasable!";
+    }
+    else {
+        errorMsg = "Purchasing Details already exist for this Content Item ID: " + contentid;
+        return false;
+    }
 
     if(mainStorage->getMainStorage().open()){
         mainStorage->getMainStorage().transaction();
@@ -129,7 +142,8 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         }
 
         // Add Content Item
-        prepQ.prepare("insert into contentItem (title, courseid) values (:title, :courseid)");
+        prepQ.prepare("insert into contentItem (contentid, title, courseid) values (:contentid, :title, :courseid)");
+        prepQ.bindValue(":contentid", contentid.toInt());
         prepQ.bindValue(":title", book->getTitle());
         prepQ.bindValue(":courseid", courseid.toInt());
         if(prepQ.exec()){
@@ -176,33 +190,42 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
             return false;
         }
 
+        if( !existsPurchasing && book->getPurchasingDetails()->getPrice() != 0 && book->getPurchasingDetails()->getVendor() != 0) {
+            // Add Purchasing Details
+            qDebug() << "Preparing PD";
+            prepQ.prepare("insert into purchasingDetails (price, vendor, contentid) values (:price, :vendor, :contentid)");
+            prepQ.bindValue(":price", book->getPurchasingDetails()->getPrice());
+            prepQ.bindValue(":vendor", book->getPurchasingDetails()->getVendor());
+            prepQ.bindValue(":contentid", contentid.toInt());
 
-        qDebug() << "Made it through";
-        mainStorage->getMainStorage().rollback();
-        mainStorage->getMainStorage().close();
-        return false;
+            if(prepQ.exec()){
+                qDebug() << "CISC | (Purchasing Details)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+            }
+            else{
+                mainStorage->getMainStorage().rollback();
+                mainStorage->getMainStorage().close();
+                errorMsg = prepQ.lastError().text();
+                return false;
+            }
+        }
+
+        if(!mainStorage->getMainStorage().commit())
+        {
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = "Commit failed: " + prepQ.lastError().text();
+            return false;
+        }
+        else {
+            qDebug() << "Everything went great. Check the db using sqlite3";
+            mainStorage->getMainStorage().close();
+            return true;
+        }
     }
     else{
         errorMsg = "CISC | addBook(): Database failed to open!";
         return false;
     }
-
-
-    /*// Check for PD, if exists add PD and push back
-    if(book->getPurchasingDetails()->getVendor() != NULL)
-    {
-        // Verify there isn't already a PD for this content Item
-    }*/
-
-
-
-    /*
-     *
-     * Step 3: Verify Purchasing Details
-     * Step 6: IF PD exists, add it
-     * Step 7: If all steps above check out true, then commit & return true else, roll back & return false.
-     *
-     */
 
     return false;
 }
@@ -257,6 +280,39 @@ bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection
 
 bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) {
     return false;
+}
+
+
+bool ContentStorageControl::isPurchasable(QString& contentid) {
+    QString query = "select contentid from purchasingDetails where contentid=" + contentid;
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return false;
+    }
+
+    // Just checking for results
+    if(result.first()){
+        return true;
+    }
+    // If there is more than one user returned, return false because something is wrong with the database
+    else if (result.next()){
+        return false;
+    }
+    // If there are no results and there were no errors, then the term does not exist.
+    else {
+        return false;
+    }
+
+    //Should never reach here
+    qDebug() << "???";
+    return false;
+
 }
 
 bool ContentStorageControl::isTerm(Term *term, QString& id) {
