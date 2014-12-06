@@ -62,7 +62,7 @@ create table course (
 --creating the Table called contentItem
 
 create table contentItem (
-	contentid integer NOT NULL primary key AUTOINCREMENT,
+	contentid integer NOT NULL primary key,
 	title varchar(60) NOT NULL,
 	courseid integer,
 	FOREIGN KEY(courseid) REFERENCES course(courseid) ON DELETE CASCADE
@@ -75,7 +75,7 @@ create table course_user (
 );
 
 create table purchasingDetails (
-	purchaseid integer NOT NULL primary key,
+	purchaseid integer NOT NULL primary key AUTOINCREMENT,
 	price real NOT NULL, 
 	vendor varchar(60) NOT NULL,
 	contentid integer,
