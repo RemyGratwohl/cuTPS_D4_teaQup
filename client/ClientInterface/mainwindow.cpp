@@ -18,6 +18,7 @@ MainWindow::MainWindow(ViewControl *controller) :
     ui->contentWidget->setHorizontalHeaderItem(1, secondColumn);
     ui->contentWidget->setHorizontalHeaderItem(2, thirdColumn);
     ui->contentWidget->setSortingEnabled(true);
+    ui->contentWidget->horizontalHeader()->setStretchLastSection(true);
 
     // make the title's clickable
     connect(ui->contentWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(on_contentItemTitle_clicked(int,int)));
@@ -73,6 +74,9 @@ bool MainWindow::viewContentItems(QVector<SerializableQObject *>* contentList)
         ui->contentWidget->setItem(i, 0, itemTitle);
         ui->contentWidget->setItem(i, 1, itemType);
         ui->contentWidget->setItem(i, 2, itemCourseID);
+
+        // adjust column width to fit all contents
+        ui->contentWidget->resizeColumnsToContents();
     }
 
     QVectorIterator<SerializableQObject*> i(*contentList);
