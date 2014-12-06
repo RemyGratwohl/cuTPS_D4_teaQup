@@ -43,3 +43,14 @@ bool ShoppingCartControl::processMsg(Message *msg)
 QWidget* ShoppingCartControl::getView(){
     return shoppingCartView;
 }
+
+// TODO (Remy or Brandon) Stub implementation
+bool receiveOrderConfirmation(QString message, OBJ_ID_TYPE referenceNumber) {
+    return false;
+}
+
+// TODO (Bernard) Stub implementation
+void processOrder(Order* order) {
+
+}
+
