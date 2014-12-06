@@ -27,6 +27,8 @@
 #include "loginwindow.h"
 #include "mainwindow.h"
 
+#include "ClientCommunication/clientdispatcher.h"
+
 #include "ContentView/contentviewcontrol.h"
 #include "CourseView/courseviewcontrol.h"
 #include "Shopping/shoppingcartcontrol.h"
@@ -37,13 +39,18 @@ class ViewControl : public QObject
 {
     Q_OBJECT
 public:
-    enum TYPE {CONTENT = 0, COURSE, SHOPPING,BILLING};
+     enum TYPE {CONTENT_VIEW = 0, COURSE_VIEW, SHOPPING_VIEW, BILLING_VIEW};
 
-public:
-    /* Constructor
-     * High-level control flow initialization.
-     */
-     ViewControl(void);
+     // temp func to send messages to server
+     bool begin();
+
+     /* Member Function: processMsg
+      *   Let the subsystem handle the message
+      * in: The message object to handle
+      * Side Effects: msg is deleted
+      * Return Value: Success indicator
+      */
+     bool processMsg(Message *msg);
 
      bool changeView(TYPE subsystem);
      bool requestAuthentication(OBJ_ID_TYPE id);
@@ -63,6 +70,7 @@ private:
     UserAuthenticationControl *authenticator;
 
     /* Subsystem Controllers */
+    ClientDispatcher          *clientDispatcher;
     ContentViewControl        *contentController;
     CourseViewControl         *courseController;
     ShoppingCartControl       *shoppingController;
