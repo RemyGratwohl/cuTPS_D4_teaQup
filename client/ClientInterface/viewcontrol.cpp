@@ -56,7 +56,7 @@ bool ViewControl::begin()
     return true;
 }
 
-bool ViewControl::processMsg(Message *msg)
+bool ViewControl::processMsg(const Message *msg)
 {
     DEST_TYPE msgDest = msg->getDestType();
 

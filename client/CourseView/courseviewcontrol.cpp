@@ -42,3 +42,38 @@ bool CourseViewControl::processMsg(Message *msg)
 QWidget* CourseViewControl::getView(){
     return courseView;
 }
+
+// TODO (Remy or Brandon) Stub implementation
+bool receiveCourses(Term* term, QVector<SerializableQObject*>* courses) {
+    return false;
+}
+
+// TODO (Remy or Brandon) Stub implementation
+bool receiveTerms(QVector<SerializableQObject*>* terms) {
+    return false;
+}
+
+// TODO (Bernard) Stub implementation
+void addCourse(Course* course, Term* term) {
+
+}
+
+// TODO (Bernard) Stub implementation
+void updateCourse(Course* course, Term* term) {
+
+}
+
+// TODO (Bernard) Stub implementation
+void removeCourse(Course* course) {
+
+}
+
+// TODO (Bernard) Stub implementation
+void requestCourses(Term* term) {
+
+}
+
+// TODO (Bernard) Stub implementation
+void requestTerms(void) {
+
+}
