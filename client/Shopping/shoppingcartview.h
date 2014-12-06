@@ -21,7 +21,7 @@
 */
 
 #include <QWidget>
-
+#include "../server/ServerCommunication/serializableqobject.h"
 
 namespace Ui {
 class ShoppingCartView;
@@ -36,6 +36,14 @@ class ShoppingCartView : public QWidget
 public:
     explicit ShoppingCartView(ShoppingCartControl *control = 0, QWidget *parent = 0);
     ~ShoppingCartView();
+
+    /* Member Function: viewContentItems
+     *   Displayes the names of content items in a list
+     * in: A list of content items to view
+     * Side Effects: None
+     * Return Value: Success indicator
+     */
+    bool viewContentItems(QVector<SerializableQObject *>* contentList);
 
 private slots:
     void on_orderButton_clicked();

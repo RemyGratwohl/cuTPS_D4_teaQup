@@ -8,9 +8,8 @@ ViewControl::ViewControl(QObject *parent) :
     QObject(parent)
 {
     loginWindow = new LoginWindow(this);
-    mainWindow  = new MainWindow(this);
-
     shoppingController = new ShoppingCartControl(this);
+    mainWindow  = new MainWindow(this);
 
     clientDispatcher = new ClientDispatcher(this, this);
     clientDispatcher->initialize();

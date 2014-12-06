@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include "shoppingcartview.h"
+#include "shoppingcart.h"
 #include "billinginfoview.h"
 #include "ClientCommunication/message.h"
 #include "ClientCommunication/datamessage.h"
@@ -51,6 +52,7 @@ private:
     ViewControl      *viewController;
     ShoppingCartView *shoppingCartView;
     BillingInfoView  *billingInfoView;
+    ShoppingCart     *shoppingCart;
 };
 
 #endif // SHOPPINGCARTCONTROL_H
