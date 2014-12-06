@@ -65,6 +65,18 @@ protected:
      */
     static bool getMainStorageControl(QSharedPointer<MainStorageControl>& ptr);
 
+    // I'm doing this for now because it's the easiest way
+    // to deal with transactions currently.
+    // I can't use purely string based queries
+    // So I need prepared statements
+    // But prepared statements require the database to be open
+    // Thus there are 2 solutions: Get the db, and open & prepare
+    // Outside of mainstorage
+    // or write a huge, complex, difficult to maintain function.
+    // If there's time on Monday and everything's done,
+    // I might try that later. For now: taking the easy solution.
+    QSqlDatabase getMainStorage() const { return db; }
+
 public:
 
     /* Member Function: runQuery
@@ -73,7 +85,7 @@ public:
      * Return Value: QSqlQuery containing the result set
      */
     QSqlQuery runQuery(QString query);
-    QString runTransaction(QVector<QString> queries);
+    QString runTransaction(QVector<QSqlQuery> queries);
     int getLatestID(QString columnName, QString table);
 
 private:

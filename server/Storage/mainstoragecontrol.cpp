@@ -77,7 +77,7 @@ QSqlQuery MainStorageControl::runQuery(QString query){
         }
 }
 
-QString MainStorageControl::runTransaction(QVector<QString> queries){
+/*QString MainStorageControl::runTransaction(QVector<QSqlQuery> queries){
     bool DEBUG = true;
     QString errorMsg = "";
     QSqlQuery q;
@@ -85,27 +85,26 @@ QString MainStorageControl::runTransaction(QVector<QString> queries){
         if(DEBUG)
             qDebug() << "Transaction: Database connected.";
         db.transaction();
-        foreach(const QString query, queries)
+        foreach(const QSqlQuery query, queries)
         {
-            QSqlQuery qu(query);
-            q = qu;
+            q = query;
             if(q.exec()){
                 if(DEBUG){
                     qDebug() << "Query Executed!";
-                    qDebug() << "The query: " + query;
+                    //qDebug() << "The query: " + query;
                     qDebug() << "Number of rows affected: " + QString::number(q.numRowsAffected());
                 }
-                /*if(q.numRowsAffected() > 1){
+                if(q.numRowsAffected() > 1){
                     errorMsg = "More than one row updated. Possible corruption. Cancelling transaction.";
                     db.rollback();
                     db.close();
                     return errorMsg;
-                }*/
+                }
             }
             else{
                 if(DEBUG){
                     qDebug() << "Query failed!";
-                    qDebug() << "FAILED QUERY: " + query;
+                    //qDebug() << "FAILED QUERY: " + query;
                     qDebug() << q.lastError();
                 }
                 db.rollback();
@@ -124,10 +123,10 @@ QString MainStorageControl::runTransaction(QVector<QString> queries){
         return "Database did not open.";
     }
 
-
+    db.rollback();
     db.close();
     return "success";
-}
+}*/
 
 void MainStorageControl::runSqlScript() {
     QFile schemaFile("../../cuTPS_D4_teaQup/cuTPS.sql");

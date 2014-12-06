@@ -27,12 +27,16 @@ bool ContentStorageControl::initialize(void) {
 bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QString& errorMsg) {
     qDebug() << "Add Book() Called";
 
-    QVector<QString> queries;
+    QVector<QSqlQuery> queries;
     QString termid = "??";
+    bool existsTerm = true;
+    bool existsCourse = true;
     QString semester = "";
     QString courseid = "??";
     QString contentid = "??";
     QString ISBN = book->getISBN();
+
+
 
     // Verify content Item TODO: MOVE ISBN TO CONTENTITEM TABLE
     if(isContentItem(ISBN))
@@ -43,51 +47,114 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
 
     // Verify Term
     if(!isTerm(term, termid)){
+        existsTerm = false;
+        qDebug() << "Term does not exist!";
         // Get latest ID and set that to termid
         termid = QString::number(mainStorage->getLatestID("termid", "term"));
-        qDebug() << "Term does not exist! New Term ID: " + termid;
         if(term->getSemester() == "Fall")
             semester = "F";
         else if(term->getSemester() == "Winter")
             semester = "W";
         else if(term->getSemester() == "Summer")
             semester = "S";
-        else { // There's an error with the Term object
+        else {
+            // There's an error with the Term object
             errorMsg = "Error with Term object.";
             return false;
         }
-        // Add term to DB
-        queries.push_back("insert into term (termid, semester, term_year) values (" +
-                          termid + ", '" + semester + "', " + QString::number(term->getYear()) + ")");
-        qDebug() << queries.at(0);
     }
     else {
         qDebug() << "Term ID: " + termid;
     }
 
-    course->setTermID(termid.toInt());
+
 
     // Verify Course
+    course->setTermID(termid.toInt());
+
     if(!isCourse(course, courseid)){
+        existsCourse = false;
+        qDebug() << "Course does not exist!";
         // Get latest ID and set that to courseid
         courseid = QString::number(mainStorage->getLatestID("courseid", "course"));
-        qDebug() << "Course does not exist! New Course ID: " + courseid;
-
-        // Add Course to DB
-        queries.push_back("insert into course (courseid, name, termid) values (" +
-                          courseid + ", '" + course->getName() + "', " + termid + ")");
-        qDebug() << queries.last();
     }
     else {
         qDebug() << "Course ID: " + courseid;
     }
 
-
+    // Needs to be replaced with some that gets the id that was inserted. Autoincrement does not strictly increment.
+    // It may decided to add a number in the middle.
     contentid = QString::number(mainStorage->getLatestID("contentid", "contentItem"));
     qDebug() << "New ContentID: " + contentid;
 
+    if(mainStorage->getMainStorage().open()){
+        mainStorage->getMainStorage().transaction();
+        QSqlQuery prepQ;
+        if(!existsTerm){
+
+            qDebug() << "Preparing Term";
+            // Add term to DB
+            prepQ.prepare("insert into term (termid, semester, term_year) values (:termid, :semester, :term_year)");
+            prepQ.bindValue(":termid", termid.toInt());
+            prepQ.bindValue(":semester", semester);
+            prepQ.bindValue(":term_year", term->getYear());
+            if(prepQ.exec()){
+                qDebug() << "CISC | (Term)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+            }
+            else{
+                mainStorage->getMainStorage().rollback();
+                mainStorage->getMainStorage().close();
+                qDebug() << "Add Term Failed";
+                errorMsg = prepQ.lastError().text();
+                return false;
+            }
+        }
+
+        if(!existsCourse){
+            qDebug() << "Preparing Course";
+            // Add Course to DB
+            prepQ.prepare("insert into course (courseid, name, termid) values (:courseid, :name, :termid)");
+            prepQ.bindValue(":termid", termid.toInt());
+            prepQ.bindValue(":courseid", courseid.toInt());
+            prepQ.bindValue(":name", course->getName());
+            if(prepQ.exec()){
+                qDebug() << "CISC | (Course)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+            }
+            else{
+                mainStorage->getMainStorage().rollback();
+                mainStorage->getMainStorage().close();
+                errorMsg = prepQ.lastError().text();
+                return false;
+            }
+        }
+
+        // Add Content Item
+        /*prepQ.prepare("insert into contentItem (title, courseid) values (:title, :courseid)'" + book->getTitle() + "', " + courseid + ")");
+        prepQ.bindValue(":termid", termid.toInt());
+        prepQ.bindValue(":semester", semester);
+        prepQ.bindValue(":term_year", term->getYear());
+        if(prepQ.exec()){
+            qDebug() << "CISC | (Term)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+        }
+        else{
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = prepQ.lastError().text();
+            return false;
+        }*/
+        qDebug() << "Made it through";
+        mainStorage->getMainStorage().rollback();
+        mainStorage->getMainStorage().close();
+        return false;
+    }
+    else{
+        errorMsg = "CISC | addBook(): Database failed to open!";
+        return false;
+    }
+
     // Add ContentItem pushback
-    queries.push_back("insert into contentItem (title, courseid) values ('" + book->getTitle() + "', " + courseid + ")");
+    /*
+    queries.push_back();
     // Add Book pushback
     queries.push_back("insert into book (contentid, subtitle, authors, publisher, ISBN, website, citation, year_publish) values (" +
                       contentid + ", '" + book->getSubtitle() + "', '" + book->getAuthors() + "', '" +
@@ -113,7 +180,7 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
     {
         qDebug() << "IT WORKED";
         return true;
-    }
+    } */
 
     /*
      *
