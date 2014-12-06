@@ -11,11 +11,13 @@ ViewControl::ViewControl(QObject *parent) :
     mainWindow  = new MainWindow(this);
 
     shoppingController = new ShoppingCartControl(this);
+    contentController  = new ContentViewControl(this);
+    courseController   = new CourseViewControl(this);
 
     clientDispatcher = new ClientDispatcher(this, this);
     clientDispatcher->initialize();
 
-    loginWindow->show(); // Show the default window (login)
+    loginWindow->show(); // Show the initial window (login)
 }
 
 bool ViewControl::begin()
