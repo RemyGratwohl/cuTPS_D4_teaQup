@@ -10,6 +10,7 @@ MainWindow::MainWindow(ViewControl *controller) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
+
     ui->contentWidget->setColumnCount(3);
     QTableWidgetItem* firstColumn = new QTableWidgetItem("Title");
     QTableWidgetItem* secondColumn = new QTableWidgetItem("Content Type");
@@ -22,6 +23,9 @@ MainWindow::MainWindow(ViewControl *controller) :
 
     // make the title's clickable
     connect(ui->contentWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(on_contentItemTitle_clicked(int,int)));
+
+    allItems = new QVector<SerializableQObject*>();
+    selectedItems = new QVector<SerializableQObject*>();
 
     //ui->statusLabel->setText(currentUser->getName());
 
@@ -79,12 +83,7 @@ bool MainWindow::viewContentItems(QVector<SerializableQObject *>* contentList)
         ui->contentWidget->resizeColumnsToContents();
     }
 
-    QVectorIterator<SerializableQObject*> i(*contentList);
-    while (i.hasNext()) {
-        delete (i.next());
-    }
-    delete contentList;
-    contentList = 0;
+    allItems = contentList;
 
     return true;
 }
@@ -96,12 +95,24 @@ MainWindow::~MainWindow()
 
 void MainWindow::on_shoppingCartButton_clicked()
 {
-  controller->changeView(ViewControl::SHOPPING_VIEW);
+    Message* msg = new DataMessage(ORDERING, UPDATE, new User(), selectedItems);
+    controller->processMsg(msg);
+    controller->changeView(ViewControl::SHOPPING_VIEW);
 }
 
 void MainWindow::on_contentItemTitle_clicked(int row, int col)
 {
     if(col == 0) {
-        ui->contentWidget->item(row, col)->setText("D-Clicked");
+        //ui->contentWidget->item(row, col)->setText("D-Clicked");
+        for(int i = 0; i < allItems->size(); ++i) {
+            ContentItem* content = qobject_cast<ContentItem*>(allItems->at(i));
+            QString text = ui->contentWidget->item(row, col)->text();
+            if(content->getTitle().compare(text) == 0) {
+                selectedItems->push_back(allItems->at(i));
+                ui->contentWidget->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
+                ui->contentWidget->item(row, 1)->setBackgroundColor(QColor(200, 200, 200));
+                ui->contentWidget->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
+            }
+        }
     }
 }

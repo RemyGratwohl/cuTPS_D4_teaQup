@@ -44,7 +44,7 @@ public:
     /* Member Function: viewContentItems
      *   Displayes the names of content items in a list
      * in: A list of content items to view
-     * Side Effects: contentList is deleted
+     * Side Effects: None
      * Return Value: Success indicator
      */
     bool viewContentItems(QVector<SerializableQObject *>* contentList);
@@ -56,6 +56,8 @@ private slots:
 private:
     Ui::MainWindow *ui;
     ViewControl  *controller;
+    QVector<SerializableQObject*>* allItems;
+    QVector<SerializableQObject*>* selectedItems; // added to shopping cart
 };
 
 #endif // MAINWINDOW_H
