@@ -1,6 +1,7 @@
 #include "viewcontrol.h"
 #include <QMessageBox>
 #include "../server/ServerCommunication/messageroutingtypes.h"
+#include "../server/ContentManagement/book.h"
 
 ViewControl::ViewControl(QObject *parent) :
     QObject(parent)
@@ -18,9 +19,35 @@ ViewControl::ViewControl(QObject *parent) :
 
 bool ViewControl::begin()
 {
+    // send test message to server
     QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
-    Message* newMessage = new DataMessage(ORDERING, UPDATE, new User((quint64)25), data);
+    Message* newMessage = new DataMessage(CONTENT, UPDATE, new User(User::STUDENT), data);
     clientDispatcher->deliverMsg(newMessage);
+
+    // display a list of content items in main window
+    QVector<SerializableQObject *>* list = new QVector<SerializableQObject *>();
+
+    Book* testBook = new Book(-1, "The Host", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
+                               "http://www.stepheniemeyer.com/thehost.html", 2008,
+                               "Little Brown and Company", "", "");
+    list->push_back(qobject_cast<SerializableQObject*>(testBook));
+
+    testBook = new Book(-1, "The Hostee", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
+                               "http://www.stepheniemeyer.com/thehost.html", 2008,
+                               "Little Brown and Company", "", "");
+    list->push_back(qobject_cast<SerializableQObject*>(testBook));
+
+    testBook = new Book(-1, "The Hoster", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
+                               "http://www.stepheniemeyer.com/thehost.html", 2008,
+                               "Little Brown and Company", "", "");
+    list->push_back(qobject_cast<SerializableQObject*>(testBook));
+
+    testBook = new Book(-1, "The Hosterer", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
+                               "http://www.stepheniemeyer.com/thehost.html", 2008,
+                               "Little Brown and Company", "", "");
+    list->push_back(qobject_cast<SerializableQObject*>(testBook));
+
+    mainWindow->viewContentItems(data);
 
     return true;
 }

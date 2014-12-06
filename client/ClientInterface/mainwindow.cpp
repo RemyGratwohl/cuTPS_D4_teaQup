@@ -23,6 +23,23 @@ MainWindow::MainWindow(ViewControl *controller) :
     }*/
 }
 
+bool MainWindow::viewContentItems(QVector<SerializableQObject *>* contentList)
+{
+    int listSize = contentList->size();
+    for(int i = 0; i < listSize; ++i) {
+        ContentItem* content = qobject_cast<ContentItem*>(contentList->at(i));
+        QListWidgetItem* item = new QListWidgetItem(ui->contentWidget, 0);
+        item->setText(content->getTitle());
+        ui->contentWidget->addItem(item);
+    }
+
+    contentList->clear();
+    delete contentList;
+    contentList = 0;
+
+    return true;
+}
+
 MainWindow::~MainWindow()
 {
     delete ui;
