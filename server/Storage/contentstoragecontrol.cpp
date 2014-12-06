@@ -129,19 +129,54 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         }
 
         // Add Content Item
-        /*prepQ.prepare("insert into contentItem (title, courseid) values (:title, :courseid)'" + book->getTitle() + "', " + courseid + ")");
-        prepQ.bindValue(":termid", termid.toInt());
-        prepQ.bindValue(":semester", semester);
-        prepQ.bindValue(":term_year", term->getYear());
+        prepQ.prepare("insert into contentItem (title, courseid) values (:title, :courseid)");
+        prepQ.bindValue(":title", book->getTitle());
+        prepQ.bindValue(":courseid", courseid.toInt());
         if(prepQ.exec()){
-            qDebug() << "CISC | (Term)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+            qDebug() << "CISC | (Content Item)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
         }
         else{
             mainStorage->getMainStorage().rollback();
             mainStorage->getMainStorage().close();
             errorMsg = prepQ.lastError().text();
             return false;
-        }*/
+        }
+
+        // Add Book
+        prepQ.prepare("insert into book (contentid, subtitle, authors, publisher, ISBN, website, citation, year_publish) values (:contentid, :subtitle, :authors, :publisher, :ISBN, :website, :citation, :year_publish)");
+        prepQ.bindValue(":contentid", contentid.toInt());
+        prepQ.bindValue(":subtitle", book->getSubtitle());
+        prepQ.bindValue(":authors", book->getAuthors());
+        prepQ.bindValue(":publisher", book->getPublisher());
+        prepQ.bindValue(":ISBN", book->getISBN());
+        prepQ.bindValue(":website", book->getWebsite());
+        prepQ.bindValue(":citation", book->getCitation());
+        prepQ.bindValue(":year_publish", book->getYearPublished());
+        if(prepQ.exec()){
+            qDebug() << "CISC | (Book)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+        }
+        else{
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = prepQ.lastError().text();
+            return false;
+        }
+
+        // Add Course _ Book Relationship
+        prepQ.prepare("insert into course_book (contentid, courseid) values (:contentid, :courseid)");
+        prepQ.bindValue(":contentid", contentid.toInt());
+        prepQ.bindValue(":courseid", courseid.toInt());
+        if(prepQ.exec()){
+            qDebug() << "CISC | (Course _ Book)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+        }
+        else{
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = prepQ.lastError().text();
+            return false;
+        }
+
+
         qDebug() << "Made it through";
         mainStorage->getMainStorage().rollback();
         mainStorage->getMainStorage().close();
@@ -152,41 +187,18 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         return false;
     }
 
-    // Add ContentItem pushback
-    /*
-    queries.push_back();
-    // Add Book pushback
-    queries.push_back("insert into book (contentid, subtitle, authors, publisher, ISBN, website, citation, year_publish) values (" +
-                      contentid + ", '" + book->getSubtitle() + "', '" + book->getAuthors() + "', '" +
-                      book->getPublisher() + "', '" + book->getISBN() + "', '" + book->getWebsite() + "', '" +
-                      book->getCitation() + "', " + QString::number(book->getYearPublished()) + ")");
-    // Add Course _ Book Relationship
-    queries.push_back("insert into course_book (contentid, courseid) values (" +
-                      contentid + ", " + courseid + ")");
 
-    foreach(const QString query, queries)
-    {
-        qDebug() << "QUERY LIST: " + query;
-    }
-
-    // Check for PD, if exists add PD and push back
+    /*// Check for PD, if exists add PD and push back
     if(book->getPurchasingDetails()->getVendor() != NULL)
     {
         // Verify there isn't already a PD for this content Item
-    }
+    }*/
 
-    QString response = mainStorage->runTransaction(queries);
-    if(response == "success")
-    {
-        qDebug() << "IT WORKED";
-        return true;
-    } */
+
 
     /*
      *
      * Step 3: Verify Purchasing Details
-     * Step 4: Add Content Item
-     * Step 5: Add Book
      * Step 6: IF PD exists, add it
      * Step 7: If all steps above check out true, then commit & return true else, roll back & return false.
      *
