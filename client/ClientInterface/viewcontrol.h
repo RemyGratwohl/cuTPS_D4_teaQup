@@ -28,6 +28,8 @@
 #include "mainwindow.h"
 #include "userauthenticationcontrol.h"
 
+#include "ClientCommunication/clientdispatcher.h"
+
 #include "ContentView/contentviewcontrol.h"
 #include "CourseView/courseviewcontrol.h"
 #include "Shopping/shoppingcartcontrol.h"
@@ -39,7 +41,19 @@ class ViewControl : public QObject
 public:
     explicit ViewControl(QObject *parent = 0);
 
-     enum TYPE {CONTENT = 0, COURSE, SHOPPING,BILLING};
+     enum TYPE {CONTENT_VIEW = 0, COURSE_VIEW, SHOPPING_VIEW, BILLING_VIEW};
+
+     // temp func to send messages to server
+     bool begin();
+
+     /* Member Function: processMsg
+      *   Handles a message received from the dispatcher,
+      *     possibly resulting in messages sent back through the dispatcher
+      * in: Message to be processed
+      * Side Effects: None
+      * Return Value: True, if the operation succeeded.
+      */
+     virtual bool processMsg(Message* msg);
 
      bool changeView(TYPE subsystem);
      bool authenticateUser(OBJ_ID_TYPE id);
@@ -56,6 +70,7 @@ private:
     UserAuthenticationControl *authenticator;
 
     /* Subsystem Controllers */
+    ClientDispatcher          *clientDispatcher;
     ContentViewControl        *contentController;
     CourseViewControl         *courseController;
     ShoppingCartControl       *shoppingController;
