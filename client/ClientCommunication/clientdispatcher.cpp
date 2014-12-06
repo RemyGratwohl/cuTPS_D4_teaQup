@@ -20,14 +20,9 @@ bool ClientDispatcher::deliverMsg(Message*& msg) const {
 
 bool ClientDispatcher::directMsg(Message* msg) const
 {
-    ErrorMessage* errMsg = qobject_cast<ErrorMessage*>(msg);
-    if(errMsg != 0) {
-        qDebug() << errMsg->getError();
-        delete errMsg;
-        return true;
-    }
-
-    return viewControl->processMsg(msg);
+    bool result = viewControl->processMsg(msg);
+    delete msg;
+    return result;
 }
 
 bool ClientDispatcher::initialize()

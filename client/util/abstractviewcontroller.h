@@ -50,7 +50,7 @@ public:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    virtual bool processMsg(const Message* msg) = 0;
+    virtual bool processMsg(Message* msg) = 0;
 
     // Message processing helper functions
 protected:

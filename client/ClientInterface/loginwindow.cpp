@@ -21,6 +21,6 @@ void LoginWindow::on_connectButton_clicked()
 {
     // Be careful about truncation if OBJ_ID_TYPE is changed
     OBJ_ID_TYPE rawID = ui->idLineEdit->text().toULongLong();
-    controller->authenticateUser(rawID);
+    controller->requestAuthentication(rawID);
 }
 

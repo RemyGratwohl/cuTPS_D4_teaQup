@@ -11,8 +11,6 @@ int main(int argc, char *argv[])
 {
     qRegisterMetaType<OBJ_ID_TYPE>("OBJ_ID_TYPE");
 
-    //QCoreApplication a(argc, argv);
-
     // TEST -  ADD BOOK DB START
    QSharedPointer<ContentStorageControl> contentAccess;
    contentAccess->getContentStorageControl(contentAccess);
@@ -33,14 +31,10 @@ int main(int argc, char *argv[])
    }
    // TEST - ADD BOOK DB END
 
-    /* testing start - feel free to comment this stuff out */
-
     ServerDispatcher* serverDispatcher = new ServerDispatcher(argc, argv);
     if( !serverDispatcher->initialize() ) {
         return -1;
     }
-
-    /* testing end */
 
     return serverDispatcher->exec();
 }

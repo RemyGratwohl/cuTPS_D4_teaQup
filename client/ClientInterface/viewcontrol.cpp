@@ -1,21 +1,38 @@
 #include "viewcontrol.h"
 #include <QMessageBox>
+#include <QDebug>
 #include "../server/ServerCommunication/messageroutingtypes.h"
 #include "../server/ContentManagement/book.h"
 #include "../server/ContentManagement/chapter.h"
+#include "userauthenticationcontrol.h"
 
-ViewControl::ViewControl(QObject *parent) :
-    QObject(parent)
+ViewControl::ViewControl(void) :
+    QObject(), currentUser(0), loginWindow(0), mainWindow(0),
+    authenticator(0), clientDispatcher(0),
+    contentController(0), courseController(0), shoppingController(0)
 {
     loginWindow = new LoginWindow(this);
     mainWindow  = new MainWindow(this);
 
+    clientDispatcher = new ClientDispatcher(this, this);
+
+    contentController = new ContentViewControl(this);
+    courseController = new CourseViewControl(this);
     shoppingController = new ShoppingCartControl(this);
 
-    clientDispatcher = new ClientDispatcher(this, this);
-    clientDispatcher->initialize();
+    authenticator = new UserAuthenticationControl(this, clientDispatcher);
 
     loginWindow->show(); // Show the default window (login)
+}
+
+bool ViewControl::initialize(void) {
+    if( !clientDispatcher->initialize() ) {
+        QString error = "Networking could not be initialized, regardless of whether the server is available."
+                " The application will now exit.";
+        displayErrorString(error);
+        return false;
+    }
+    return true;
 }
 
 bool ViewControl::begin()
@@ -58,6 +75,19 @@ bool ViewControl::begin()
 
 bool ViewControl::processMsg(Message *msg)
 {
+    /* Display all error messages
+     * (In a real application, we wouldn't do this
+     *  at such a coarse level of detail, as it may sometimes
+     *  inform the user of bugs, depending on the usage of error messages.)
+     */
+    const ErrorMessage* errorMsg = qobject_cast<const ErrorMessage*>(msg);
+    if( errorMsg != 0 ) {
+        QString error = errorMsg->getError();
+        qDebug() << error;
+        displayErrorString(error);
+        return true;
+    }
+
     DEST_TYPE msgDest = msg->getDestType();
 
     switch(msgDest)
@@ -78,28 +108,22 @@ bool ViewControl::processMsg(Message *msg)
         return courseController->processMsg(msg);
         break;
     default:
+        qDebug() << "ViewControl::processMsg() : Unknown message destination.";
         return false;
-        break;
     }
 
     return false;
 }
 
-bool ViewControl::authenticateUser(OBJ_ID_TYPE id)
+void ViewControl::requestAuthentication(OBJ_ID_TYPE id)
 {
-    if(authenticator->authenticateUser(id, currentUser))
-    {
-        loginWindow->hide();
-        mainWindow->show();
-        return true;
-    }
-
-    return false;
+    authenticator->requestAuthentication(id);
 }
 
 void ViewControl::displayCommunicationError()
 {
     QString commErr = "Unable to Communicate with the Server";
+    qDebug() << commErr;
     displayErrorString(commErr);
 }
 
@@ -107,7 +131,8 @@ void ViewControl::displayErrorString(QString &err)
 {
     QMessageBox msgBox;
     msgBox.setText(err);
-    msgBox.exec();
+    qDebug() << err;
+    msgBox.exec(); // Note: This blocks the GUI until the user acknowledges the error.
 }
 
 bool ViewControl::changeView(TYPE subsystem){
@@ -123,7 +148,8 @@ bool ViewControl::changeView(TYPE subsystem){
     case(COURSE_VIEW):
         break;
     default:
-        break;
+        qDebug() << "ViewControl : Error - Unknown subsystem view type.";
+        return false;
     }
 
     return true;
@@ -133,8 +159,12 @@ bool ViewControl::setCurrentUser(User* user) {
     if( currentUser == 0 ) {
        currentUser = user;
        currentUser->setParent(this);
+
+       loginWindow->hide();
+       mainWindow->show();
        return true;
     } else {
+        qDebug() << "ViewControl : Error - Current user has already been set.";
         return false;
     }
 }

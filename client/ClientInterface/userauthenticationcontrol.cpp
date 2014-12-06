@@ -8,19 +8,19 @@ UserAuthenticationControl::UserAuthenticationControl(ViewControl *vc, ClientDisp
 
 bool UserAuthenticationControl::requestAuthentication(OBJ_ID_TYPE id) {
     User* user = new User(id);
-    Message msg = new DataMessage(ownDest, RETRIEVE, user, new QVector<SerializableQObject*>());
+    Message* msg = new DataMessage(ownDest, RETRIEVE, user, new QVector<SerializableQObject*>());
     bool result = dispatcher->deliverMsg(msg);
     delete user;
     return result;
 }
 
-bool UserAuthenticationControl::processMsg(const Message* msg) {
+bool UserAuthenticationControl::processMsg(Message* msg) {
     QString error;
     ACTION_TYPE msgAction = INVALIDACTION;
     DEST_TYPE msgDest = INVALIDDEST;
 
-    msgAction = dataMessage->getActionType();
-    msgDest = dataMessage->getDestType();
+    msgAction = msg->getActionType();
+    msgDest = msg->getDestType();
 
     if(msgDest != ownDest) {
         qDebug() << "UserAuthenticationControl: Error - received a message for another subsystem.";
@@ -34,16 +34,9 @@ bool UserAuthenticationControl::processMsg(const Message* msg) {
 
     // Validate the type of message
     // ----------------------------
-    const ErrorMessage* errorMsg = qobject_cast<const ErrorMessage*>(msg);
-    if( errorMsg != 0 ) {
-        viewControl->displayErrorString(errorMsg->getError());
-        return false;
-    }
-
     const DataMessage* dataMessage = qobject_cast<const DataMessage*>(msg);
     if(dataMessage == 0) {
-        qDebug() << "UserAuthenticationControl: Error - received a message which is not of type DataMessage,"
-                " and which is not of type ErrorMessage.";
+        qDebug() << "UserAuthenticationControl: Error - received a message which is not of type DataMessage.";
         return false;
     }
 
@@ -64,14 +57,20 @@ bool UserAuthenticationControl::processMsg(const Message* msg) {
     {
 
     case RETRIEVE:
+    {
         qDebug() << "UserAuthenticationControl: received RETRIEVE message.";
         User* user = msg->extractUser();
         result = viewControl->setCurrentUser(user);
         isAuthenticated = true;
         break;
+    }
 
+    case CREATE:
+    case UPDATE:
+    case DELETE:
+    case INVALIDACTION:
     default:
-        qDebug << "UserAuthenticationControl: Unexpected message action type.";
+        qDebug() << "UserAuthenticationControl: Unexpected message action type.";
         result = false;
         break;
     }
