@@ -51,6 +51,7 @@ public:
 
 private slots:
     void on_shoppingCartButton_clicked();
+    void on_contentItemTitle_clicked(int row, int col);
 
 private:
     Ui::MainWindow *ui;

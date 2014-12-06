@@ -17,6 +17,10 @@ MainWindow::MainWindow(ViewControl *controller) :
     ui->contentWidget->setHorizontalHeaderItem(0, firstColumn);
     ui->contentWidget->setHorizontalHeaderItem(1, secondColumn);
     ui->contentWidget->setHorizontalHeaderItem(2, thirdColumn);
+    ui->contentWidget->setSortingEnabled(true);
+
+    // make the title's clickable
+    connect(ui->contentWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(on_contentItemTitle_clicked(int,int)));
 
     //ui->statusLabel->setText(currentUser->getName());
 
@@ -43,9 +47,11 @@ bool MainWindow::viewContentItems(QVector<SerializableQObject *>* contentList)
         QTableWidgetItem* itemType;
         QTableWidgetItem* itemCourseID;
 
+        // set title and course id values
         itemTitle = new QTableWidgetItem(content->getTitle());
         itemCourseID = new QTableWidgetItem((quint64)content->getCourseID());
 
+        // determine the type of the content item
         Book* book = 0;
         Chapter* chapter = 0;
         ChapterSection* chapterSection = 0;
@@ -57,6 +63,12 @@ bool MainWindow::viewContentItems(QVector<SerializableQObject *>* contentList)
             itemType = new QTableWidgetItem("ChapterSection");
         }
 
+        // make the cells uneditable
+        itemTitle->setFlags(itemTitle->flags() ^ Qt::ItemIsEditable);
+        itemType->setFlags(itemType->flags() ^ Qt::ItemIsEditable);
+        itemCourseID->setFlags(itemCourseID->flags() ^ Qt::ItemIsEditable);
+
+        // add the text items to the table
         ui->contentWidget->setRowCount(listSize);
         ui->contentWidget->setItem(i, 0, itemTitle);
         ui->contentWidget->setItem(i, 1, itemType);
@@ -81,4 +93,11 @@ MainWindow::~MainWindow()
 void MainWindow::on_shoppingCartButton_clicked()
 {
   controller->changeView(ViewControl::SHOPPING_VIEW);
+}
+
+void MainWindow::on_contentItemTitle_clicked(int row, int col)
+{
+    if(col == 0) {
+        ui->contentWidget->item(row, col)->setText("D-Clicked");
+    }
 }
