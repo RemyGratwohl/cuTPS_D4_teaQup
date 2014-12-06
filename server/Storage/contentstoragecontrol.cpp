@@ -25,18 +25,15 @@ bool ContentStorageControl::initialize(void) {
 }
 
 bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QString& errorMsg) {
-    qDebug() << "Add Book() Called";
-
     if (book->getPurchasingDetails() == NULL || course == NULL || term == NULL){
         errorMsg = "If you sent a null course or term, please send the object until further notice. If it was purchasingDetails, please initialize an empty container: new PurchasingDetails()";
         return false;
     }
 
-    QVector<QSqlQuery> queries;
-    QString termid = "??";
     bool existsTerm = true;
     bool existsCourse = true;
     bool existsPurchasing = true;
+    QString termid = "??";
     QString semester = "";
     QString courseid = "??";
     QString contentid = "??";
@@ -52,7 +49,7 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
     // Verify Term
     if(!isTerm(term, termid)){
         existsTerm = false;
-        qDebug() << "Term does not exist!";
+
         // Get latest ID and set that to termid
         termid = QString::number(mainStorage->getLatestID("termid", "term"));
         if(term->getSemester() == "Fall")
@@ -67,9 +64,7 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
             return false;
         }
     }
-    else {
-        qDebug() << "Term ID: " + termid;
-    }
+
 
 
 
@@ -82,18 +77,14 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         // Get latest ID and set that to courseid
         courseid = QString::number(mainStorage->getLatestID("courseid", "course"));
     }
-    else {
-        qDebug() << "Course ID: " + courseid;
-    }
 
     // No autoincrement in favor of more control
     contentid = QString::number(mainStorage->getLatestID("contentid", "contentItem"));
-    qDebug() << "New ContentID: " + contentid;
+
 
     // Verify PurchasingDetails
     if(!isPurchasable(contentid)){
         existsPurchasing = false;
-        qDebug() << "Is not yet Purchasable!";
     }
     else {
         errorMsg = "Purchasing Details already exist for this Content Item ID: " + contentid;
@@ -104,8 +95,6 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         mainStorage->getMainStorage().transaction();
         QSqlQuery prepQ;
         if(!existsTerm){
-
-            qDebug() << "Preparing Term";
             // Add term to DB
             prepQ.prepare("insert into term (termid, semester, term_year) values (:termid, :semester, :term_year)");
             prepQ.bindValue(":termid", termid.toInt());
@@ -124,7 +113,6 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         }
 
         if(!existsCourse){
-            qDebug() << "Preparing Course";
             // Add Course to DB
             prepQ.prepare("insert into course (courseid, name, termid) values (:courseid, :name, :termid)");
             prepQ.bindValue(":termid", termid.toInt());
@@ -192,7 +180,6 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
 
         if( !existsPurchasing && book->getPurchasingDetails()->getPrice() != 0 && book->getPurchasingDetails()->getVendor() != 0) {
             // Add Purchasing Details
-            qDebug() << "Preparing PD";
             prepQ.prepare("insert into purchasingDetails (price, vendor, contentid) values (:price, :vendor, :contentid)");
             prepQ.bindValue(":price", book->getPurchasingDetails()->getPrice());
             prepQ.bindValue(":vendor", book->getPurchasingDetails()->getVendor());
@@ -217,7 +204,7 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
             return false;
         }
         else {
-            qDebug() << "Everything went great. Check the db using sqlite3";
+            qDebug() << "Everything went great.";
             mainStorage->getMainStorage().close();
             return true;
         }
