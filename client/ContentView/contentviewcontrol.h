@@ -186,7 +186,7 @@ public:
     void requestBookDetails(const Book* book);
 
     /* Member Function: requestBooks
-     *   Retrieves all Books in the system. (For CONTENTMGR users.)
+     *   Requests all Books in the system. (For CONTENTMGR users.)
      * Side Effects: None
      * Return Value: None
      */
