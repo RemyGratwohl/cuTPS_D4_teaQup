@@ -24,6 +24,11 @@
 #include "contentview.h"
 #include "ClientCommunication/message.h"
 #include "ClientCommunication/datamessage.h"
+#include "../../server/ContentManagement/book.h"
+#include "../../server/ContentManagement/chapter.h"
+#include "../../server/ContentManagement/chaptersection.h"
+#include "../../server/CourseManagement/course.h"
+#include "../../server/CourseManagement/term.h"
 
 class ViewControl;
 
@@ -39,7 +44,7 @@ public:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-   virtual bool processMsg(const Message* msg);
+   virtual bool processMsg(Message* msg);
 
     QWidget* getView();
 

@@ -25,6 +25,7 @@
 #include "billinginfoview.h"
 #include "ClientCommunication/message.h"
 #include "ClientCommunication/datamessage.h"
+#include "../../server/Purchasing/order.h"
 
 class ViewControl;
 
@@ -40,7 +41,7 @@ public:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-   virtual bool processMsg(const Message* msg);
+   virtual bool processMsg(Message *msg);
 
     QWidget* getView();
 
