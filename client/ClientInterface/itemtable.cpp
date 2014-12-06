@@ -1,35 +1,23 @@
-#include "mainwindow.h"
-#include "ui_mainwindow.h"
-#include "viewcontrol.h"
-#include "../server/ContentManagement/book.h"
-#include "../server/ContentManagement/chapter.h"
-#include "../server/ContentManagement/chaptersection.h"
+#include "itemtable.h"
 
-MainWindow::MainWindow(ViewControl *controller) :
-    controller(controller),
-    ui(new Ui::MainWindow)
+ContentItemTable::ContentItemTable(QObject *parent) :
+    QObject(parent)
 {
-    ui->setupUi(this);
+    ui->contentWidget->setColumnCount(3);
+    QTableWidgetItem* firstColumn = new QTableWidgetItem("Title");
+    QTableWidgetItem* secondColumn = new QTableWidgetItem("Content Type");
+    QTableWidgetItem* thirdColumn = new QTableWidgetItem("Course ID");
+    ui->contentWidget->setHorizontalHeaderItem(0, firstColumn);
+    ui->contentWidget->setHorizontalHeaderItem(1, secondColumn);
+    ui->contentWidget->setHorizontalHeaderItem(2, thirdColumn);
+    ui->contentWidget->setSortingEnabled(true);
+    ui->contentWidget->horizontalHeader()->setStretchLastSection(true);
 
-    allItems = new QVector<SerializableQObject*>();
-    selectedItems = new QVector<SerializableQObject*>();
-
-    //ui->statusLabel->setText(currentUser->getName());
-
-    /*switch(currentUser->getType()){
-        case(User::STUDENT):
-            //ui->statusLabel->setText("1");
-            break;
-        case(User::CONTENTMGR):
-            break;
-        case(User::ADMIN):
-            break;
-        default:
-            break;
-    }*/
+    // make the title's clickable
+    connect(ui->contentWidget, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(itemTitleClicked(int,int)));
 }
 
-bool MainWindow::viewContentItems(QVector<SerializableQObject *>* contentList)
+bool ItemTable::updateTableView(QVector<SerializableQObject *>* contentList)
 {
     int listSize = contentList->size();
     for(int i = 0; i < listSize; ++i) {
@@ -70,19 +58,21 @@ bool MainWindow::viewContentItems(QVector<SerializableQObject *>* contentList)
         ui->contentWidget->resizeColumnsToContents();
     }
 
-    allItems = contentList;
-
     return true;
 }
 
-MainWindow::~MainWindow()
+void ItemTable::itemTitleClicked(int row, int col)
 {
-    delete ui;
-}
-
-void MainWindow::on_shoppingCartButton_clicked()
-{
-    Message* msg = new DataMessage(ORDERING, UPDATE, new User(), selectedItems);
-    controller->processMsg(msg);
-    controller->changeView(ViewControl::SHOPPING_VIEW);
+    if(col == 0) {
+        for(int i = 0; i < allItems->size(); ++i) {
+            ContentItem* content = qobject_cast<ContentItem*>(allItems->at(i));
+            QString text = ui->contentWidget->item(row, col)->text();
+            if(content->getTitle().compare(text) == 0) {
+                selectedItems->push_back(allItems->at(i));
+                ui->contentWidget->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
+                ui->contentWidget->item(row, 1)->setBackgroundColor(QColor(200, 200, 200));
+                ui->contentWidget->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
+            }
+        }
+    }
 }
