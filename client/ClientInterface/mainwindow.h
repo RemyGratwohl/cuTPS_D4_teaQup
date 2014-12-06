@@ -21,7 +21,7 @@
 */
 
 #include <QMainWindow>
-#include <QListWidgetItem>
+#include <QTableWidgetItem>
 #include <QVector>
 #include "../server/ServerCommunication/serializableqobject.h"
 #include "../server/ContentManagement/contentitem.h"

@@ -2,6 +2,7 @@
 #include <QMessageBox>
 #include "../server/ServerCommunication/messageroutingtypes.h"
 #include "../server/ContentManagement/book.h"
+#include "../server/ContentManagement/chapter.h"
 
 ViewControl::ViewControl(QObject *parent) :
     QObject(parent)
@@ -46,6 +47,9 @@ bool ViewControl::begin()
                                "http://www.stepheniemeyer.com/thehost.html", 2008,
                                "Little Brown and Company", "", "");
     list->push_back(qobject_cast<SerializableQObject*>(testBook));
+
+    Chapter* testChapter = new Chapter(-1, "The Hostererest", 1, new PurchasingDetails(), -1, 1, " 978-0316068048-1");
+    list->push_back(qobject_cast<SerializableQObject*>(testChapter));
 
     mainWindow->viewContentItems(data);
 

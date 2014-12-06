@@ -27,7 +27,7 @@
      <string>Shopping Cart</string>
     </property>
    </widget>
-   <widget class="QListWidget" name="contentWidget">
+   <widget class="QTableWidget" name="contentWidget">
     <property name="geometry">
      <rect>
       <x>10</x>
