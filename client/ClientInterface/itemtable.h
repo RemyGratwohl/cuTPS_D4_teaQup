@@ -2,16 +2,18 @@
 #define ITEMTABLE_H
 
 #include <QObject>
+#include <QTableWidget>
 #include <QTableWidgetItem>
+#include <QHeaderView>
 #include <QVector>
+#include "../server/ServerCommunication/serializableqobject.h"
 
 class ItemTable : public QObject
 {
     Q_OBJECT
 public:
-    explicit ContentItemTable(QObject *parent = 0);
-
-    virtual ~ContentItemTable();
+    ItemTable(QObject *parent = 0, QTableWidget* table = 0);
+    ~ItemTable();
 
     /* Member Function: updateTableView
      *   Displayes the names of content items in a list
@@ -19,12 +21,17 @@ public:
      * Side Effects: None
      * Return Value: Success indicator
      */
-    virtual bool updateTableView(QVector<SerializableQObject *>* contentList) = 0;
+    virtual bool updateTableView(QVector<SerializableQObject *>* contentList);
+
+    virtual bool initialize();
 
 signals:
 
 public slots:
-    virtual void itemTitleClicked(int row, int col);
+    virtual void itemTitleClicked(int row, int col) = 0;
+
+protected:
+    QTableWidget *contentTable;
 
 };
 

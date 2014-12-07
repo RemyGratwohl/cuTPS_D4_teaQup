@@ -61,6 +61,8 @@ public:
      void displayCommunicationError();
      void displayErrorString(QString &err);
 
+     void setShoppingList(QVector<SerializableQObject *>* list);
+
 private:
     User                      *currentUser;  // The User currently logged in
 

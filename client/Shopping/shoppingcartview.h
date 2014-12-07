@@ -22,6 +22,7 @@
 
 #include <QWidget>
 #include "../server/ServerCommunication/serializableqobject.h"
+#include "../Shopping/shoppingcarttable.h"
 
 namespace Ui {
 class ShoppingCartView;
@@ -51,6 +52,7 @@ private slots:
 private:
     Ui::ShoppingCartView *ui;
     ShoppingCartControl *controller;
+    ShoppingCartTable *shoppingCartTable;
 };
 
 #endif // SHOPPINGCARTVIEW_H

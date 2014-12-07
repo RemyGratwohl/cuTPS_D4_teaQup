@@ -24,6 +24,7 @@
 #include "../server/ServerCommunication/serializableqobject.h"
 #include "../server/ContentManagement/contentitem.h"
 #include <../server/UserManagement/user.h>
+#include "contentitemtable.h"
 
 class ViewControl;
 
@@ -39,14 +40,15 @@ public:
     explicit MainWindow(ViewControl *controller = 0);
     ~MainWindow();
 
+    bool viewContentItems(QVector<SerializableQObject*>* contentItems);
+
 private slots:
     void on_shoppingCartButton_clicked();
 
 private:
-    Ui::MainWindow *ui;
-    ViewControl  *controller;
-    QVector<SerializableQObject*>* allItems;
-    QVector<SerializableQObject*>* selectedItems; // added to shopping cart
+    Ui::MainWindow   *ui;
+    ViewControl      *controller;
+    ContentItemTable *contentItemTable;
 };
 
 #endif // MAINWINDOW_H

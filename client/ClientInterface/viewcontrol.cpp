@@ -58,6 +58,11 @@ bool ViewControl::begin()
     return true;
 }
 
+void ViewControl::setShoppingList(QVector<SerializableQObject *>* list)
+{
+    shoppingController->handleShoppingList(list);
+}
+
 bool ViewControl::processMsg(Message *msg)
 {
     DEST_TYPE msgDest = msg->getDestType();

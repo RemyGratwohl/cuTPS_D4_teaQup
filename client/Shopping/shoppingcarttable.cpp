@@ -1,38 +1,22 @@
-#include "itemtable.h"
+#include "shoppingcarttable.h"
 #include "../server/ContentManagement/contentitem.h"
 #include "../server/ContentManagement/book.h"
 #include "../server/ContentManagement/chapter.h"
 #include "../server/ContentManagement/chaptersection.h"
 
-ItemTable::ItemTable(QObject *parent, QTableWidget* table) :
-    QObject(parent), contentTable(table)
+ShoppingCartTable::ShoppingCartTable(QObject *parent, QTableWidget *table) :
+    ItemTable(parent, table)
 {
-    initialize();
+    shoppingItems = new QVector<SerializableQObject*>();
 }
 
-ItemTable::~ItemTable() {}
+ShoppingCartTable::~ShoppingCartTable() {}
 
-bool ItemTable::initialize()
-{
-    contentTable->setColumnCount(3);
-    QTableWidgetItem* firstColumn = new QTableWidgetItem("Title");
-    QTableWidgetItem* secondColumn = new QTableWidgetItem("Content Type");
-    QTableWidgetItem* thirdColumn = new QTableWidgetItem("Course ID");
-    contentTable->setHorizontalHeaderItem(0, firstColumn);
-    contentTable->setHorizontalHeaderItem(1, secondColumn);
-    contentTable->setHorizontalHeaderItem(2, thirdColumn);
-    contentTable->setSortingEnabled(true);
-    contentTable->horizontalHeader()->setStretchLastSection(true);
-
-    // make the title's clickable
-    connect(contentTable, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(itemTitleClicked(int,int)));
-    return true;
-}
-
-bool ItemTable::updateTableView(QVector<SerializableQObject *>* contentList)
+bool ShoppingCartTable::updateTableView(QVector<SerializableQObject *>* contentList)
 {
     int listSize = contentList->size();
     for(int i = 0; i < listSize; ++i) {
+        shoppingItems->push_back(contentList->at(i));
         ContentItem* content = qobject_cast<ContentItem*>(contentList->at(i));
 
         QTableWidgetItem* itemTitle;
@@ -69,22 +53,10 @@ bool ItemTable::updateTableView(QVector<SerializableQObject *>* contentList)
         // adjust column width to fit all contents
         contentTable->resizeColumnsToContents();
     }
-
     return true;
 }
 
-void ItemTable::itemTitleClicked(int row, int col)
+void ShoppingCartTable::itemTitleClicked(int row, int col)
 {
-    /*
-    if(col == 0) {
-        for(int i = 0; i < allItems->size(); ++i) {
-            ContentItem* content = qobject_cast<ContentItem*>(allItems->at(i));
-            QString text = contentTable->item(row, col)->text();
-            if(content->getTitle().compare(text) == 0) {
-                contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
-                contentTable->item(row, 1)->setBackgroundColor(QColor(200, 200, 200));
-                contentTable->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
-            }
-        }
-    }*/
+
 }

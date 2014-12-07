@@ -8,7 +8,8 @@ class ContentItemTable : public ItemTable
 {
     Q_OBJECT
 public:
-    explicit ContentItemTable(QObject *parent = 0);
+    ContentItemTable(QObject *parent = 0, QTableWidget* table = 0);
+    ~ContentItemTable();
 
     /* Member Function: updateTableView
      *   Displayes the names of content items in a list
@@ -16,12 +17,18 @@ public:
      * Side Effects: None
      * Return Value: Success indicator
      */
-    bool updateTableView(QVector<SerializableQObject *>* contentList);
+    virtual bool updateTableView(QVector<SerializableQObject *>* contentList);
+
+    QVector<SerializableQObject *>* getSelectedItems() const;
 
 signals:
 
 public slots:
-    void itemTitleClicked(int row, int col);
+    virtual void itemTitleClicked(int row, int col);
+
+private:
+    QVector<SerializableQObject *>* allItems;
+    QVector<SerializableQObject *>* selectedItems;
 
 };
 

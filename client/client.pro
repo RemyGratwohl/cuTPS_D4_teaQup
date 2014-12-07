@@ -44,7 +44,8 @@ SOURCES += main.cpp\
     ../server/CourseManagement/course.cpp \
     ClientCommunication/successmessage.cpp \
     ClientInterface/contentitemtable.cpp \
-    ClientInterface/itemtable.cpp
+    ClientInterface/itemtable.cpp \
+    Shopping/shoppingcarttable.cpp
 
 HEADERS  += ClientInterface/mainwindow.h \
     ClientCommunication/networklink.h \
@@ -79,7 +80,8 @@ HEADERS  += ClientInterface/mainwindow.h \
     ../server/CourseManagement/course.h \
     ClientCommunication/successmessage.h \
     ClientInterface/contentitemtable.h \
-    ClientInterface/itemtable.h
+    ClientInterface/itemtable.h \
+    Shopping/shoppingcarttable.h
 
 FORMS    += ClientInterface/mainwindow.ui \
     ClientInterface/loginwindow.ui \

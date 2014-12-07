@@ -79,6 +79,8 @@ public:
      */
     void processOrder(Order* order);
 
+    void handleShoppingList(QVector<SerializableQObject *>* list);
+
 signals:
 
 public slots:
