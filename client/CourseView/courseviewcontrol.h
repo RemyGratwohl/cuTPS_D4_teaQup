@@ -45,8 +45,6 @@ public:
      */
    virtual bool processMsg(Message* msg);
 
-    QWidget* getView();
-
     // Functions that will be called upon reception of non-error information from the server
     // -------------------------------------------------------------------------------------
     /* All input arguments will be deallocated by these functions
@@ -124,8 +122,6 @@ signals:
 
 public slots:
 
-private:
-    CourseManagementView *courseView;
 };
 
 #endif // COURSEVIEWCONTROL_H

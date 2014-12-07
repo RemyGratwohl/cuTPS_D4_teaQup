@@ -1,11 +1,12 @@
 #include "courseviewcontrol.h"
 #include "../ClientCommunication/successmessage.h"
+#include "../ClientCommunication/datamessage.h"
 #include <QDebug>
 
 CourseViewControl::CourseViewControl(ViewControl *vc, ClientDispatcher *d) :
-    AbstractViewController(vc, d, COURSE), courseView(0)
+    AbstractViewController(vc, d, COURSE)
 {
-    courseView = new CourseManagementView(this);
+    view = new CourseManagementView(this);
 }
 
 bool CourseViewControl::processMsg(Message *msg)
@@ -119,10 +120,6 @@ bool CourseViewControl::processMsg(Message *msg)
     }
 
     return result;
-}
-
-QWidget* CourseViewControl::getView(){
-    return courseView;
 }
 
 // TODO (Remy or Brandon) Stub implementation

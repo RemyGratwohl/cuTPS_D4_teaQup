@@ -1,5 +1,6 @@
 #include "contentviewcontrol.h"
 #include "../ClientCommunication/successmessage.h"
+#include "../ClientCommunication/datamessage.h"
 #include <QDebug>
 
 ContentViewControl::ContentViewControl(ViewControl *vc, ClientDispatcher *d) :

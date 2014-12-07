@@ -1,8 +1,9 @@
 #include "abstractviewcontroller.h"
+#include "../ClientCommunication/datamessage.h"
 #include <QDebug>
 
 AbstractViewController::AbstractViewController(ViewControl *vc, ClientDispatcher *d, DEST_TYPE dest) :
-    QObject(vc), viewControl(vc), dispatcher(d), ownDest(dest)
+    QObject(vc), viewControl(vc), dispatcher(d), ownDest(dest), view(0)
 {}
 
 void AbstractViewController::sendData(ACTION_TYPE action, QVector<SerializableQObject *>* data) {
