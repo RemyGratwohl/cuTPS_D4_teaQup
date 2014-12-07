@@ -8,7 +8,9 @@ NetworkLink::NetworkLink(QObject* parent, ClientDispatcher *clientDispatch)
 
 bool NetworkLink::sendServerRequest(Message*& message)
 {
-    establishServerConnection();
+    if( !establishServerConnection() ) {
+        return false;
+    }
 
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);

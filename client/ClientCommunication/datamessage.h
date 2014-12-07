@@ -63,6 +63,13 @@ public:
      */
     QVector<SerializableQObject*>* getData() const { return data; }
 
+    /* Member Function: extractData
+     *   Returns a pointer to the vector of data items
+     *     stored in this object, and transfers ownership to the caller.
+     *   This object's data pointer is nullified.
+     */
+    QVector<SerializableQObject*>* extractData();
+
     /* Member Function: setFirstData
      *   To be used by SerializableObjectFactory
      * in: Data items being transferred

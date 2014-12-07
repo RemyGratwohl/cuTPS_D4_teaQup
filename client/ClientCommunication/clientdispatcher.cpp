@@ -9,7 +9,9 @@ ClientDispatcher::ClientDispatcher(QObject *parent,
 
 bool ClientDispatcher::deliverMsg(Message*& msg) const {
     // send the message through the network link to the server network link
-    networkLink->sendServerRequest(msg);
+    if( !networkLink->sendServerRequest(msg) ) {
+        viewControl->displayCommunicationError();
+    }
 
     // delete message now
     delete msg;
