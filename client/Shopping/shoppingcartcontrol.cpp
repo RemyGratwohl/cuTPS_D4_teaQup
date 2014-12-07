@@ -1,5 +1,6 @@
 #include "shoppingcartcontrol.h"
 #include <QDebug>
+#include "../ClientInterface/viewcontrol.h"
 
 ShoppingCartControl::ShoppingCartControl(ViewControl *viewController, QObject *parent) :
     viewController(viewController),
@@ -50,6 +51,10 @@ void ShoppingCartControl::handleShoppingList(QVector<SerializableQObject *>* lis
 
 QWidget* ShoppingCartControl::getView(){
     return shoppingCartView;
+}
+
+void ShoppingCartControl::viewClosed(){
+    viewController->closeView();
 }
 
 // TODO (Remy or Brandon) Stub implementation

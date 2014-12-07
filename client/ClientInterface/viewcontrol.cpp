@@ -132,21 +132,29 @@ void ViewControl::displayErrorString(QString &err)
     msgBox.exec();
 }
 
-bool ViewControl::changeView(TYPE subsystem){
+bool ViewControl::changeView(TYPE subsystem)
+{
 
     switch(subsystem)
     {
     case(SHOPPING_VIEW):
-        mainWindow->setCentralWidget(shoppingController->getView());
+        mainWindow->addView(shoppingController->getView());
         break;
     case(CONTENT_VIEW):
-        mainWindow->setCentralWidget(contentController->getView());
+        mainWindow->addView(contentController->getView());
         break;
     case(COURSE_VIEW):
+        mainWindow->addView(courseController->getView());
         break;
     default:
         break;
     }
 
+    return true;
+}
+
+bool ViewControl::closeView()
+{
+    mainWindow->popView();
     return true;
 }

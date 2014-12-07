@@ -45,6 +45,7 @@ public:
    virtual bool processMsg(Message *msg);
 
     QWidget* getView();
+    void viewClosed();
 
     // Functions that will be called upon reception of non-error information from the server
     // -------------------------------------------------------------------------------------
