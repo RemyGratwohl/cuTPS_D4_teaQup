@@ -5,6 +5,7 @@
 #include "../server/ContentManagement/book.h"
 #include "../server/ContentManagement/chapter.h"
 #include "userauthenticationcontrol.h"
+#include "../ContentView/contentviewcontrol.h"
 
 ViewControl::ViewControl(void) :
     QObject(), currentUser(0), loginWindow(0), mainWindow(0),
@@ -16,10 +17,9 @@ ViewControl::ViewControl(void) :
 
     clientDispatcher = new ClientDispatcher(this, this);
 
-    contentController = new ContentViewControl(this);
+    contentController = new ContentViewControl(this, clientDispatcher);
     courseController = new CourseViewControl(this);
     shoppingController = new ShoppingCartControl(this);
-    contentController  = new ContentViewControl(this);
     courseController   = new CourseViewControl(this);
 
     authenticator = new UserAuthenticationControl(this, clientDispatcher);

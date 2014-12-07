@@ -22,21 +22,21 @@
 
 #include <QObject>
 #include "contentview.h"
-#include "ClientCommunication/message.h"
-#include "ClientCommunication/datamessage.h"
+#include "../util/abstractviewcontroller.h"
 #include "../../server/ContentManagement/book.h"
 #include "../../server/ContentManagement/chapter.h"
 #include "../../server/ContentManagement/chaptersection.h"
 #include "../../server/CourseManagement/course.h"
 #include "../../server/CourseManagement/term.h"
 
-class ViewControl;
-
-class ContentViewControl : public QObject
+class ContentViewControl : public AbstractViewController
 {
     Q_OBJECT
 public:
-    explicit ContentViewControl(ViewControl *viewController = 0, QObject *parent = 0);
+    /* Constructor
+     *   Proxy of the AbstractViewController constructor.
+     */
+    ContentViewControl(ViewControl *viewControl, ClientDispatcher *dispatcher);
 
     /* Member Function: processMsg
      * Handles a message received from the dispatcher.
@@ -57,8 +57,7 @@ protected:
      *   Processes the list of Books for the courses in which the STUDENT
      *     user is enrolled.
      * in: Books for the courses in which the student is enrolled,
-     *      and their corresponding courses
-     *      (Passed in null, and remains null if the operation fails.).
+     *      and their corresponding courses and terms
      *
      *      Format:
      *      {term0
@@ -107,8 +106,10 @@ public:
     /* Member Function: addBook
      * in: Book to be added to the system
      * in: Course to be added to the system, if the Book is for a new course
+     *       (otherwise null)
      * in: Term to be added to the system, if the Book is for a new course
      *       and the course is for a new term.
+     *       (otherwise null)
      * Side Effects: None
      * Return Value: None
      */
@@ -131,8 +132,10 @@ public:
     /* Member Function: updateBook
      * in: Book whose information is to be altered
      * in: Course to be added to the system, if the Book now refers to a new course
+     *       (otherwise null)
      * in: Term to be added to the system, if the Book now refers to a new course
      *       and the course is for a new term.
+     *       (otherwise null)
      * Side Effects: None
      * Return Value: None
      */
@@ -188,7 +191,7 @@ public:
      * Side Effects: None
      * Return Value: None
      */
-    void requestBookDetails(const Book* book);
+    void requestBookDetails(Book* book);
 
     /* Member Function: requestBooks
      *   Requests all Books in the system. (For CONTENTMGR users.)
@@ -202,7 +205,6 @@ signals:
 public slots:
 
 private:
-    ViewControl      *viewController;
     ContentView      *contentView;
 };
 

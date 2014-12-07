@@ -65,7 +65,7 @@ protected:
      * Side Effects: None
      * Return Value: Returns the result of ClientDispatcher::deliverMsg()
      */
-    bool sendData(ACTION_TYPE, QVector<SerializableQObject *>*);
+    void sendData(ACTION_TYPE, QVector<SerializableQObject *>*);
 
 signals:
 
