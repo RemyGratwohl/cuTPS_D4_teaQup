@@ -99,11 +99,12 @@ bool ViewControl::authenticateUser(OBJ_ID_TYPE id)
         {
             studentView        = new StudentView(this);
             shoppingController = new ShoppingCartControl(this);
-            mainWindow->setCentralWidget(studentView);
+            mainWindow->addView(studentView);
         }else if(currentUser->getType() == User::CONTENTMGR)
         {
             contentController  = new ContentViewControl(this);
             courseController   = new CourseViewControl(this);
+            changeView(CONTENT_VIEW);
         }else if (currentUser ->getType() == User::ADMIN)
         {
             qDebug() << "Not implemented";

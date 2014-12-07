@@ -57,6 +57,14 @@ public:
      virtual bool processMsg(Message* msg);
 
      bool changeView(TYPE subsystem);
+
+     /* Member Function: closeView()
+      *   Closes the top level view by means of popping it off the widget stack
+      * in: None
+      * Side Effects: None
+      * Return Value: True, if the operation succeeded.
+      */
+     bool closeView();
      bool authenticateUser(OBJ_ID_TYPE id);
 
      void displayCommunicationError();

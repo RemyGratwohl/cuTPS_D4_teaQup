@@ -16,3 +16,14 @@ MainWindow::~MainWindow()
 {
     delete ui;
 }
+
+bool MainWindow::addView(QWidget *widget)
+{
+    ui->stackedWidget->addWidget(widget);
+    ui->stackedWidget->setCurrentWidget(widget);
+}
+
+bool MainWindow::popView()
+{
+    ui->stackedWidget->removeWidget(ui->stackedWidget->currentWidget());
+}

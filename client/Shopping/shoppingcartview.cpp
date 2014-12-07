@@ -28,3 +28,7 @@ void ShoppingCartView::on_orderButton_clicked()
 {
 
 }
+
+void ShoppingCartView::on_backButton_clicked()
+{
+}

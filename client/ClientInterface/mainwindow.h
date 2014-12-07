@@ -38,6 +38,9 @@ public:
     explicit MainWindow(ViewControl *controller = 0);
     ~MainWindow();
 
+    bool addView(QWidget *widget);
+    bool popView();
+
 private:
     Ui::MainWindow   *ui;
     ViewControl      *controller;
