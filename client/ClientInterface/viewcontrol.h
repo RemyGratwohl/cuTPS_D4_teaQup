@@ -28,6 +28,7 @@
 #include "mainwindow.h"
 #include "userauthenticationcontrol.h"
 
+#include "studentview.h"
 #include "ClientCommunication/clientdispatcher.h"
 
 #include "ContentView/contentviewcontrol.h"
@@ -68,6 +69,7 @@ private:
 
     LoginWindow               *loginWindow;
     MainWindow                *mainWindow;
+    StudentView               *studentView;
 
     UserAuthenticationControl *authenticator;
 

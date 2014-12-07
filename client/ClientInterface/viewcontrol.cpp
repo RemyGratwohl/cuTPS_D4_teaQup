@@ -10,10 +10,6 @@ ViewControl::ViewControl(QObject *parent) :
     loginWindow = new LoginWindow(this);
     mainWindow  = new MainWindow(this);
 
-    shoppingController = new ShoppingCartControl(this);
-    contentController  = new ContentViewControl(this);
-    courseController   = new CourseViewControl(this);
-
     clientDispatcher = new ClientDispatcher(this, this);
     clientDispatcher->initialize();
 
@@ -22,7 +18,7 @@ ViewControl::ViewControl(QObject *parent) :
 
 bool ViewControl::begin()
 {
-    // send test message to server
+    /* send test message to server
     QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
     Message* newMessage = new DataMessage(CONTENT, UPDATE, new User(User::STUDENT), data);
     clientDispatcher->deliverMsg(newMessage);
@@ -53,8 +49,8 @@ bool ViewControl::begin()
     Chapter* testChapter = new Chapter(-1, "The Hostererest", 1, new PurchasingDetails(), -1, 1, " 978-0316068048-1");
     list->push_back(qobject_cast<SerializableQObject*>(testChapter));
 
-    mainWindow->viewContentItems(data);
-
+    studentView->viewContentItems(data);
+    */
     return true;
 }
 
@@ -98,6 +94,23 @@ bool ViewControl::authenticateUser(OBJ_ID_TYPE id)
     {
         loginWindow->hide();
         mainWindow->show();
+
+        if(currentUser->getType() == User::STUDENT)
+        {
+            studentView        = new StudentView(this);
+            shoppingController = new ShoppingCartControl(this);
+            mainWindow->setCentralWidget(studentView);
+        }else if(currentUser->getType() == User::CONTENTMGR)
+        {
+            contentController  = new ContentViewControl(this);
+            courseController   = new CourseViewControl(this);
+        }else if (currentUser ->getType() == User::ADMIN)
+        {
+            qDebug() << "Not implemented";
+        }else{
+            qDebug() << "Invalid User Type Detected";
+            return false;
+        }
 
         return true;
     }
