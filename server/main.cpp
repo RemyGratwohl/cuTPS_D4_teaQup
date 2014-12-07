@@ -9,7 +9,7 @@
 #include "../client/ClientCommunication/errormessage.h"
 #include <QDebug>
 
-void bookTest();
+void addBookTest();
 void userTest();
 void validOrderTest();
 
@@ -33,12 +33,43 @@ void validOrderTest() {
     QSharedPointer<OrderStorageControl> orderAccess;
     orderAccess->getOrderStorageControl(orderAccess);
     QString error = "";
-    QVector<PurchasingDetails*>* orderList = new QVector<PurchasingDetails*>();
-    orderAccess->allPurchasingDetailsValid(orderList, error);
 
+    // Invalid list
+    QVector<PurchasingDetails*>* orderList1 = new QVector<PurchasingDetails*>();
+    PurchasingDetails* pDeets1 = new PurchasingDetails(1, 300.99, "TakinYourDeets", 2);
+    PurchasingDetails* pDeets2 = new PurchasingDetails(3, 9.99, "TakinYourDeets", 2);
+    orderList1->push_back(pDeets1);
+    orderList1->push_back(pDeets2);
+
+    bool Success1 = orderAccess->allPurchasingDetailsValid(orderList1, error);
+    if(!Success1){
+        if(error.length() > 1)
+            qDebug() << "ERROR: " + error;
+        qDebug() << "One or more of the Purchasing Details is invalid.";
+    }
+    // Valid list
+    QVector<PurchasingDetails*>* orderList2 = new QVector<PurchasingDetails*>();
+    PurchasingDetails* pDeets3 = new PurchasingDetails(1, 300.99, "TakinYourDeets", 2);
+    PurchasingDetails* pDeets4 = new PurchasingDetails(6, 9.99, "TakinYourDeets", 20);
+    orderList2->push_back(pDeets3);
+    orderList2->push_back(pDeets4);
+    Success1 = orderAccess->allPurchasingDetailsValid(orderList2, error);
+    if(Success1){
+        qDebug() << "All details valid!";
+    }
+    else{
+        qDebug() << "Something went wrong! " + error;
+    }
+
+    delete orderList1;
+    delete orderList2;
+    delete pDeets1;
+    delete pDeets2;
+    delete pDeets3;
+    delete pDeets4;
 }
 
-void bookTest() {
+void addBookTest() {
    QSharedPointer<ContentStorageControl> contentAccess;
    contentAccess->getContentStorageControl(contentAccess);
 
@@ -58,6 +89,9 @@ void bookTest() {
    }
 
    else {
+       delete testbook;
+       delete testTerm;
+       delete testCourse;
       qDebug() << "Success";
    }
 }
@@ -68,7 +102,7 @@ void userTest() {
 
 
     OBJ_ID_TYPE userid = 100945234;
-    User* user = new User(userid);
+    User* user = 0;
     QString error = "";
 
     bool Success = userAccess->getUser(userid, user, error);
@@ -79,6 +113,7 @@ void userTest() {
     }
     else {
         qDebug() << "User's name: " + user->getName();
+        delete user;
     }
 
 }

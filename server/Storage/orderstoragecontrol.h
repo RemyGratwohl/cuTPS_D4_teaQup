@@ -22,6 +22,7 @@
 */
 
 #include <QObject>
+#include <QVector>
 #include <QSharedPointer>
 #include "mainstoragecontrol.h"
 #include "../ContentManagement/purchasingdetails.h"

@@ -26,5 +26,19 @@ bool OrderStorageControl::initialize(void) {
 
 bool OrderStorageControl::allPurchasingDetailsValid(
         QVector<PurchasingDetails*>*& purchasingDetails, QString& errorMsg) {
+
+    if(purchasingDetails == 0){
+        errorMsg = "Purchasing Details list is null.";
+        return false;
+    }
+
+    // Do any PD have said purchaseID?
+    // If true, do all fields match exactly?
+    // If still true, then PD is valid
+    foreach(PurchasingDetails* details, *purchasingDetails){
+        QString query = "Select * from purchasingDetails where purchaseid=" + QString::number(details->getID());
+        QSqlQuery result = mainStorage->runQuery(query);
+    }
+
     return false;
 }
