@@ -98,6 +98,7 @@ bool ViewControl::authenticateUser(OBJ_ID_TYPE id)
     {
         loginWindow->hide();
         mainWindow->show();
+
         return true;
     }
 
