@@ -108,7 +108,7 @@ bool ContentControl::processMsg(const Message *msg)
             result = getBookList(user, output, error);
         } else if( user->isOfType(User::CONTENTMGR) && item == 0 ) {
             result = getBooks(output, error);
-        } if( book != 0 ) {
+        } else if( book != 0 ) {
             result = getBookDetails(book, output, error);
             msgAction = static_cast<ACTION_TYPE>(CONTENTHANDLER_RETRIEVE2);
         } else {

@@ -14,28 +14,17 @@
    <string>CuTPS: Prototype Client</string>
   </property>
   <widget class="QWidget" name="centralWidget">
-   <widget class="QPushButton" name="shoppingCartButton">
+   <widget class="QStackedWidget" name="stackedWidget">
     <property name="geometry">
      <rect>
-      <x>457</x>
-      <y>10</y>
-      <width>111</width>
-      <height>27</height>
+      <x>0</x>
+      <y>0</y>
+      <width>588</width>
+      <height>408</height>
      </rect>
     </property>
-    <property name="text">
-     <string>Shopping Cart</string>
-    </property>
-   </widget>
-   <widget class="QTableWidget" name="contentWidget">
-    <property name="geometry">
-     <rect>
-      <x>10</x>
-      <y>10</y>
-      <width>431</width>
-      <height>361</height>
-     </rect>
-    </property>
+    <widget class="QWidget" name="page"/>
+    <widget class="QWidget" name="page_2"/>
    </widget>
   </widget>
   <widget class="QMenuBar" name="menuBar">

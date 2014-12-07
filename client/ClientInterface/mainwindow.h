@@ -22,9 +22,7 @@
 
 #include <QMainWindow>
 #include "../server/ServerCommunication/serializableqobject.h"
-#include "../server/ContentManagement/contentitem.h"
 #include <../server/UserManagement/user.h>
-#include "contentitemtable.h"
 
 class ViewControl;
 
@@ -40,15 +38,12 @@ public:
     explicit MainWindow(ViewControl *controller = 0);
     ~MainWindow();
 
-    bool viewContentItems(QVector<ContentItem*>* contentItems);
-
-private slots:
-    void on_shoppingCartButton_clicked();
+    bool addView(QWidget *widget);
+    bool popView();
 
 private:
     Ui::MainWindow   *ui;
     ViewControl      *controller;
-    ContentItemTable *contentItemTable;
 };
 
 #endif // MAINWINDOW_H

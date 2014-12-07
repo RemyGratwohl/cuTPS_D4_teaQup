@@ -10,21 +10,6 @@ MainWindow::MainWindow(ViewControl *controller) :
     ui(new Ui::MainWindow)
 {
     ui->setupUi(this);
-    contentItemTable = new ContentItemTable(this, ui->contentWidget);
-
-    //ui->statusLabel->setText(currentUser->getName());
-
-    /*switch(currentUser->getType()){
-        case(User::STUDENT):
-            //ui->statusLabel->setText("1");
-            break;
-        case(User::CONTENTMGR):
-            break;
-        case(User::ADMIN):
-            break;
-        default:
-            break;
-    }*/
 }
 
 MainWindow::~MainWindow()
@@ -32,13 +17,13 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-bool MainWindow::viewContentItems(QVector<ContentItem*>* contentItems)
+bool MainWindow::addView(QWidget *widget)
 {
-    return contentItemTable->updateTableView(contentItems);
+    ui->stackedWidget->addWidget(widget);
+    ui->stackedWidget->setCurrentWidget(widget);
 }
 
-void MainWindow::on_shoppingCartButton_clicked()
+bool MainWindow::popView()
 {
-    controller->setShoppingList(contentItemTable->getSelectedItems());
-    controller->changeView(ViewControl::SHOPPING_VIEW);
+    ui->stackedWidget->removeWidget(ui->stackedWidget->currentWidget());
 }

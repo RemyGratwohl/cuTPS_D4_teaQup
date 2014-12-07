@@ -27,6 +27,7 @@
 #include "loginwindow.h"
 #include "mainwindow.h"
 
+#include "studentview.h"
 #include "ClientCommunication/clientdispatcher.h"
 
 #include "CourseView/courseviewcontrol.h"
@@ -80,6 +81,15 @@ public:
       *   (e.g. the input argument is valid)
       */
      bool changeView(TYPE subsystem);
+
+     /* Member Function: closeView()
+      *   Closes the top level view by means of popping it off the widget stack
+      * in: None
+      * Side Effects: None
+      * Return Value: True, if the operation succeeded.
+      */
+     bool closeView();
+     bool authenticateUser(OBJ_ID_TYPE id);
 
      /* Member Function: requestAuthentication
       *   To be called by the login window
@@ -138,6 +148,7 @@ private:
 
     LoginWindow               *loginWindow;
     MainWindow                *mainWindow;
+    StudentView               *studentView;
 
     UserAuthenticationControl *authenticator;
 

@@ -16,11 +16,9 @@ ViewControl::ViewControl(void) :
     mainWindow  = new MainWindow(this);
 
     clientDispatcher = new ClientDispatcher(this, this);
+    clientDispatcher->initialize();
 
-    contentController = new ContentViewControl(this, clientDispatcher);
-    courseController = new CourseViewControl(this);
-    shoppingController = new ShoppingCartControl(this);
-    courseController   = new CourseViewControl(this);
+    studentView        = new StudentView(this);
 
     authenticator = new UserAuthenticationControl(this, clientDispatcher);
 
@@ -39,7 +37,7 @@ bool ViewControl::initialize(void) {
 
 bool ViewControl::begin()
 {
-    // send test message to server
+    /* send test message to server
     QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
     Book* testSendBook = new Book(-1, "The Host TEST1", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
                                "http://www.stepheniemeyer.com/thehost.html", 2008,
@@ -85,9 +83,12 @@ bool ViewControl::begin()
     Chapter* testChapter = new Chapter(-1, "The Hostererest", 1, new PurchasingDetails(), -1, 1, " 978-0316068048-1");
     list->push_back(qobject_cast<ContentItem*>(testChapter));
 
-    mainWindow->viewContentItems(list);
+    studentView->viewContentItems(data);
+    */
 
-    qDebug() << "ViewControl::begin() ended.";
+    //mainWindow->viewContentItems(list);
+
+    //qDebug() << "ViewControl::begin() ended.";
 
     return true;
 }
@@ -159,23 +160,31 @@ void ViewControl::displayErrorString(QString &err)
     msgBox.exec(); // Note: This blocks the GUI until the user acknowledges the error.
 }
 
-bool ViewControl::changeView(TYPE subsystem){
+bool ViewControl::changeView(TYPE subsystem)
+{
 
     switch(subsystem)
     {
     case(SHOPPING_VIEW):
-        mainWindow->setCentralWidget(shoppingController->getView());
+        mainWindow->addView(shoppingController->getView());
         break;
     case(CONTENT_VIEW):
-        mainWindow->setCentralWidget(contentController->getView());
+        mainWindow->addView(contentController->getView());
         break;
     case(COURSE_VIEW):
+        mainWindow->addView(courseController->getView());
         break;
     default:
         qDebug() << "ViewControl : Error - Unknown subsystem view type.";
         return false;
     }
 
+    return true;
+}
+
+bool ViewControl::closeView()
+{
+    mainWindow->popView();
     return true;
 }
 
@@ -186,6 +195,25 @@ bool ViewControl::setCurrentUser(User* user) {
 
        loginWindow->hide();
        mainWindow->show();
+
+       if(currentUser->getType() == User::STUDENT)
+       {
+           shoppingController = new ShoppingCartControl(this);
+           contentController = new ContentViewControl(this, clientDispatcher);
+           mainWindow->addView(studentView);
+       }else if(currentUser->getType() == User::CONTENTMGR)
+       {
+           contentController = new ContentViewControl(this, clientDispatcher);
+           courseController = new CourseViewControl(this);
+           changeView(CONTENT_VIEW);
+       }else if (currentUser ->getType() == User::ADMIN)
+       {
+           qDebug() << "Admin View Not implemented";
+       }else{
+           qDebug() << "Invalid User Type Detected";
+           return false;
+       }
+
        return true;
     } else {
         qDebug() << "ViewControl : Error - Current user has already been set.";
