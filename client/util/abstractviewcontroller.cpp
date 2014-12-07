@@ -12,3 +12,11 @@ void AbstractViewController::sendData(ACTION_TYPE action, QVector<SerializableQO
         qDebug() << "AbstractViewController::sendData() : ClientDispatcher::deliverMsg() returned a failure result.";
     }
 }
+
+QWidget* AbstractViewController::getView(){
+     return view;
+ }
+
+void AbstractViewController::closeView(){
+    viewControl->closeView();
+}

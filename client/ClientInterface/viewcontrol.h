@@ -31,10 +31,10 @@
 #include "ClientCommunication/clientdispatcher.h"
 
 #include "CourseView/courseviewcontrol.h"
-#include "Shopping/shoppingcartcontrol.h"
 
 class UserAuthenticationControl;
 class ContentViewControl;
+class ShoppingCartControl;
 
 class ViewControl : public QObject
 {
