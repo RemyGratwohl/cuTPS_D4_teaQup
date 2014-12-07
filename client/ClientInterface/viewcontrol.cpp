@@ -6,6 +6,7 @@
 #include "../server/ContentManagement/chapter.h"
 #include "userauthenticationcontrol.h"
 #include "../ContentView/contentviewcontrol.h"
+#include "../CourseView/courseviewcontrol.h"
 
 ViewControl::ViewControl(void) :
     QObject(), currentUser(0), loginWindow(0), mainWindow(0),
@@ -204,7 +205,7 @@ bool ViewControl::setCurrentUser(User* user) {
        }else if(currentUser->getType() == User::CONTENTMGR)
        {
            contentController = new ContentViewControl(this, clientDispatcher);
-           courseController = new CourseViewControl(this);
+           courseController = new CourseViewControl(this, clientDispatcher);
            changeView(CONTENT_VIEW);
        }else if (currentUser ->getType() == User::ADMIN)
        {

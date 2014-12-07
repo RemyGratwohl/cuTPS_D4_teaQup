@@ -10,6 +10,7 @@ ContentViewControl::ContentViewControl(ViewControl *vc, ClientDispatcher *d) :
 
 bool ContentViewControl::processMsg(Message *msg)
 {
+    bool result = true;
     ACTION_TYPE msgAction = msg->getActionType();
     DEST_TYPE msgDest = msg->getDestType();
 
@@ -32,8 +33,27 @@ bool ContentViewControl::processMsg(Message *msg)
         return false;
     }
     QVector<SerializableQObject*>* data = dataMessage->getData();
-    if( data->isEmpty() ) {
-        qDebug() << "ContentViewControl: Error - Message data vector is empty.";
+    if( data->isEmpty() && msgAction == RETRIEVE ) {
+        qDebug() << "ContentViewControl: Message data vector is empty.";
+
+        /* Assume that a content manager requested all books, or that
+         * a student requested their book list
+         */
+        if( viewControl->getCurrentUser()->isOfType(User::CONTENTMGR) ) {
+            QVector<Book*>* emptyAllBooks = new QVector<Book*>();
+            result = receiveBooks(emptyAllBooks);
+            delete emptyAllBooks;
+        } else if( viewControl->getCurrentUser()->isOfType(User::STUDENT) ) {
+            QVector<SerializableQObject*>* emptyBookList = new QVector<SerializableQObject*>();
+            result = receiveBookList(emptyBookList);
+            delete emptyBookList;
+        } else {
+            qDebug() << "ContentViewControl: Error - No operations related to reception of empty data for an admin user.";
+            result = false;
+        }
+        return result;
+    } else if( data->isEmpty() ) {
+        qDebug() << "ContentViewControl: Error - Message data vector is empty for non-RETRIEVE operation.";
         return false;
     }
 
@@ -42,7 +62,6 @@ bool ContentViewControl::processMsg(Message *msg)
     SerializableQObject* item0 = data->first();
     QVectorIterator<SerializableQObject*> itr(*data);
     Book* book = qobject_cast<Book*>(item0);
-    bool result = true;
 
     switch(msgAction)
     {
