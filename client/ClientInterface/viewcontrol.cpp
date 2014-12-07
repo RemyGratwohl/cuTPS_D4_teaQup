@@ -37,7 +37,6 @@ bool ViewControl::initialize(void) {
 
 bool ViewControl::begin()
 {
-    /*
     // send test message to server
     QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
     Book* testSendBook = new Book(-1, "The Host TEST1", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
@@ -57,7 +56,6 @@ bool ViewControl::begin()
     data = 0; // Deleted when message was dispatched
 
     qDebug() << "Sent test DataMessage.";
-    */
 
     // display a list of content items in main window
     QVector<SerializableQObject *>* list = new QVector<SerializableQObject *>();

@@ -59,16 +59,11 @@ public:
     /* Get User
      *   Retrieves the user from MainStorageControl
      * in: OBJ_ID_TYPE userid used to identify the user
-     * out: User to be altered
+     * out: User to be output
      *      (Passed in null, and remains null if the operation fails.)
      * out: QString to be altered in the event of an error
      * Side Effects: None
      * Return Value: True, if operation succeeded.
-     * *******************************************
-     * Note: -TBR (to be removed before 'release') If a user doesn't exist, it will return FALSE.
-     * I may add error numbers, so that you can check that if the function returns false
-     * You can check the first character in the string and if its a certain number
-     * then you can handle each error differently.
      */
     bool getUser(OBJ_ID_TYPE& userid, User*& user, QString& errorMsg);
 
