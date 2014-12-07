@@ -30,11 +30,10 @@
 #include "studentview.h"
 #include "ClientCommunication/clientdispatcher.h"
 
-#include "Shopping/shoppingcartcontrol.h"
-
 class UserAuthenticationControl;
 class CourseViewControl;
 class ContentViewControl;
+class ShoppingCartControl;
 
 class ViewControl : public QObject
 {

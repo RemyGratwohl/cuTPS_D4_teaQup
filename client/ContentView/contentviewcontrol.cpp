@@ -3,9 +3,9 @@
 #include <QDebug>
 
 ContentViewControl::ContentViewControl(ViewControl *vc, ClientDispatcher *d) :
-    AbstractViewController(vc, d, CONTENT), contentView(0)
+    AbstractViewController(vc, d, CONTENT)
 {
-    contentView = new ContentView(this);
+    view = new ContentView(this);
 }
 
 bool ContentViewControl::processMsg(Message *msg)
@@ -134,10 +134,6 @@ bool ContentViewControl::processMsg(Message *msg)
 
     return result;
 }
-
-QWidget* ContentViewControl::getView(){
-     return contentView;
- }
 
 // TODO (Remy or Brandon) Stub implementation
 bool ContentViewControl::receiveBookList(QVector<SerializableQObject*>* items) {

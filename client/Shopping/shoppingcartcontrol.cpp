@@ -2,11 +2,10 @@
 #include <QDebug>
 #include "../ClientInterface/viewcontrol.h"
 
-ShoppingCartControl::ShoppingCartControl(ViewControl *viewController, QObject *parent) :
-    viewController(viewController),
-    QObject(parent)
+ShoppingCartControl::ShoppingCartControl(ViewControl *vc, ClientDispatcher *d) :
+    AbstractViewController(vc, d, ORDERING)
 {
-    shoppingCartView = new ShoppingCartView(this);
+    view = new ShoppingCartView(this);
     billingInfoView  = new BillingInfoView(this);
     shoppingCart     = new ShoppingCart(this);
 }
@@ -46,15 +45,7 @@ bool ShoppingCartControl::processMsg(Message *msg)
 void ShoppingCartControl::handleShoppingList(QVector<ContentItem *>* list)
 {
     shoppingCart->insertNewItems(list);
-    shoppingCartView->viewContentItems(shoppingCart->getShoppingList());
-}
-
-QWidget* ShoppingCartControl::getView(){
-    return shoppingCartView;
-}
-
-void ShoppingCartControl::viewClosed(){
-    viewController->closeView();
+    ((ShoppingCartView *)view)->viewContentItems(shoppingCart->getShoppingList());
 }
 
 // TODO (Remy or Brandon) Stub implementation

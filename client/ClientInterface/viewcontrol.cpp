@@ -7,6 +7,7 @@
 #include "userauthenticationcontrol.h"
 #include "../ContentView/contentviewcontrol.h"
 #include "../CourseView/courseviewcontrol.h"
+#include "../Shopping/shoppingcartcontrol.h"
 
 ViewControl::ViewControl(void) :
     QObject(), currentUser(0), loginWindow(0), mainWindow(0),
@@ -18,8 +19,6 @@ ViewControl::ViewControl(void) :
 
     clientDispatcher = new ClientDispatcher(this, this);
     clientDispatcher->initialize();
-
-    studentView        = new StudentView(this);
 
     authenticator = new UserAuthenticationControl(this, clientDispatcher);
 
@@ -199,8 +198,9 @@ bool ViewControl::setCurrentUser(User* user) {
 
        if(currentUser->getType() == User::STUDENT)
        {
-           shoppingController = new ShoppingCartControl(this);
+           shoppingController = new ShoppingCartControl(this,clientDispatcher);
            contentController = new ContentViewControl(this, clientDispatcher);
+           studentView        = new StudentView(this);
            mainWindow->addView(studentView);
        }else if(currentUser->getType() == User::CONTENTMGR)
        {
