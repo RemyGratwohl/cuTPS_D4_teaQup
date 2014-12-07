@@ -7,6 +7,7 @@ ShoppingCartControl::ShoppingCartControl(ViewControl *viewController, QObject *p
 {
     shoppingCartView = new ShoppingCartView(this);
     billingInfoView  = new BillingInfoView(this);
+    shoppingCart     = new ShoppingCart(this);
 }
 
 bool ShoppingCartControl::processMsg(Message *msg)
@@ -25,6 +26,7 @@ bool ShoppingCartControl::processMsg(Message *msg)
         break;
     case UPDATE:
         qDebug() << "ShoppingCartControl: received UPDATE message.";
+
         break;
     case DELETE:
         qDebug() << "ShoppingCartControl: received DELETE message.";
@@ -38,6 +40,12 @@ bool ShoppingCartControl::processMsg(Message *msg)
     delete dataMessage;
     dataMessage = 0;
     return result;
+}
+
+void ShoppingCartControl::handleShoppingList(QVector<SerializableQObject *>* list)
+{
+    shoppingCart->insertNewItems(list);
+    shoppingCartView->viewContentItems(shoppingCart->getShoppingList());
 }
 
 QWidget* ShoppingCartControl::getView(){

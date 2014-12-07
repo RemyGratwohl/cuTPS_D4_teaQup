@@ -22,6 +22,7 @@
 
 #include <QObject>
 #include "shoppingcartview.h"
+#include "shoppingcart.h"
 #include "billinginfoview.h"
 #include "ClientCommunication/message.h"
 #include "ClientCommunication/datamessage.h"
@@ -78,6 +79,8 @@ public:
      */
     void processOrder(Order* order);
 
+    void handleShoppingList(QVector<SerializableQObject *>* list);
+
 signals:
 
 public slots:
@@ -86,6 +89,7 @@ private:
     ViewControl      *viewController;
     ShoppingCartView *shoppingCartView;
     BillingInfoView  *billingInfoView;
+    ShoppingCart     *shoppingCart;
 };
 
 #endif // SHOPPINGCARTCONTROL_H

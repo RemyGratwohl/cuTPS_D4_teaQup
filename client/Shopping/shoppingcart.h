@@ -23,6 +23,8 @@
 
 
 #include <QObject>
+#include <QVector>
+#include "../server/ServerCommunication/serializableqobject.h"
 
 class ShoppingCart : public QObject
 {
@@ -30,12 +32,22 @@ class ShoppingCart : public QObject
 public:
     explicit ShoppingCart(QObject *parent = 0);
 
+    /* Member Function: insertNewItems
+     *   Adds these items to the shopping list
+     * in: A list of new items to add to the shopping list
+     * Side Effects: None
+     * Return Value: Success indicator
+     */
+    bool insertNewItems(QVector<SerializableQObject*>* newItems);
+
+    QVector<SerializableQObject*>* getShoppingList() const;
+
 signals:
 
 public slots:
 
 private:
-
+    QVector<SerializableQObject*>* itemsInCart;
 };
 
 #endif // SHOPPINGCART_H

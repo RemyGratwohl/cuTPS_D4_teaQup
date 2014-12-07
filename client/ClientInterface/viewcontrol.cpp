@@ -19,10 +19,12 @@ ViewControl::ViewControl(void) :
     contentController = new ContentViewControl(this);
     courseController = new CourseViewControl(this);
     shoppingController = new ShoppingCartControl(this);
+    contentController  = new ContentViewControl(this);
+    courseController   = new CourseViewControl(this);
 
     authenticator = new UserAuthenticationControl(this, clientDispatcher);
 
-    loginWindow->show(); // Show the default window (login)
+    loginWindow->show(); // Show the initial window (login)
 }
 
 bool ViewControl::initialize(void) {
@@ -88,6 +90,11 @@ bool ViewControl::begin()
     qDebug() << "ViewControl::begin() ended.";
 
     return true;
+}
+
+void ViewControl::setShoppingList(QVector<SerializableQObject *>* list)
+{
+    shoppingController->handleShoppingList(list);
 }
 
 bool ViewControl::processMsg(Message *msg)
