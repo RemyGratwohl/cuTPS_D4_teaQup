@@ -38,7 +38,7 @@ public:
      *   To be used to create a container for deserialized data.
      * Side Effects: None
      */
-    SuccessMessage();
+    SuccessMessage(void);
 
     /* Constructor
      * in: Destination subsystem

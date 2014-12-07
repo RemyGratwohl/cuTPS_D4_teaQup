@@ -26,7 +26,6 @@
 
 #include "shoppingcart.h"
 #include "billinginfoview.h"
-#include "ClientCommunication/datamessage.h"
 #include "../../server/Purchasing/order.h"
 
 class ShoppingCartControl : public AbstractViewController
@@ -54,7 +53,7 @@ protected:
     /* Member Function: receiveOrderConfirmation
      *   Processes a successful order (specifically, the confirmation message)
      * in: A confirmation message
-     * in: The receipt number of the order (also present in the confirmation message)
+     * in: The receipt number of the order (also present in the confirmation message string)
      * Side Effects: None
      * Return Value: True, if the operation succeeded
      */

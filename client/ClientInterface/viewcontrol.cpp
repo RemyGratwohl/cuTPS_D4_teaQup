@@ -148,7 +148,6 @@ void ViewControl::requestAuthentication(OBJ_ID_TYPE id)
 void ViewControl::displayCommunicationError()
 {
     QString commErr = "Unable to Communicate with the Server";
-    qDebug() << commErr;
     displayErrorString(commErr);
 }
 
