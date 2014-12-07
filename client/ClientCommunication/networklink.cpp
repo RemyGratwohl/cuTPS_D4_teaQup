@@ -8,7 +8,9 @@ NetworkLink::NetworkLink(QObject* parent, ClientDispatcher *clientDispatch)
 
 bool NetworkLink::sendServerRequest(Message*& message)
 {
-    establishServerConnection();
+    if( !establishServerConnection() ) {
+        return false;
+    }
 
     QByteArray block;
     QDataStream out(&block, QIODevice::WriteOnly);
@@ -28,7 +30,13 @@ bool NetworkLink::establishServerConnection()
     blockSize = 0;
     tcpSocket->abort();
     tcpSocket->connectToHost(QHostAddress::LocalHost, serverPortNumber);
-    return true;
+
+    // wait for one second to connect
+    if(tcpSocket->waitForConnected(1000)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool NetworkLink::readServerResponse()

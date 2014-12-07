@@ -58,7 +58,7 @@ bool ContentControl::processMsg(const Message *msg)
     if( !user->isOfType(User::CONTENTMGR) && msgAction != RETRIEVE ) {
         error =  "ContentControl: Error - Non-ContentManager user cannot manage content.";
         return sendError(msgDest, msgAction, user, error);
-    } else if( !user->isOfType(User::CONTENTMGR) || !user->isOfType(User::STUDENT) ) {
+    } else if( !user->isOfType(User::CONTENTMGR) && !user->isOfType(User::STUDENT) ) {
         error =  "ContentControl: Error - Non-ContentManager and non-Student user cannot access content.";
         return sendError(msgDest, msgAction, user, error);
     }
