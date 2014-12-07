@@ -9,12 +9,14 @@ DataMessage::DataMessage(DEST_TYPE dt, ACTION_TYPE at, User* u, QVector<Serializ
 {}
 
 DataMessage::~DataMessage(void) {
-    QVectorIterator<SerializableQObject*> i(*data);
-    while (i.hasNext()) {
-        delete (i.next());
+    if( data != 0 ) {
+        QVectorIterator<SerializableQObject*> i(*data);
+        while (i.hasNext()) {
+            delete (i.next());
+        }
+        delete data;
+        data = 0;
     }
-    delete data;
-    data = 0;
 }
 
 void DataMessage::insertToDataStream(QDataStream& ds) const {
@@ -33,4 +35,10 @@ bool DataMessage::setFirstData(QVector<SerializableQObject*>* data_) {
         return true;
     }
     return false;
+}
+
+QVector<SerializableQObject*>* DataMessage::extractData(void) {
+    QVector<SerializableQObject*>* temp = data;
+    data = 0;
+    return temp;
 }

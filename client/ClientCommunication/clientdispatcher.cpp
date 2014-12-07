@@ -9,7 +9,9 @@ ClientDispatcher::ClientDispatcher(QObject *parent,
 
 bool ClientDispatcher::deliverMsg(Message*& msg) const {
     // send the message through the network link to the server network link
-    networkLink->sendServerRequest(msg);
+    if( !networkLink->sendServerRequest(msg) ) {
+        viewControl->displayCommunicationError();
+    }
 
     // delete message now
     delete msg;
@@ -20,14 +22,9 @@ bool ClientDispatcher::deliverMsg(Message*& msg) const {
 
 bool ClientDispatcher::directMsg(Message* msg) const
 {
-    ErrorMessage* errMsg = qobject_cast<ErrorMessage*>(msg);
-    if(errMsg != 0) {
-        qDebug() << errMsg->getError();
-        delete errMsg;
-        return true;
-    }
-
-    return viewControl->processMsg(msg);
+    bool result = viewControl->processMsg(msg);
+    delete msg;
+    return result;
 }
 
 bool ClientDispatcher::initialize()

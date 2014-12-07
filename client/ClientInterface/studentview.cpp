@@ -15,7 +15,7 @@ StudentView::~StudentView()
     delete ui;
 }
 
-bool StudentView::viewContentItems(QVector<SerializableQObject*>* contentItems)
+bool StudentView::viewContentItems(QVector<ContentItem*>* contentItems)
 {
     return contentItemTable->updateTableView(contentItems);
 }

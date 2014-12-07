@@ -58,7 +58,7 @@ protected:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool receiveCourses(Term* term, QVector<SerializableQObject*>* courses);
+    bool receiveCourses(Term* term, QVector<Course*>* courses);
 
     /* Member Function: receiveTerms
      *   Processes all terms
@@ -66,7 +66,7 @@ protected:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool receiveTerms(QVector<SerializableQObject*>* terms);
+    bool receiveTerms(QVector<Term*>* terms);
 
     // Functions to be called to send requests to the server
     // -----------------------------------------------------

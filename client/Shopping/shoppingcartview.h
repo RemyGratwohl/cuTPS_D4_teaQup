@@ -39,12 +39,12 @@ public:
     ~ShoppingCartView();
 
     /* Member Function: viewContentItems
-     *   Displayes the names of content items in a list
+     *   Displays the names of content items in a list
      * in: A list of content items to view
      * Side Effects: None
      * Return Value: Success indicator
      */
-    bool viewContentItems(QVector<SerializableQObject *>* contentList);
+    bool viewContentItems(QVector<ContentItem*>* contentList);
 
 private slots:
     void on_orderButton_clicked();

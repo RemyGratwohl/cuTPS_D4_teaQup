@@ -7,17 +7,17 @@
 ShoppingCartTable::ShoppingCartTable(QObject *parent, QTableWidget *table) :
     ItemTable(parent, table)
 {
-    shoppingItems = new QVector<SerializableQObject*>();
+    shoppingItems = new QVector<ContentItem*>();
 }
 
 ShoppingCartTable::~ShoppingCartTable() {}
 
-bool ShoppingCartTable::updateTableView(QVector<SerializableQObject *>* contentList)
+bool ShoppingCartTable::updateTableView(QVector<ContentItem*>* contentList)
 {
     int listSize = contentList->size();
     for(int i = 0; i < listSize; ++i) {
         shoppingItems->push_back(contentList->at(i));
-        ContentItem* content = qobject_cast<ContentItem*>(contentList->at(i));
+        ContentItem* content = contentList->at(i);
 
         QTableWidgetItem* itemTitle;
         QTableWidgetItem* itemType;

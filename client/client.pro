@@ -43,6 +43,7 @@ SOURCES += main.cpp\
     ../server/CourseManagement/term.cpp \
     ../server/CourseManagement/course.cpp \
     ClientCommunication/successmessage.cpp \
+    util/abstractviewcontroller.cpp \
     ClientInterface/contentitemtable.cpp \
     ClientInterface/itemtable.cpp \
     Shopping/shoppingcarttable.cpp \
@@ -80,6 +81,7 @@ HEADERS  += ClientInterface/mainwindow.h \
     ../server/CourseManagement/term.h \
     ../server/CourseManagement/course.h \
     ClientCommunication/successmessage.h \
+    util/abstractviewcontroller.h \
     ClientInterface/contentitemtable.h \
     ClientInterface/itemtable.h \
     Shopping/shoppingcarttable.h \

@@ -19,7 +19,7 @@ ShoppingCartView::~ShoppingCartView()
     delete ui;
 }
 
-bool ShoppingCartView::viewContentItems(QVector<SerializableQObject *>* contentList)
+bool ShoppingCartView::viewContentItems(QVector<ContentItem*>* contentList)
 {
     shoppingCartTable->updateTableView(contentList);
 }

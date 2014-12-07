@@ -25,6 +25,7 @@
 #include <QObject>
 #include <QVector>
 #include "../server/ServerCommunication/serializableqobject.h"
+#include "../server/ContentManagement/contentitem.h"
 
 class ShoppingCart : public QObject
 {
@@ -38,16 +39,16 @@ public:
      * Side Effects: None
      * Return Value: Success indicator
      */
-    bool insertNewItems(QVector<SerializableQObject*>* newItems);
+    bool insertNewItems(QVector<ContentItem*>* newItems);
 
-    QVector<SerializableQObject*>* getShoppingList() const;
+    QVector<ContentItem*>* getShoppingList() const;
 
 signals:
 
 public slots:
 
 private:
-    QVector<SerializableQObject*>* itemsInCart;
+    QVector<ContentItem*>* itemsInCart;
 };
 
 #endif // SHOPPINGCART_H

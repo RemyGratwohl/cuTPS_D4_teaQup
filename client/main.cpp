@@ -17,6 +17,10 @@ int main(int argc, char *argv[])
     QApplication a(argc, argv);
 
     ViewControl* vc = new ViewControl();
+    if( !vc->initialize() ) {
+        return -1;
+    }
+
     vc->begin();
 
     return a.exec();

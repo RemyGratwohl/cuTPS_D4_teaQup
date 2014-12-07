@@ -29,11 +29,11 @@ bool ItemTable::initialize()
     return true;
 }
 
-bool ItemTable::updateTableView(QVector<SerializableQObject *>* contentList)
+bool ItemTable::updateTableView(QVector<ContentItem*>* contentList)
 {
     int listSize = contentList->size();
     for(int i = 0; i < listSize; ++i) {
-        ContentItem* content = qobject_cast<ContentItem*>(contentList->at(i));
+        ContentItem* content = contentList->at(i);
 
         QTableWidgetItem* itemTitle;
         QTableWidgetItem* itemType;
@@ -78,7 +78,7 @@ void ItemTable::itemTitleClicked(int row, int col)
     /*
     if(col == 0) {
         for(int i = 0; i < allItems->size(); ++i) {
-            ContentItem* content = qobject_cast<ContentItem*>(allItems->at(i));
+            ContentItem* content = allItems->at(i);
             QString text = contentTable->item(row, col)->text();
             if(content->getTitle().compare(text) == 0) {
                 contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));

@@ -43,7 +43,7 @@ bool ShoppingCartControl::processMsg(Message *msg)
     return result;
 }
 
-void ShoppingCartControl::handleShoppingList(QVector<SerializableQObject *>* list)
+void ShoppingCartControl::handleShoppingList(QVector<ContentItem *>* list)
 {
     shoppingCart->insertNewItems(list);
     shoppingCartView->viewContentItems(shoppingCart->getShoppingList());

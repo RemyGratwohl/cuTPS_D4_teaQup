@@ -48,22 +48,20 @@ bool UserStorageControl::getUser(OBJ_ID_TYPE& userid, User*& user, QString& erro
     }
 
     if(result.first()){
+        user = new User();
         QString name = result.value("name").toString();
         user->setName(name);
         quint16 type = result.value("usertype").toInt();
         user->setType(type);
         user->setID(userid);
+        return true;
     }
     // If there is more than one user returned, return false because something is wrong with the database
-    else if (result.next()){
+    if (result.next()){
         errorMsg = "More than one user returned. Database is corrupted.";
         return false;
     }
     // If there are no results and there were no errors, then the user does not exist.
-    else {
-        errorMsg = "User does not exist";
-        return false;
-    }
-
-    return true;
+    errorMsg = "User does not exist";
+    return false;
 }
