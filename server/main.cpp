@@ -1,5 +1,6 @@
 #include <QCoreApplication>
 #include "Storage/contentstoragecontrol.h"
+#include "Storage/orderstoragecontrol.h"
 #include "Storage/userstoragecontrol.h"
 #include "ContentManagement/book.h"
 #include "ServerCommunication/serverdispatcher.h"
@@ -10,6 +11,7 @@
 
 void bookTest();
 void userTest();
+void validOrderTest();
 
 int main(int argc, char *argv[])
 {
@@ -29,10 +31,19 @@ int main(int argc, char *argv[])
     return serverDispatcher->exec();
 }
 
+void validOrderTest() {
+    QSharedPointer<OrderStorageControl> orderAccess;
+    orderAccess->getOrderStorageControl(orderAccess);
+    QString error = "";
+    QVector<PurchasingDetails*>* orderList = new QVector<PurchasingDetails*>();
+    orderAccess->allPurchasingDetailsValid(orderList, error);
+
+}
+
 void bookTest() {
    QSharedPointer<ContentStorageControl> contentAccess;
    contentAccess->getContentStorageControl(contentAccess);
-   qDebug() << "ContentAccess Initialized";
+
    Book * testbook = new Book(-1, "The Host", 1, new PurchasingDetails(-1, 12.99, "Nano", -1), "", "Stephanie Meyer", "978-0316068048",
                               "http://www.stepheniemeyer.com/thehost.html", 2008,
                               "Little Brown and Company", "", "");
@@ -71,4 +82,5 @@ void userTest() {
     else {
         qDebug() << "User's name: " + user->getName();
     }
+
 }
