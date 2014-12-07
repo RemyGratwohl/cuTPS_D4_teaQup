@@ -28,7 +28,13 @@ bool NetworkLink::establishServerConnection()
     blockSize = 0;
     tcpSocket->abort();
     tcpSocket->connectToHost(QHostAddress::LocalHost, serverPortNumber);
-    return true;
+
+    // wait for one second to connect
+    if(tcpSocket->waitForConnected(1000)) {
+        return true;
+    } else {
+        return false;
+    }
 }
 
 bool NetworkLink::readServerResponse()
