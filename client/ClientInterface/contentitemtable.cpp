@@ -16,8 +16,8 @@ ContentItemTable::~ContentItemTable() {}
 bool ContentItemTable::updateTableView(QVector<ContentItem*>* contentList)
 {
     int listSize = contentList->size();
+    allItems = contentList;
     for(int i = 0; i < listSize; ++i) {
-        allItems->push_back(contentList->at(i));
         ContentItem* content = contentList->at(i);
 
         QTableWidgetItem* itemTitle;
@@ -53,6 +53,32 @@ bool ContentItemTable::updateTableView(QVector<ContentItem*>* contentList)
 
         // adjust column width to fit all contents
         contentTable->resizeColumnsToContents();
+    }
+
+    refreshTableView();
+
+    return true;
+}
+
+bool ContentItemTable::refreshTableView()
+{
+    for(int i = 0; i < allItems->size(); ++i) {
+        contentTable->item(i, 0)->setBackgroundColor(QColor(255, 255, 255));
+        contentTable->item(i, 1)->setBackgroundColor(QColor(255, 255, 255));
+        contentTable->item(i, 2)->setBackgroundColor(QColor(255, 255, 255));
+    }
+
+    for(int i = 0; i < allItems->size(); ++i) {
+        QString title = contentTable->item(i, 0)->text();
+        for(int k = 0; k < selectedItems->size(); ++k) {
+            QString text = selectedItems->at(k)->getTitle();
+            if(title.compare(text) == 0) {
+                contentTable->item(i, 0)->setBackgroundColor(QColor(200, 200, 200));
+                contentTable->item(i, 1)->setBackgroundColor(QColor(200, 200, 200));
+                contentTable->item(i, 2)->setBackgroundColor(QColor(200, 200, 200));
+                break;
+            }
+        }
     }
 
     return true;

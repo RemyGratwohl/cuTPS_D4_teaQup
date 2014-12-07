@@ -15,8 +15,15 @@ ShoppingCartTable::~ShoppingCartTable() {}
 bool ShoppingCartTable::updateTableView(QVector<ContentItem*>* contentList)
 {
     int listSize = contentList->size();
+    shoppingItems = contentList;
+
+    if(listSize == 0) {
+        // add the text items to the table
+        contentTable->setRowCount(listSize);
+        return true;
+    }
+
     for(int i = 0; i < listSize; ++i) {
-        shoppingItems->push_back(contentList->at(i));
         ContentItem* content = contentList->at(i);
 
         QTableWidgetItem* itemTitle;
@@ -52,11 +59,21 @@ bool ShoppingCartTable::updateTableView(QVector<ContentItem*>* contentList)
 
         // adjust column width to fit all contents
         contentTable->resizeColumnsToContents();
+        contentTable->horizontalHeader()->setStretchLastSection(true);
     }
     return true;
 }
 
 void ShoppingCartTable::itemTitleClicked(int row, int col)
 {
-
+    if(col == 0) {
+        QString text = contentTable->item(row, col)->text();
+        for(int i = 0; i < shoppingItems->size(); ++i) {
+            ContentItem* content = shoppingItems->at(i);
+            if(content->getTitle().compare(text) == 0) {
+                shoppingItems->remove(i);
+            }
+        }
+    }
+    updateTableView(shoppingItems);
 }

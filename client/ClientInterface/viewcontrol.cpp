@@ -35,64 +35,6 @@ bool ViewControl::initialize(void) {
     return true;
 }
 
-bool ViewControl::begin()
-{
-    /* send test message to server
-    QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
-    Book* testSendBook = new Book(-1, "The Host TEST1", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
-                               "http://www.stepheniemeyer.com/thehost.html", 2008,
-                               "Little Brown and Company", "", "");
-    data->append(testSendBook);
-    QString username = "test content manager";
-    User* testUser = new User(username, User::CONTENTMGR, 100);
-    Message* newMessage = new DataMessage(
-                CONTENT,
-                CREATE,
-                testUser,
-                data);
-    clientDispatcher->deliverMsg(newMessage);
-    delete testUser; // Message assumes user is shared
-    testUser = 0;
-    data = 0; // Deleted when message was dispatched
-
-    qDebug() << "Sent test DataMessage.";
-
-    // display a list of content items in main window
-    QVector<ContentItem *>* list = new QVector<ContentItem *>();
-
-    Book* testBook = new Book(-1, "The Host", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
-                               "http://www.stepheniemeyer.com/thehost.html", 2008,
-                               "Little Brown and Company", "", "");
-    list->push_back(qobject_cast<ContentItem*>(testBook));
-
-    testBook = new Book(-1, "The Hostee", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
-                               "http://www.stepheniemeyer.com/thehost.html", 2008,
-                               "Little Brown and Company", "", "");
-    list->push_back(qobject_cast<ContentItem*>(testBook));
-
-    testBook = new Book(-1, "The Hoster", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
-                               "http://www.stepheniemeyer.com/thehost.html", 2008,
-                               "Little Brown and Company", "", "");
-    list->push_back(qobject_cast<ContentItem*>(testBook));
-
-    testBook = new Book(-1, "The Hosterer", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
-                               "http://www.stepheniemeyer.com/thehost.html", 2008,
-                               "Little Brown and Company", "", "");
-    list->push_back(qobject_cast<ContentItem*>(testBook));
-
-    Chapter* testChapter = new Chapter(-1, "The Hostererest", 1, new PurchasingDetails(), -1, 1, " 978-0316068048-1");
-    list->push_back(qobject_cast<ContentItem*>(testChapter));
-
-    studentView->viewContentItems(data);
-    */
-
-    //mainWindow->viewContentItems(list);
-
-    //qDebug() << "ViewControl::begin() ended.";
-
-    return true;
-}
-
 void ViewControl::setShoppingList(QVector<ContentItem *>* list)
 {
     shoppingController->handleShoppingList(list);

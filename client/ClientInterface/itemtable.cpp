@@ -68,6 +68,7 @@ bool ItemTable::updateTableView(QVector<ContentItem*>* contentList)
 
         // adjust column width to fit all contents
         contentTable->resizeColumnsToContents();
+        contentTable->horizontalHeader()->setStretchLastSection(true);
     }
 
     return true;

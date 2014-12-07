@@ -21,6 +21,8 @@ public:
 
     QVector<ContentItem*>* getSelectedItems() const;
 
+    bool refreshTableView();
+
 signals:
 
 public slots:

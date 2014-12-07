@@ -8,9 +8,10 @@ ShoppingCart::ShoppingCart(QObject *parent) :
 
 bool ShoppingCart::insertNewItems(QVector<ContentItem*>* newItems)
 {
-    for(int i = 0; i < newItems->size(); ++i) {
-        itemsInCart->push_back(newItems->at(i));
-    }
+    //for(int i = 0; i < newItems->size(); ++i) {
+    //    itemsInCart->push_back(newItems->at(i));
+    //}
+    itemsInCart = newItems;
     return true;
 }
 

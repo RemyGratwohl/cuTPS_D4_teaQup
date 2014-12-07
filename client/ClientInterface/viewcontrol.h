@@ -55,9 +55,6 @@ public:
       */
      bool initialize(void);
 
-     // temp func to send messages to server
-     bool begin();
-
      /* Member Function: processMsg
       *   Handles a message received from the dispatcher.
       *   If the message is an error message, it displays
