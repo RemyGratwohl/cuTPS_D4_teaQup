@@ -60,6 +60,7 @@ public:
      *   Retrieves the user from MainStorageControl
      * in: OBJ_ID_TYPE userid used to identify the user
      * out: User to be altered
+     *      (Passed in null, and remains null if the operation fails.)
      * out: QString to be altered in the event of an error
      * Side Effects: None
      * Return Value: True, if operation succeeded.

@@ -37,10 +37,27 @@ bool ViewControl::initialize(void) {
 
 bool ViewControl::begin()
 {
+    /*
     // send test message to server
     QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
-    Message* newMessage = new DataMessage(CONTENT, UPDATE, new User(User::STUDENT), data);
+    Book* testSendBook = new Book(-1, "The Host TEST1", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
+                               "http://www.stepheniemeyer.com/thehost.html", 2008,
+                               "Little Brown and Company", "", "");
+    data->append(testSendBook);
+    QString username = "test content manager";
+    User* testUser = new User(username, User::CONTENTMGR, 100);
+    Message* newMessage = new DataMessage(
+                CONTENT,
+                CREATE,
+                testUser,
+                data);
     clientDispatcher->deliverMsg(newMessage);
+    delete testUser; // Message assumes user is shared
+    testUser = 0;
+    data = 0; // Deleted when message was dispatched
+
+    qDebug() << "Sent test DataMessage.";
+    */
 
     // display a list of content items in main window
     QVector<SerializableQObject *>* list = new QVector<SerializableQObject *>();
@@ -68,7 +85,9 @@ bool ViewControl::begin()
     Chapter* testChapter = new Chapter(-1, "The Hostererest", 1, new PurchasingDetails(), -1, 1, " 978-0316068048-1");
     list->push_back(qobject_cast<SerializableQObject*>(testChapter));
 
-    mainWindow->viewContentItems(data);
+    mainWindow->viewContentItems(list);
+
+    qDebug() << "ViewControl::begin() ended.";
 
     return true;
 }
@@ -83,7 +102,6 @@ bool ViewControl::processMsg(Message *msg)
     const ErrorMessage* errorMsg = qobject_cast<const ErrorMessage*>(msg);
     if( errorMsg != 0 ) {
         QString error = errorMsg->getError();
-        qDebug() << error;
         displayErrorString(error);
         return true;
     }
@@ -98,6 +116,7 @@ bool ViewControl::processMsg(Message *msg)
         break;
     case USER:
         // user auth
+        return authenticator->processMsg(msg);
         break;
     case CONTENT:
         // contentControl handles message

@@ -101,6 +101,7 @@ public:
 
      /* Member Function: displayErrorString
       *   Notifies the user of an error.
+      *   Also logs the message using qDebug().
       * in: Error message to be displayed
       * Side Effects: None
       * Return Value: None
