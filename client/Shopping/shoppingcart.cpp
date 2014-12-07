@@ -3,10 +3,10 @@
 ShoppingCart::ShoppingCart(QObject *parent) :
     QObject(parent)
 {
-    itemsInCart = new QVector<SerializableQObject*>();
+    itemsInCart = new QVector<ContentItem*>();
 }
 
-bool ShoppingCart::insertNewItems(QVector<SerializableQObject*>* newItems)
+bool ShoppingCart::insertNewItems(QVector<ContentItem*>* newItems)
 {
     for(int i = 0; i < newItems->size(); ++i) {
         itemsInCart->push_back(newItems->at(i));
@@ -14,7 +14,7 @@ bool ShoppingCart::insertNewItems(QVector<SerializableQObject*>* newItems)
     return true;
 }
 
-QVector<SerializableQObject*>* ShoppingCart::getShoppingList() const
+QVector<ContentItem*>* ShoppingCart::getShoppingList() const
 {
     return itemsInCart;
 }

@@ -16,13 +16,13 @@ public:
      * Side Effects: None
      * Return Value: Success indicator
      */
-    virtual bool updateTableView(QVector<SerializableQObject *>* contentList);
+    virtual bool updateTableView(QVector<ContentItem*>* contentList);
 
 public slots:
     virtual void itemTitleClicked(int row, int col);
 
 private:
-    QVector<SerializableQObject *>* shoppingItems;
+    QVector<ContentItem*>* shoppingItems;
 
 };
 

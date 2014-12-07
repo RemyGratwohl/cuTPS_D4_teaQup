@@ -88,7 +88,7 @@ protected:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool receiveBookDetails(Book* book, QVector<SerializableQObject*>* items);
+    bool receiveBookDetails(Book* book, QVector<ContentItem*>* items);
 
     /* Member Function: receiveBooks
      *   Processes all Books in the system.
@@ -96,7 +96,7 @@ protected:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool receiveBooks(QVector<SerializableQObject*>* items);
+    bool receiveBooks(QVector<Book*>* items);
 
     // Functions to be called to send requests to the server
     // -----------------------------------------------------

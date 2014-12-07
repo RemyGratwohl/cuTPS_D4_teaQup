@@ -44,12 +44,12 @@ QWidget* CourseViewControl::getView(){
 }
 
 // TODO (Remy or Brandon) Stub implementation
-bool receiveCourses(Term* term, QVector<SerializableQObject*>* courses) {
+bool receiveCourses(Term* term, QVector<Course*>* courses) {
     return false;
 }
 
 // TODO (Remy or Brandon) Stub implementation
-bool receiveTerms(QVector<SerializableQObject*>* terms) {
+bool receiveTerms(QVector<Term*>* terms) {
     return false;
 }
 

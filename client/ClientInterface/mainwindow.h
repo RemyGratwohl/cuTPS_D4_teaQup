@@ -40,7 +40,7 @@ public:
     explicit MainWindow(ViewControl *controller = 0);
     ~MainWindow();
 
-    bool viewContentItems(QVector<SerializableQObject*>* contentItems);
+    bool viewContentItems(QVector<ContentItem*>* contentItems);
 
 private slots:
     void on_shoppingCartButton_clicked();

@@ -7,18 +7,18 @@
 ContentItemTable::ContentItemTable(QObject *parent, QTableWidget *table) :
     ItemTable(parent, table)
 {
-    allItems = new QVector<SerializableQObject*>();
-    selectedItems = new QVector<SerializableQObject*>();
+    allItems = new QVector<ContentItem*>();
+    selectedItems = new QVector<ContentItem*>();
 }
 
 ContentItemTable::~ContentItemTable() {}
 
-bool ContentItemTable::updateTableView(QVector<SerializableQObject *>* contentList)
+bool ContentItemTable::updateTableView(QVector<ContentItem*>* contentList)
 {
     int listSize = contentList->size();
     for(int i = 0; i < listSize; ++i) {
         allItems->push_back(contentList->at(i));
-        ContentItem* content = qobject_cast<ContentItem*>(contentList->at(i));
+        ContentItem* content = contentList->at(i);
 
         QTableWidgetItem* itemTitle;
         QTableWidgetItem* itemType;
@@ -62,7 +62,7 @@ void ContentItemTable::itemTitleClicked(int row, int col)
 {
     if(col == 0) {
         for(int i = 0; i < allItems->size(); ++i) {
-            ContentItem* content = qobject_cast<ContentItem*>(allItems->at(i));
+            ContentItem* content = allItems->at(i);
             QString text = contentTable->item(row, col)->text();
             if(content->getTitle().compare(text) == 0) {
                 selectedItems->push_back(allItems->at(i));
@@ -74,7 +74,7 @@ void ContentItemTable::itemTitleClicked(int row, int col)
     }
 }
 
-QVector<SerializableQObject *>* ContentItemTable::getSelectedItems() const
+QVector<ContentItem *>* ContentItemTable::getSelectedItems() const
 {
     return selectedItems;
 }

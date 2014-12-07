@@ -79,7 +79,7 @@ public:
      */
     void processOrder(Order* order);
 
-    void handleShoppingList(QVector<SerializableQObject *>* list);
+    void handleShoppingList(QVector<ContentItem *>* list);
 
 signals:
 

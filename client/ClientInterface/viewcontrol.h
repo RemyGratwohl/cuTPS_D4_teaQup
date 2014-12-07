@@ -126,7 +126,7 @@ public:
       */
      bool setCurrentUser(User* user);
 
-     void setShoppingList(QVector<SerializableQObject *>* list);
+     void setShoppingList(QVector<ContentItem*>* list);
 
      // Helper functions
 private:

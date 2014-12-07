@@ -32,7 +32,7 @@ MainWindow::~MainWindow()
     delete ui;
 }
 
-bool MainWindow::viewContentItems(QVector<SerializableQObject*>* contentItems)
+bool MainWindow::viewContentItems(QVector<ContentItem*>* contentItems)
 {
     return contentItemTable->updateTableView(contentItems);
 }

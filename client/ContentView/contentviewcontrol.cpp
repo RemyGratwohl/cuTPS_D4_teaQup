@@ -49,12 +49,12 @@ bool receiveBookList(QVector<SerializableQObject*>* items) {
 }
 
 // TODO (Remy or Brandon) Stub implementation
-bool receiveBookDetails(Book* book, QVector<SerializableQObject*>* items) {
+bool receiveBookDetails(Book* book, QVector<ContentItem*>* items) {
     return false;
 }
 
 // TODO (Remy or Brandon) Stub implementation
-bool receiveBooks(QVector<SerializableQObject*>* items) {
+bool receiveBooks(QVector<Book*>* items) {
     return false;
 }
 
