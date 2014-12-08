@@ -12,7 +12,7 @@
 
 int main(int argc, char *argv[])
 {
-    qRegisterMetaType<OBJ_ID_TYPE>("OBJ_ID_TYPE");
+    // qRegisterMetaType<OBJ_ID_TYPE>("OBJ_ID_TYPE");
 
     QApplication a(argc, argv);
 
@@ -20,8 +20,6 @@ int main(int argc, char *argv[])
     if( !vc->initialize() ) {
         return -1;
     }
-
-    vc->begin();
 
     return a.exec();
 }

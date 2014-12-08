@@ -109,7 +109,8 @@ private:
     /* Member Function: getCourses
      *   Retrieves the courses offered in the given term
      * in: Term for which to retrieve the courses
-     * out: Courses referring to the input Term.
+     * out: Courses referring to the input Term,
+     *      With the Term itself placed at the start of the list.
      * out: QString to be altered in the event of an error to hold an error message
      * Side Effects: None
      * Return Value: True, if the operation succeeded.

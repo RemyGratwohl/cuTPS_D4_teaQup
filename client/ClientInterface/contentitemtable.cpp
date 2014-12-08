@@ -7,19 +7,23 @@
 ContentItemTable::ContentItemTable(QObject *parent, QTableWidget *table) :
     ItemTable(parent, table)
 {
-    allItems = new QVector<SerializableQObject*>();
-    selectedItems = new QVector<SerializableQObject*>();
+    allItems = new QVector<ContentItem*>();
+    selectedItems = new QVector<ContentItem*>();
+    table->setSelectionMode(QAbstractItemView::SingleSelection);
+    table->setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
 ContentItemTable::~ContentItemTable() {}
 
-bool ContentItemTable::updateTableView(QVector<SerializableQObject *>* contentList)
+bool ContentItemTable::updateTableView(QVector<ContentItem*>* contentList)
 {
     int listSize = contentList->size();
+    allItems = contentList;
     for(int i = 0; i < listSize; ++i) {
-        allItems->push_back(contentList->at(i));
-        ContentItem* content = qobject_cast<ContentItem*>(contentList->at(i));
+        ContentItem* content = contentList->at(i);
 
+        QTableWidgetItem* selectionButton = new QTableWidgetItem("");
+        selectionButton->setCheckState(Qt::Unchecked);
         QTableWidgetItem* itemTitle;
         QTableWidgetItem* itemType;
         QTableWidgetItem* itemCourseID;
@@ -41,29 +45,58 @@ bool ContentItemTable::updateTableView(QVector<SerializableQObject *>* contentLi
         }
 
         // make the cells uneditable
+        selectionButton->setFlags(selectionButton->flags() ^ Qt::ItemIsEditable);
         itemTitle->setFlags(itemTitle->flags() ^ Qt::ItemIsEditable);
         itemType->setFlags(itemType->flags() ^ Qt::ItemIsEditable);
         itemCourseID->setFlags(itemCourseID->flags() ^ Qt::ItemIsEditable);
 
+        selectionButton->setFlags(selectionButton->flags() ^ Qt::ItemIsSelectable);
+        //itemTitle->setFlags(itemTitle->flags() ^ Qt::ItemIsSelectable);
+        //itemType->setFlags(itemType->flags() ^ Qt::ItemIsSelectable);
+        //itemCourseID->setFlags(itemCourseID->flags() ^ Qt::ItemIsSelectable);
+
         // add the text items to the table
         contentTable->setRowCount(listSize);
-        contentTable->setItem(i, 0, itemTitle);
-        contentTable->setItem(i, 1, itemType);
-        contentTable->setItem(i, 2, itemCourseID);
+        contentTable->setItem(i, 0, selectionButton);
+        contentTable->setItem(i, 1, itemTitle);
+        contentTable->setItem(i, 2, itemType);
+        contentTable->setItem(i, 3, itemCourseID);
 
         // adjust column width to fit all contents
         contentTable->resizeColumnsToContents();
+        contentTable->horizontalHeader()->setStretchLastSection(true);
     }
+
+    //refreshTableView();
 
     return true;
 }
 
-void ContentItemTable::itemTitleClicked(int row, int col)
+bool ContentItemTable::addSelectedItems()
 {
+    selectedItems->empty();
+    for(int i = 0; i < contentTable->rowCount(); ++i) {
+        if(contentTable->item(i, 0)->checkState() == Qt::Checked) {
+            QString text = contentTable->item(i, 1)->text();
+            for(int i = 0; i < allItems->size(); ++i) {
+                ContentItem* content = allItems->at(i);
+                if(content->getTitle().compare(text) == 0) {
+                    selectedItems->push_back(allItems->at(i));
+                }
+            }
+        }
+        contentTable->item(i, 0)->setCheckState(Qt::Unchecked);
+    }
+    return true;
+}
+
+void ContentItemTable::itemClicked(int row, int col)
+{
+    /*
     if(col == 0) {
         for(int i = 0; i < allItems->size(); ++i) {
-            ContentItem* content = qobject_cast<ContentItem*>(allItems->at(i));
-            QString text = contentTable->item(row, col)->text();
+            ContentItem* content = allItems->at(i);
+            QString text = contentTable->item(row, 1)->text();
             if(content->getTitle().compare(text) == 0) {
                 selectedItems->push_back(allItems->at(i));
                 contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
@@ -71,10 +104,10 @@ void ContentItemTable::itemTitleClicked(int row, int col)
                 contentTable->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
             }
         }
-    }
+    }*/
 }
 
-QVector<SerializableQObject *>* ContentItemTable::getSelectedItems() const
+QVector<ContentItem *>* ContentItemTable::getSelectedItems() const
 {
     return selectedItems;
 }

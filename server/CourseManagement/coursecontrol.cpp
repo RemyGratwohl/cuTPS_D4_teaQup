@@ -36,9 +36,8 @@ bool CourseControl::processMsg(const Message *msg)
     // Input validation concerning the content of the message
     // ------------------------------------------------------
     QVector<SerializableQObject*>* data = dataMessage->getData();
-    if( msgAction != RETRIEVE && data->size() < 1 ) {
-        error =  "CourseControl: Error - Message data vector has a length less than 1."
-                 " Presently, all messages with data are expected to contain at least one item.";
+    if( msgAction != RETRIEVE && data->isEmpty() ) {
+        error =  "CourseControl: Error - Message data vector for non-RETRIEVE operation is empty.";
         return sendError(msgDest, msgAction, user, error);
     }
 
@@ -85,6 +84,7 @@ bool CourseControl::processMsg(const Message *msg)
             result = getCourses(term0, output, error);
         } else if( course0 == 0 ) {
             result = getTerms(output, error);
+            msgAction = static_cast<ACTION_TYPE>(COURSEHANDLER_RETRIEVE2);
         } else {
             error =  "CourseControl: Error - Not expecting to receive a Course as input for RETRIEVE.";
             return sendError(msgDest, msgAction, user, error);
@@ -153,6 +153,7 @@ bool CourseControl::getCourses(Term* term, QVector<SerializableQObject*>*& cours
         return false;
     }
     courses = new QVector<SerializableQObject*>();
+    courses->append(term);
     QVectorIterator<Course*> i(*temp);
     while(i.hasNext()) {
         courses->append(i.next());

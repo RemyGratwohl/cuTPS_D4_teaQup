@@ -1,64 +1,98 @@
 #include "shoppingcartcontrol.h"
 #include <QDebug>
+#include "../ClientInterface/viewcontrol.h"
+#include "ClientCommunication/successmessage.h"
+#include "ClientCommunication/datamessage.h"
 
-ShoppingCartControl::ShoppingCartControl(ViewControl *viewController, QObject *parent) :
-    viewController(viewController),
-    QObject(parent)
+ShoppingCartControl::ShoppingCartControl(ViewControl *vc, ClientDispatcher *d) :
+    AbstractViewController(vc, d, ORDERING)
 {
     shoppingCartView = new ShoppingCartView(this);
     billingInfoView  = new BillingInfoView(this);
     shoppingCart     = new ShoppingCart(this);
+
+    view = shoppingCartView; // Default view for the subystems
 }
 
 bool ShoppingCartControl::processMsg(Message *msg)
 {
-    bool result = true;
-    DataMessage* dataMessage = qobject_cast<DataMessage*>(msg);
-    ACTION_TYPE msgAction = dataMessage->getActionType();
+    ACTION_TYPE msgAction = msg->getActionType();
+    DEST_TYPE msgDest = msg->getDestType();
 
-    switch(msgAction)
-    {
-    case CREATE:
-        qDebug() << "ShoppingCartControl: received CREATE message.";
-        break;
-    case RETRIEVE:
-        qDebug() << "ShoppingCartControl: received RETRIEVE message.";
-        break;
-    case UPDATE:
-        qDebug() << "ShoppingCartControl: received UPDATE message.";
-
-        break;
-    case DELETE:
-        qDebug() << "ShoppingCartControl: received DELETE message.";
-        break;
-    default:
-        qDebug() << "ShoppingCartControl: received incompatible message.";
-        result = false;
-        break;
+    if(msgDest != ownDest) {
+        qDebug() << "ShoppingCartControl: Error - received a message for another subsystem.";
+        return false;
     }
 
-    delete dataMessage;
-    dataMessage = 0;
+    // Validate action type
+    if( msgAction != CREATE ) {
+        qDebug() << "ShoppingCartControl: Error - received a message with an action type other than CREATE.";
+        return false;
+    }
+
+    // Process success messages
+    // ------------------------
+    bool result = false;
+    const SuccessMessage* successMessage = qobject_cast<const SuccessMessage*>(msg);
+    if(successMessage != 0) {
+        qDebug() << "ShoppingCartControl: Received success message.";
+
+        // Ensure reference number is valid
+        OBJ_ID_TYPE reference = static_cast<OBJ_ID_TYPE>(0);
+        if( successMessage->getReference(reference) ) {
+            result = receiveOrderConfirmation(successMessage->getInfoString(), reference);
+        } else {
+            qDebug() << "ShoppingCartControl: Error - Expected SuccessMessage to have a valid reference number.";
+            result = false;
+        }
+    } else {
+        qDebug() << "ShoppingCartControl: Error - Expected a message of type SuccessMessage.";
+        result = false;
+    }
+
     return result;
 }
 
-void ShoppingCartControl::handleShoppingList(QVector<SerializableQObject *>* list)
+void ShoppingCartControl::changeActiveView(TYPE t)
 {
-    shoppingCart->insertNewItems(list);
-    shoppingCartView->viewContentItems(shoppingCart->getShoppingList());
+    switch(t)
+    {
+    case(SHOPPINGCART):
+        view = shoppingCartView;
+        break;
+    case(BILLINGINFO):
+        view = billingInfoView;
+        break;
+    case(CONFIRMATION):
+        break;
+    default:
+        break;
+    }
+
+    viewControl->changeView(ViewControl::SHOPPING_VIEW);
 }
 
-QWidget* ShoppingCartControl::getView(){
-    return shoppingCartView;
+void ShoppingCartControl::handleShoppingList(QVector<ContentItem *>* list)
+{
+    shoppingCart->insertNewItems(list);
+    ((ShoppingCartView *)view)->viewContentItems(shoppingCart->getShoppingList());
 }
 
 // TODO (Remy or Brandon) Stub implementation
-bool receiveOrderConfirmation(QString message, OBJ_ID_TYPE referenceNumber) {
+bool ShoppingCartControl::receiveOrderConfirmation(QString message, OBJ_ID_TYPE referenceNumber) {
+    // Pop to root view controller
     return false;
 }
 
-// TODO (Bernard) Stub implementation
-void processOrder(Order* order) {
-
+void ShoppingCartControl::processOrder(Order* order) {
+    QVector<SerializableQObject*>* data = new QVector<SerializableQObject*>();
+    data->append(order);
+    sendData(CREATE, data);
 }
+
+QVector<ContentItem *>* ShoppingCartControl::getShoppingList()
+{
+    return shoppingCart->getShoppingList();
+}
+
 

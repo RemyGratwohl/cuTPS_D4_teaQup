@@ -5,6 +5,9 @@
 #include "../server/ContentManagement/book.h"
 #include "../server/ContentManagement/chapter.h"
 #include "userauthenticationcontrol.h"
+#include "../ContentView/contentviewcontrol.h"
+#include "../CourseView/courseviewcontrol.h"
+#include "../Shopping/shoppingcartcontrol.h"
 
 ViewControl::ViewControl(void) :
     QObject(), currentUser(0), loginWindow(0), mainWindow(0),
@@ -15,12 +18,7 @@ ViewControl::ViewControl(void) :
     mainWindow  = new MainWindow(this);
 
     clientDispatcher = new ClientDispatcher(this, this);
-
-    contentController = new ContentViewControl(this);
-    courseController = new CourseViewControl(this);
-    shoppingController = new ShoppingCartControl(this);
-    contentController  = new ContentViewControl(this);
-    courseController   = new CourseViewControl(this);
+    clientDispatcher->initialize();
 
     authenticator = new UserAuthenticationControl(this, clientDispatcher);
 
@@ -37,62 +35,7 @@ bool ViewControl::initialize(void) {
     return true;
 }
 
-bool ViewControl::begin()
-{
-    // send test message to server
-    QVector<SerializableQObject *>* data = new QVector<SerializableQObject *>();
-    Book* testSendBook = new Book(-1, "The Host TEST1", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
-                               "http://www.stepheniemeyer.com/thehost.html", 2008,
-                               "Little Brown and Company", "", "");
-    data->append(testSendBook);
-    QString username = "test content manager";
-    User* testUser = new User(username, User::CONTENTMGR, 100);
-    Message* newMessage = new DataMessage(
-                CONTENT,
-                CREATE,
-                testUser,
-                data);
-    clientDispatcher->deliverMsg(newMessage);
-    delete testUser; // Message assumes user is shared
-    testUser = 0;
-    data = 0; // Deleted when message was dispatched
-
-    qDebug() << "Sent test DataMessage.";
-
-    // display a list of content items in main window
-    QVector<SerializableQObject *>* list = new QVector<SerializableQObject *>();
-
-    Book* testBook = new Book(-1, "The Host", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
-                               "http://www.stepheniemeyer.com/thehost.html", 2008,
-                               "Little Brown and Company", "", "");
-    list->push_back(qobject_cast<SerializableQObject*>(testBook));
-
-    testBook = new Book(-1, "The Hostee", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
-                               "http://www.stepheniemeyer.com/thehost.html", 2008,
-                               "Little Brown and Company", "", "");
-    list->push_back(qobject_cast<SerializableQObject*>(testBook));
-
-    testBook = new Book(-1, "The Hoster", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
-                               "http://www.stepheniemeyer.com/thehost.html", 2008,
-                               "Little Brown and Company", "", "");
-    list->push_back(qobject_cast<SerializableQObject*>(testBook));
-
-    testBook = new Book(-1, "The Hosterer", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
-                               "http://www.stepheniemeyer.com/thehost.html", 2008,
-                               "Little Brown and Company", "", "");
-    list->push_back(qobject_cast<SerializableQObject*>(testBook));
-
-    Chapter* testChapter = new Chapter(-1, "The Hostererest", 1, new PurchasingDetails(), -1, 1, " 978-0316068048-1");
-    list->push_back(qobject_cast<SerializableQObject*>(testChapter));
-
-    mainWindow->viewContentItems(list);
-
-    qDebug() << "ViewControl::begin() ended.";
-
-    return true;
-}
-
-void ViewControl::setShoppingList(QVector<SerializableQObject *>* list)
+void ViewControl::setShoppingList(QVector<ContentItem *>* list)
 {
     shoppingController->handleShoppingList(list);
 }
@@ -147,7 +90,6 @@ void ViewControl::requestAuthentication(OBJ_ID_TYPE id)
 void ViewControl::displayCommunicationError()
 {
     QString commErr = "Unable to Communicate with the Server";
-    qDebug() << commErr;
     displayErrorString(commErr);
 }
 
@@ -159,23 +101,31 @@ void ViewControl::displayErrorString(QString &err)
     msgBox.exec(); // Note: This blocks the GUI until the user acknowledges the error.
 }
 
-bool ViewControl::changeView(TYPE subsystem){
+bool ViewControl::changeView(TYPE subsystem)
+{
 
     switch(subsystem)
     {
     case(SHOPPING_VIEW):
-        mainWindow->setCentralWidget(shoppingController->getView());
+        mainWindow->addView(shoppingController->getView());
         break;
     case(CONTENT_VIEW):
-        mainWindow->setCentralWidget(contentController->getView());
+        mainWindow->addView(contentController->getView());
         break;
     case(COURSE_VIEW):
+        mainWindow->addView(courseController->getView());
         break;
     default:
         qDebug() << "ViewControl : Error - Unknown subsystem view type.";
         return false;
     }
 
+    return true;
+}
+
+bool ViewControl::closeView()
+{
+    mainWindow->popView();
     return true;
 }
 
@@ -186,6 +136,26 @@ bool ViewControl::setCurrentUser(User* user) {
 
        loginWindow->hide();
        mainWindow->show();
+
+       if(currentUser->getType() == User::STUDENT)
+       {
+           shoppingController = new ShoppingCartControl(this,clientDispatcher);
+           contentController = new ContentViewControl(this, clientDispatcher);
+           studentView        = new StudentView(this, currentUser);
+           mainWindow->addView(studentView);
+       }else if(currentUser->getType() == User::CONTENTMGR)
+       {
+           contentController = new ContentViewControl(this, clientDispatcher);
+           courseController = new CourseViewControl(this, clientDispatcher);
+           changeView(CONTENT_VIEW);
+       }else if (currentUser ->getType() == User::ADMIN)
+       {
+           qDebug() << "Admin View Not implemented";
+       }else{
+           qDebug() << "Invalid User Type Detected";
+           return false;
+       }
+
        return true;
     } else {
         qDebug() << "ViewControl : Error - Current user has already been set.";

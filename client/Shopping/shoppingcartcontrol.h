@@ -22,19 +22,20 @@
 
 #include <QObject>
 #include "shoppingcartview.h"
+#include "../util/abstractviewcontroller.h"
+
 #include "shoppingcart.h"
 #include "billinginfoview.h"
-#include "ClientCommunication/message.h"
-#include "ClientCommunication/datamessage.h"
 #include "../../server/Purchasing/order.h"
 
-class ViewControl;
-
-class ShoppingCartControl : public QObject
+class ShoppingCartControl : public AbstractViewController
 {
     Q_OBJECT
 public:
-    explicit ShoppingCartControl(ViewControl *viewController = 0, QObject *parent = 0);
+    /* Constructor
+     *   Proxy of the AbstractViewController constructor.
+     */
+    ShoppingCartControl(ViewControl *viewControl, ClientDispatcher *dispatcher);
 
     /* Member Function: processMsg
      * Handles a message received from the dispatcher.
@@ -44,7 +45,7 @@ public:
      */
    virtual bool processMsg(Message *msg);
 
-    QWidget* getView();
+    enum TYPE {SHOPPINGCART = 0, BILLINGINFO, CONFIRMATION};
 
     // Functions that will be called upon reception of non-error information from the server
     // -------------------------------------------------------------------------------------
@@ -54,7 +55,7 @@ protected:
     /* Member Function: receiveOrderConfirmation
      *   Processes a successful order (specifically, the confirmation message)
      * in: A confirmation message
-     * in: The receipt number of the order (also present in the confirmation message)
+     * in: The receipt number of the order (also present in the confirmation message string)
      * Side Effects: None
      * Return Value: True, if the operation succeeded
      */
@@ -79,14 +80,16 @@ public:
      */
     void processOrder(Order* order);
 
-    void handleShoppingList(QVector<SerializableQObject *>* list);
+    void handleShoppingList(QVector<ContentItem *>* list);
 
+    void changeActiveView(TYPE t);
+
+    QVector<ContentItem *>* getShoppingList();
 signals:
 
 public slots:
 
 private:
-    ViewControl      *viewController;
     ShoppingCartView *shoppingCartView;
     BillingInfoView  *billingInfoView;
     ShoppingCart     *shoppingCart;

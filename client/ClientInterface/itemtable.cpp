@@ -7,34 +7,37 @@
 ItemTable::ItemTable(QObject *parent, QTableWidget* table) :
     QObject(parent), contentTable(table)
 {
-    initialize();
 }
 
 ItemTable::~ItemTable() {}
 
 bool ItemTable::initialize()
 {
-    contentTable->setColumnCount(3);
-    QTableWidgetItem* firstColumn = new QTableWidgetItem("Title");
-    QTableWidgetItem* secondColumn = new QTableWidgetItem("Content Type");
-    QTableWidgetItem* thirdColumn = new QTableWidgetItem("Course ID");
-    contentTable->setHorizontalHeaderItem(0, firstColumn);
-    contentTable->setHorizontalHeaderItem(1, secondColumn);
-    contentTable->setHorizontalHeaderItem(2, thirdColumn);
+    contentTable->setColumnCount(4);
+    QTableWidgetItem* selectionColumn = new QTableWidgetItem();
+    QTableWidgetItem* titleColumn = new QTableWidgetItem("Title");
+    QTableWidgetItem* typeColumn = new QTableWidgetItem("Content Type");
+    QTableWidgetItem* idColumn = new QTableWidgetItem("Course ID");
+    contentTable->setHorizontalHeaderItem(0, selectionColumn);
+    contentTable->setHorizontalHeaderItem(1, titleColumn);
+    contentTable->setHorizontalHeaderItem(2, typeColumn);
+    contentTable->setHorizontalHeaderItem(3, idColumn);
     contentTable->setSortingEnabled(true);
     contentTable->horizontalHeader()->setStretchLastSection(true);
 
     // make the title's clickable
-    connect(contentTable, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(itemTitleClicked(int,int)));
+    connect(contentTable, SIGNAL(cellClicked(int,int)), this, SLOT(itemClicked(int,int)));
     return true;
 }
 
-bool ItemTable::updateTableView(QVector<SerializableQObject *>* contentList)
+bool ItemTable::updateTableView(QVector<ContentItem*>* contentList)
 {
     int listSize = contentList->size();
     for(int i = 0; i < listSize; ++i) {
-        ContentItem* content = qobject_cast<ContentItem*>(contentList->at(i));
+        ContentItem* content = contentList->at(i);
 
+        QTableWidgetItem* selectionButton = new QTableWidgetItem("");
+        selectionButton->setCheckState(Qt::Unchecked);
         QTableWidgetItem* itemTitle;
         QTableWidgetItem* itemType;
         QTableWidgetItem* itemCourseID;
@@ -62,23 +65,25 @@ bool ItemTable::updateTableView(QVector<SerializableQObject *>* contentList)
 
         // add the text items to the table
         contentTable->setRowCount(listSize);
-        contentTable->setItem(i, 0, itemTitle);
-        contentTable->setItem(i, 1, itemType);
-        contentTable->setItem(i, 2, itemCourseID);
+        contentTable->setItem(i, 0, selectionButton);
+        contentTable->setItem(i, 1, itemTitle);
+        contentTable->setItem(i, 2, itemType);
+        contentTable->setItem(i, 3, itemCourseID);
 
         // adjust column width to fit all contents
         contentTable->resizeColumnsToContents();
+        contentTable->horizontalHeader()->setStretchLastSection(true);
     }
 
     return true;
 }
 
-void ItemTable::itemTitleClicked(int row, int col)
+void ItemTable::itemClicked(int row, int col)
 {
     /*
     if(col == 0) {
         for(int i = 0; i < allItems->size(); ++i) {
-            ContentItem* content = qobject_cast<ContentItem*>(allItems->at(i));
+            ContentItem* content = allItems->at(i);
             QString text = contentTable->item(row, col)->text();
             if(content->getTitle().compare(text) == 0) {
                 contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));

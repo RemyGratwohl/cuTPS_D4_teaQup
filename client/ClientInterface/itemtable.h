@@ -6,7 +6,7 @@
 #include <QTableWidgetItem>
 #include <QHeaderView>
 #include <QVector>
-#include "../server/ServerCommunication/serializableqobject.h"
+#include "../server/ContentManagement/contentitem.h"
 
 class ItemTable : public QObject
 {
@@ -21,14 +21,14 @@ public:
      * Side Effects: None
      * Return Value: Success indicator
      */
-    virtual bool updateTableView(QVector<SerializableQObject *>* contentList);
+    virtual bool updateTableView(QVector<ContentItem*>* contentList);
 
     virtual bool initialize();
 
 signals:
 
 public slots:
-    virtual void itemTitleClicked(int row, int col) = 0;
+    virtual void itemClicked(int row, int col) = 0;
 
 protected:
     QTableWidget *contentTable;

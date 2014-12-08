@@ -10,19 +10,23 @@ public:
     ShoppingCartTable(QObject *parent, QTableWidget *table);
     ~ShoppingCartTable();
 
+    virtual bool initialize();
+
     /* Member Function: updateTableView
      *   Displayes the names of content items in a list
      * in: A list of content items to view
      * Side Effects: None
      * Return Value: Success indicator
      */
-    virtual bool updateTableView(QVector<SerializableQObject *>* contentList);
+    virtual bool updateTableView(QVector<ContentItem*>* contentList);
+
+    bool emptyTable();
 
 public slots:
-    virtual void itemTitleClicked(int row, int col);
+    virtual void itemClicked(int row, int col);
 
 private:
-    QVector<SerializableQObject *>* shoppingItems;
+    QVector<ContentItem*>* shoppingItems;
 
 };
 

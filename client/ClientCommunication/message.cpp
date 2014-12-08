@@ -1,8 +1,8 @@
 #include "message.h"
 
 Message::Message(void) :
-    destType(static_cast<DEST_TYPE>(0)),
-    actionType(static_cast<ACTION_TYPE>(0)),
+    destType(INVALIDDEST),
+    actionType(INVALIDACTION),
     user(0),
     userIsShared(true)
 {}

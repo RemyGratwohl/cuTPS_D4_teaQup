@@ -33,7 +33,7 @@ class User : public SerializableQObject
     Q_PROPERTY(OBJ_ID_TYPE id READ getID WRITE setID)
 public:
 
-    enum TYPE { ADMIN, STUDENT, CONTENTMGR, INVALID };
+    enum TYPE {STUDENT = 0, CONTENTMGR, ADMIN, INVALID };
 
     /* Constructor
      *   To be used to create a container for deserialized data.

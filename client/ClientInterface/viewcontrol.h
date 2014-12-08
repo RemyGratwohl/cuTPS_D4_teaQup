@@ -27,13 +27,13 @@
 #include "loginwindow.h"
 #include "mainwindow.h"
 
+#include "studentview.h"
 #include "ClientCommunication/clientdispatcher.h"
 
-#include "ContentView/contentviewcontrol.h"
-#include "CourseView/courseviewcontrol.h"
-#include "Shopping/shoppingcartcontrol.h"
-
 class UserAuthenticationControl;
+class CourseViewControl;
+class ContentViewControl;
+class ShoppingCartControl;
 
 class ViewControl : public QObject
 {
@@ -54,9 +54,6 @@ public:
       *   and returns false in case of failure.
       */
      bool initialize(void);
-
-     // temp func to send messages to server
-     bool begin();
 
      /* Member Function: processMsg
       *   Handles a message received from the dispatcher.
@@ -80,6 +77,15 @@ public:
       *   (e.g. the input argument is valid)
       */
      bool changeView(TYPE subsystem);
+
+     /* Member Function: closeView()
+      *   Closes the top level view by means of popping it off the widget stack
+      * in: None
+      * Side Effects: None
+      * Return Value: True, if the operation succeeded.
+      */
+     bool closeView();
+     bool authenticateUser(OBJ_ID_TYPE id);
 
      /* Member Function: requestAuthentication
       *   To be called by the login window
@@ -126,7 +132,7 @@ public:
       */
      bool setCurrentUser(User* user);
 
-     void setShoppingList(QVector<SerializableQObject *>* list);
+     void setShoppingList(QVector<ContentItem*>* list);
 
      // Helper functions
 private:
@@ -138,6 +144,7 @@ private:
 
     LoginWindow               *loginWindow;
     MainWindow                *mainWindow;
+    StudentView               *studentView;
 
     UserAuthenticationControl *authenticator;
 

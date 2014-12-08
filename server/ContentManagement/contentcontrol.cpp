@@ -39,11 +39,11 @@ bool ContentControl::processMsg(const Message *msg)
     // ------------------------------------------------------
     QVector<SerializableQObject*>* data = dataMessage->getData();
     ContentItem* item = 0;
-    if( msgAction != RETRIEVE && data->size() < 1 ) {
+    if( msgAction != RETRIEVE && data->isEmpty() ) {
         error =  "ContentControl: Error - Message data vector has a length less than 1."
                  " Presently, all messages with data are expected to contain at least one item.";
         return sendError(msgDest, msgAction, user, error);
-    } else {
+    } else if( !data->isEmpty() ){
         item = qobject_cast<ContentItem*>(data->first());
         if( item == 0 ) {
             error =  "ContentControl: Error - Message data vector has a null first element,"
@@ -106,10 +106,11 @@ bool ContentControl::processMsg(const Message *msg)
         qDebug() << "ContentControl: received RETRIEVE message.";
         if( user->isOfType(User::STUDENT) && item == 0 ) {
             result = getBookList(user, output, error);
+        } else if( user->isOfType(User::CONTENTMGR) && item == 0 ) {
+            result = getBooks(output, error);
         } else if( book != 0 ) {
             result = getBookDetails(book, output, error);
-        } else if( user->isOfType(User::CONTENTMGR) ) {
-            result = getBooks(output, error);
+            msgAction = static_cast<ACTION_TYPE>(CONTENTHANDLER_RETRIEVE2);
         } else {
             error =  "ContentControl: Error - No operation found for RETRIEVE action given input data.";
             return sendError(msgDest, msgAction, user, error);

@@ -12,6 +12,7 @@ ShoppingCartView::ShoppingCartView(ShoppingCartControl *control, QWidget *parent
 {
     ui->setupUi(this);
     shoppingCartTable = new ShoppingCartTable(this, ui->contentWidget);
+    shoppingCartTable->initialize();
 }
 
 ShoppingCartView::~ShoppingCartView()
@@ -19,12 +20,22 @@ ShoppingCartView::~ShoppingCartView()
     delete ui;
 }
 
-bool ShoppingCartView::viewContentItems(QVector<SerializableQObject *>* contentList)
+bool ShoppingCartView::viewContentItems(QVector<ContentItem*>* contentList)
 {
     shoppingCartTable->updateTableView(contentList);
 }
 
 void ShoppingCartView::on_orderButton_clicked()
 {
+   controller->changeActiveView(ShoppingCartControl::BILLINGINFO);
+}
 
+void ShoppingCartView::on_emptyCartButton_clicked()
+{
+    shoppingCartTable->emptyTable();
+}
+
+void ShoppingCartView::on_backButton_clicked()
+{
+    controller->closeView();
 }

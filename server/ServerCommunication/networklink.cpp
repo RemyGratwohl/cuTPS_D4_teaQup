@@ -67,7 +67,7 @@ bool NetworkLink::readClientRequest()
     return false;
 }
 
-bool NetworkLink::initializeServerPort()
+bool NetworkLink::initializeServerConfig()
 {
     // the file that will contain the server port
     QFile file(SERVER_FILE_NAME);
@@ -87,8 +87,10 @@ bool NetworkLink::initializeServerPort()
         // write the server port to the newly created file
         QTextStream out(&file);
         // sample output: SERVER_PORT_NUMBER 15505
-        out << SERVER_PORT_NUMBER_FIELD << " " << DEFAULT_SERVER_PORT;
+        out << SERVER_PORT_NUMBER_FIELD << " " << DEFAULT_SERVER_PORT << "\n";
+        out << SERVER_IP_ADDRESS_FIELD << " " << DEFAULT_SERVER_IP;
         serverPortNumber = DEFAULT_SERVER_PORT;
+        serverIP = DEFAULT_SERVER_IP;
 
     } else {
         // if the file does exist, read the server port in from it
@@ -103,15 +105,30 @@ bool NetworkLink::initializeServerPort()
 
         QTextStream in(&file);
 
-        QRegExp rx(SERVER_PORT_NUMBER_FIELD);
+        QRegExp rx_port(SERVER_PORT_NUMBER_FIELD);
+        QRegExp rx_ip(SERVER_IP_ADDRESS_FIELD);
 
         while(!in.atEnd()) {
             QString fileString = in.readLine();
-            // if the line matches the port number field, parse it for the port number
-            if(rx.indexIn(fileString) != -1) {
+            // if the line matches the field, parse it for the value
+            if(rx_port.indexIn(fileString) != -1) {
                 QStringList list = fileString.split(QRegExp("\\s"));
                 // save the port number (the second entry if the first is the description
-                serverPortNumber = list.at(1).toUShort();
+                for(int i = 0; i < list.size(); ++i) {
+                    if(SERVER_PORT_NUMBER_FIELD.compare(list.at(i)) == 0) {
+                        serverPortNumber = list.at(i + 1).toUShort();
+                    }
+                }
+            }
+
+            if(rx_ip.indexIn(fileString) != -1) {
+                QStringList list = fileString.split(QRegExp("\\s"));
+                // save the ip address (the second entry if the first is the description
+                for(int i = 0; i < list.size(); ++i) {
+                    if(SERVER_IP_ADDRESS_FIELD.compare(list.at(i)) == 0) {
+                        serverIP = list.at(i + 1);
+                    }
+                }
             }
         }
     }
@@ -120,11 +137,11 @@ bool NetworkLink::initializeServerPort()
 
 bool NetworkLink::initializeServerIP()
 {
-    // set the server ip address to be localhost
-    serverIP = QHostAddress(QHostAddress::LocalHost).toString();
     tcpServer = new QTcpServer(this);
+    // set the server ip address
+    //serverIP = QHostAddress(serverIP).toString();
 
-    if (!tcpServer->listen(QHostAddress::Any, serverPortNumber)) {
+    if (!tcpServer->listen(QHostAddress(serverIP), serverPortNumber)) {
         qCritical() << tr("Unable to start the server: %1.")
                            .arg(tcpServer->errorString());
         tcpServer->close();
@@ -184,7 +201,7 @@ bool NetworkLink::sessionOpened()
 bool NetworkLink::initialize()
 {
     // order is important here
-    if(initializeServerPort() == false) return false;
+    if(initializeServerConfig() == false) return false;
     if(initializeNetworkSession() == false) return false;
     if(initializeServerIP() == false) return false;
 

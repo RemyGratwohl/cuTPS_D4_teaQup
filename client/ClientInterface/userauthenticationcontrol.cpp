@@ -15,12 +15,8 @@ bool UserAuthenticationControl::requestAuthentication(OBJ_ID_TYPE id) {
 }
 
 bool UserAuthenticationControl::processMsg(Message* msg) {
-    QString error;
-    ACTION_TYPE msgAction = INVALIDACTION;
-    DEST_TYPE msgDest = INVALIDDEST;
-
-    msgAction = msg->getActionType();
-    msgDest = msg->getDestType();
+    ACTION_TYPE msgAction = msg->getActionType();
+    DEST_TYPE msgDest = msg->getDestType();
 
     if(msgDest != ownDest) {
         qDebug() << "UserAuthenticationControl: Error - received a message for another subsystem.";
@@ -44,7 +40,7 @@ bool UserAuthenticationControl::processMsg(Message* msg) {
     // ------------------------------------------------------
     QVector<SerializableQObject*>* data = dataMessage->getData();
     if( data->size() != 0 ) {
-        error =  "UserAuthenticationControl: Error - Message data vector has a length other than 0."
+        qDebug() <<  "UserAuthenticationControl: Error - Message data vector has a length other than 0."
                  " Presently, all messages are expected to be empty.";
         return false;
     }
@@ -70,7 +66,7 @@ bool UserAuthenticationControl::processMsg(Message* msg) {
     case DELETE:
     case INVALIDACTION:
     default:
-        qDebug() << "UserAuthenticationControl: Unexpected message action type.";
+        qDebug() << "UserAuthenticationControl: Error - unexpected message action type.";
         result = false;
         break;
     }

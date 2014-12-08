@@ -52,6 +52,22 @@ public:
      */
     virtual bool processMsg(Message* msg) = 0;
 
+    /* Member Function: getView
+     *   Returns the view this controller is controlling.
+     * in: None
+     * Side Effects: None
+     * Return Value: The QWidget for the view object.
+     */
+    QWidget* getView();
+
+    /* Member Function: closeView
+     *   Has the main view control remove the view from mainWindow
+     * in: None
+     * Side Effects: None
+     * Return Value: None
+     */
+    void closeView();
+
     // Message processing helper functions
 protected:
 
@@ -65,7 +81,7 @@ protected:
      * Side Effects: None
      * Return Value: Returns the result of ClientDispatcher::deliverMsg()
      */
-    bool sendData(ACTION_TYPE, QVector<SerializableQObject *>*);
+    void sendData(ACTION_TYPE, QVector<SerializableQObject *>*);
 
 signals:
 
@@ -75,6 +91,7 @@ protected:
     ViewControl* viewControl;
     ClientDispatcher *dispatcher;
     DEST_TYPE ownDest;
+    QWidget   *view;
 };
 
 #endif // ABSTRACTVIEWCONTROLLER_H

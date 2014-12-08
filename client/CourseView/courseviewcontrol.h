@@ -22,18 +22,20 @@
 
 #include <QObject>
 #include "coursemanagementview.h"
-#include "ClientCommunication/message.h"
-#include "ClientCommunication/datamessage.h"
+#include "../util/abstractviewcontroller.h"
 #include "../../server/CourseManagement/course.h"
 #include "../../server/CourseManagement/term.h"
 
 class ViewControl;
 
-class CourseViewControl : public QObject
+class CourseViewControl : public AbstractViewController
 {
     Q_OBJECT
 public:
-    explicit CourseViewControl(ViewControl *viewController = 0, QObject *parent = 0);
+    /* Constructor
+     *   Proxy of the AbstractViewController constructor.
+     */
+    CourseViewControl(ViewControl *viewControl, ClientDispatcher *dispatcher);
 
     /* Member Function: processMsg
      * Handles a message received from the dispatcher.
@@ -42,8 +44,6 @@ public:
      * Return Value: True, if the operation succeeded.
      */
    virtual bool processMsg(Message* msg);
-
-    QWidget* getView();
 
     // Functions that will be called upon reception of non-error information from the server
     // -------------------------------------------------------------------------------------
@@ -58,7 +58,7 @@ protected:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool receiveCourses(Term* term, QVector<SerializableQObject*>* courses);
+    bool receiveCourses(Term* term, QVector<Course*>* courses);
 
     /* Member Function: receiveTerms
      *   Processes all terms
@@ -66,7 +66,7 @@ protected:
      * Side Effects: None
      * Return Value: True, if the operation succeeded.
      */
-    bool receiveTerms(QVector<SerializableQObject*>* terms);
+    bool receiveTerms(QVector<Term*>* terms);
 
     // Functions to be called to send requests to the server
     // -----------------------------------------------------
@@ -76,7 +76,8 @@ public:
     /* Member Function: addCourse
      * in: Course to be added to the system
      * in: Term to be added to the system, if the new
-     *       course is for a new term.
+     *       course is for a new term
+     *       (otherwise null).
      * Side Effects: None
      * Return Value: None
      */
@@ -85,7 +86,8 @@ public:
     /* Member Function: updateCourse
      * in: Course whose information is to be altered
      * in: Term to be added to the system, if the course
-     *       now refers to a new term.
+     *       now refers to a new term
+     *       (otherwise null).
      * Side Effects: If the course referred to a different term,
      *   and it was the only course referring to that term,
      *   the term is deleted on the server.
@@ -120,9 +122,6 @@ signals:
 
 public slots:
 
-private:
-    ViewControl          *viewController;
-    CourseManagementView *courseView;
 };
 
 #endif // COURSEVIEWCONTROL_H
