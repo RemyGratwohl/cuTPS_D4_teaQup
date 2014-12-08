@@ -7,11 +7,12 @@
 #include "../server/ContentManagement/chapter.h"
 #include "../server/ContentManagement/chaptersection.h"
 
-StudentView::StudentView(ViewControl *controller) :
+StudentView::StudentView(ViewControl *controller, User *user) :
     controller(controller),
     ui(new Ui::StudentView)
 {
     ui->setupUi(this);
+    ui->usernameLabel->setText(user->getName());
     contentItemTable = new ContentItemTable(this, ui->contentWidget);
 
     // display a list of content items in main window
@@ -62,4 +63,9 @@ void StudentView::on_shoppingCartButton_clicked()
 {
     controller->setShoppingList(contentItemTable->getSelectedItems());
     controller->changeView(ViewControl::SHOPPING_VIEW);
+}
+
+void StudentView::on_addToCartButton_clicked()
+{
+    contentItemTable->addSelectedItems();
 }

@@ -141,7 +141,7 @@ bool ViewControl::setCurrentUser(User* user) {
        {
            shoppingController = new ShoppingCartControl(this,clientDispatcher);
            contentController = new ContentViewControl(this, clientDispatcher);
-           studentView        = new StudentView(this);
+           studentView        = new StudentView(this, currentUser);
            mainWindow->addView(studentView);
        }else if(currentUser->getType() == User::CONTENTMGR)
        {

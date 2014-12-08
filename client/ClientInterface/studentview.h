@@ -4,6 +4,7 @@
 #include <QWidget>
 #include "contentitemtable.h"
 #include "../server/ContentManagement/contentitem.h"
+#include "../server/UserManagement/user.h"
 
 class ViewControl;
 
@@ -16,7 +17,7 @@ class StudentView : public QWidget
     Q_OBJECT
 
 public:
-    explicit StudentView(ViewControl *controller = 0);
+    explicit StudentView(ViewControl *controller = 0, User *user = 0);
     ~StudentView();
 
     bool viewContentItems(QVector<ContentItem *> *contentItems);
@@ -24,6 +25,7 @@ public:
 
 private slots:
     void on_shoppingCartButton_clicked();
+    void on_addToCartButton_clicked();
 
 private:
     Ui::StudentView *ui;

@@ -23,10 +23,12 @@ public:
 
     bool refreshTableView();
 
+    bool addSelectedItems();
+
 signals:
 
 public slots:
-    virtual void itemTitleClicked(int row, int col);
+    virtual void itemClicked(int row, int col);
 
 private:
     QVector<ContentItem*>* allItems;

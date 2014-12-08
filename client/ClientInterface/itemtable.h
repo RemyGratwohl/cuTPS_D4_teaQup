@@ -28,7 +28,7 @@ public:
 signals:
 
 public slots:
-    virtual void itemTitleClicked(int row, int col) = 0;
+    virtual void itemClicked(int row, int col) = 0;
 
 protected:
     QTableWidget *contentTable;

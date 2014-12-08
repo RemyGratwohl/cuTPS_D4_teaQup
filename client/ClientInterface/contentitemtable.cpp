@@ -20,6 +20,8 @@ bool ContentItemTable::updateTableView(QVector<ContentItem*>* contentList)
     for(int i = 0; i < listSize; ++i) {
         ContentItem* content = contentList->at(i);
 
+        QTableWidgetItem* selectionButton = new QTableWidgetItem("");
+        selectionButton->setCheckState(Qt::Unchecked);
         QTableWidgetItem* itemTitle;
         QTableWidgetItem* itemType;
         QTableWidgetItem* itemCourseID;
@@ -47,21 +49,24 @@ bool ContentItemTable::updateTableView(QVector<ContentItem*>* contentList)
 
         // add the text items to the table
         contentTable->setRowCount(listSize);
-        contentTable->setItem(i, 0, itemTitle);
-        contentTable->setItem(i, 1, itemType);
-        contentTable->setItem(i, 2, itemCourseID);
+        contentTable->setItem(i, 0, selectionButton);
+        contentTable->setItem(i, 1, itemTitle);
+        contentTable->setItem(i, 2, itemType);
+        contentTable->setItem(i, 3, itemCourseID);
 
         // adjust column width to fit all contents
         contentTable->resizeColumnsToContents();
+        contentTable->horizontalHeader()->setStretchLastSection(true);
     }
 
-    refreshTableView();
+    //refreshTableView();
 
     return true;
 }
 
 bool ContentItemTable::refreshTableView()
 {
+    /*
     for(int i = 0; i < allItems->size(); ++i) {
         contentTable->item(i, 0)->setBackgroundColor(QColor(255, 255, 255));
         contentTable->item(i, 1)->setBackgroundColor(QColor(255, 255, 255));
@@ -79,25 +84,43 @@ bool ContentItemTable::refreshTableView()
                 break;
             }
         }
-    }
+    }*/
 
     return true;
 }
 
-void ContentItemTable::itemTitleClicked(int row, int col)
+void ContentItemTable::itemClicked(int row, int col)
 {
     if(col == 0) {
         for(int i = 0; i < allItems->size(); ++i) {
             ContentItem* content = allItems->at(i);
-            QString text = contentTable->item(row, col)->text();
+            QString text = contentTable->item(row, 1)->text();
             if(content->getTitle().compare(text) == 0) {
                 selectedItems->push_back(allItems->at(i));
-                contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
-                contentTable->item(row, 1)->setBackgroundColor(QColor(200, 200, 200));
-                contentTable->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
+                //contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
+                //contentTable->item(row, 1)->setBackgroundColor(QColor(200, 200, 200));
+                //contentTable->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
             }
         }
     }
+}
+
+bool ContentItemTable::addSelectedItems()
+{
+    selectedItems->empty();
+    for(int i = 0; i < contentTable->rowCount(); ++i) {
+        if(contentTable->item(i, 0)->checkState() == Qt::Checked) {
+            QString text = contentTable->item(i, 1)->text();
+            for(int i = 0; i < allItems->size(); ++i) {
+                ContentItem* content = allItems->at(i);
+                if(content->getTitle().compare(text) == 0) {
+                    selectedItems->push_back(allItems->at(i));
+                }
+            }
+        }
+        contentTable->item(i, 0)->setCheckState(Qt::Unchecked);
+    }
+    return true;
 }
 
 QVector<ContentItem *>* ContentItemTable::getSelectedItems() const

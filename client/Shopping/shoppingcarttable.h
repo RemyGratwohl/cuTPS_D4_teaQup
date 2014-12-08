@@ -19,7 +19,7 @@ public:
     virtual bool updateTableView(QVector<ContentItem*>* contentList);
 
 public slots:
-    virtual void itemTitleClicked(int row, int col);
+    virtual void itemClicked(int row, int col);
 
 private:
     QVector<ContentItem*>* shoppingItems;

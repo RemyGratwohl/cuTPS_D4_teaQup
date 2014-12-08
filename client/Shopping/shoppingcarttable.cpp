@@ -64,7 +64,7 @@ bool ShoppingCartTable::updateTableView(QVector<ContentItem*>* contentList)
     return true;
 }
 
-void ShoppingCartTable::itemTitleClicked(int row, int col)
+void ShoppingCartTable::itemClicked(int row, int col)
 {
     if(col == 0) {
         QString text = contentTable->item(row, col)->text();
