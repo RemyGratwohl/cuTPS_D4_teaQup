@@ -10,7 +10,7 @@ BillingInfoView::BillingInfoView(ShoppingCartControl *control, QWidget *parent) 
 {
     ui->setupUi(this);
     ui->addressLineEdit->setPlaceholderText("Street address, P.O box, company name, c/o");
-    ui->insitutionLineEdit->setPlaceholderText("Payment Method (Bank Name, Paypal, Google Wallet, etc.)");
+    ui->institutionLineEdit->setPlaceholderText("Payment Method (Bank Name, Paypal, Google Wallet, etc.)");
 }
 
 BillingInfoView::~BillingInfoView()
