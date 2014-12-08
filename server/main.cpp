@@ -16,7 +16,7 @@ void validOrderTest();
 int main(int argc, char *argv[])
 {
     // qRegisterMetaType<OBJ_ID_TYPE>("OBJ_ID_TYPE");
-
+    validOrderTest();
     /* testing start - feel free to comment this stuff out */
 
     ServerDispatcher* serverDispatcher = new ServerDispatcher(argc, argv);
@@ -42,10 +42,11 @@ void validOrderTest() {
     orderList1->push_back(pDeets2);
 
     bool Success1 = orderAccess->allPurchasingDetailsValid(orderList1, error);
+    qDebug() << Success1;
     if(!Success1){
         if(error.length() > 1)
             qDebug() << "ERROR: " + error;
-        qDebug() << "One or more of the Purchasing Details is invalid.";
+        qDebug() << "One or more of the Purchasing Details is invalid. This is supposed to happen.";
     }
     // Valid list
     QVector<PurchasingDetails*>* orderList2 = new QVector<PurchasingDetails*>();

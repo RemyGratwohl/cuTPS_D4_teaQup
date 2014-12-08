@@ -32,13 +32,50 @@ bool OrderStorageControl::allPurchasingDetailsValid(
         return false;
     }
 
-    // Do any PD have said purchaseID?
-    // If true, do all fields match exactly?
-    // If still true, then PD is valid
-    foreach(PurchasingDetails* details, *purchasingDetails){
-        QString query = "Select * from purchasingDetails where purchaseid=" + QString::number(details->getID());
+    QVectorIterator<PurchasingDetails*> i(*purchasingDetails);
+    i.toFront();
+    while (i.hasNext()) {
+        QString query = "Select * from purchasingDetails where purchaseid=" + QString::number(i.peekNext()->getID());
+        qDebug() << query;
         QSqlQuery result = mainStorage->runQuery(query);
+
+
+        // lastError() is a string with a length of one (I think it might be a space?)
+        // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+        if(result.lastError().text().length() > 1){
+            errorMsg = result.lastError().text();
+            return false;
+        }
+        if(!result.first()){
+            // If there are no results and there were no errors, then the purchasing details are invalid.
+            errorMsg = "Invalid Purchasing Details. Purchase ID:" + QString::number(i.peekNext()->getID()) + " does not exist.";
+            return false;
+        }
+
+        PurchasingDetails* testDetails = new PurchasingDetails();
+        if(result.first()){
+            quint64 pid = result.value("purchaseid").toInt();
+            testDetails->setID(pid);
+            quint16 price = result.value("price").toFloat();
+            testDetails->setPrice(price);
+            QString vendor = result.value("vendor").toString();
+            testDetails->setVendor(vendor);
+            quint64 contentid = result.value("contentid").toInt();
+            testDetails->setContentID(contentid);
+            if(testDetails->getContentID() == i.peekNext()->getContentID() && testDetails->getPrice() == i.peekNext()->getPrice() && testDetails->getVendor()==i.peekNext()->getVendor())
+            {
+
+                delete testDetails;
+                i.next();
+
+            }
+            else {
+                errorMsg = "Invalid Purchasing Details. PurchaseID: " + QString::number(i.peekNext()->getID()) + " does not match details in database.";
+                delete testDetails;
+                return false;
+            }
+        }
     }
 
-    return false;
+    return true;
 }
