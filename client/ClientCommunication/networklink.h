@@ -39,9 +39,11 @@
 #include "../server/ServerCommunication/serializableqobject.h"
 #include "../server/ServerCommunication/messageroutingtypes.h"
 
-static const QString SERVER_FILE_NAME("ServerPortFile.txt");
+static const QString SERVER_FILE_NAME("ServerConfigFile.txt");
 static const QString SERVER_PORT_NUMBER_FIELD("SERVER_PORT_NUMBER");
 static const quint16 DEFAULT_SERVER_PORT(55505);
+static const QString SERVER_IP_ADDRESS_FIELD("SERVER_IP_ADDRESS");
+static const QString DEFAULT_SERVER_IP("127.0.0.1");
 
 class ClientDispatcher;
 
