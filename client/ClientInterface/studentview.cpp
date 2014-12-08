@@ -14,6 +14,7 @@ StudentView::StudentView(ViewControl *controller, User *user) :
     ui->setupUi(this);
     ui->usernameLabel->setText(user->getName());
     contentItemTable = new ContentItemTable(this, ui->contentWidget);
+    contentItemTable->initialize();
 
     // display a list of content items in main window
     QVector<ContentItem *>* list = new QVector<ContentItem *>();
@@ -52,11 +53,6 @@ StudentView::~StudentView()
 bool StudentView::viewContentItems(QVector<ContentItem*>* contentItems)
 {
     return contentItemTable->updateTableView(contentItems);
-}
-
-bool StudentView::refreshView()
-{
-    return contentItemTable->refreshTableView();
 }
 
 void StudentView::on_shoppingCartButton_clicked()

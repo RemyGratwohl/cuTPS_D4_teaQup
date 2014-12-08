@@ -47,6 +47,10 @@ bool ContentItemTable::updateTableView(QVector<ContentItem*>* contentList)
         itemType->setFlags(itemType->flags() ^ Qt::ItemIsEditable);
         itemCourseID->setFlags(itemCourseID->flags() ^ Qt::ItemIsEditable);
 
+        itemTitle->setFlags(itemTitle->flags() ^ Qt::ItemIsSelectable);
+        itemType->setFlags(itemType->flags() ^ Qt::ItemIsSelectable);
+        itemCourseID->setFlags(itemCourseID->flags() ^ Qt::ItemIsSelectable);
+
         // add the text items to the table
         contentTable->setRowCount(listSize);
         contentTable->setItem(i, 0, selectionButton);
@@ -62,47 +66,6 @@ bool ContentItemTable::updateTableView(QVector<ContentItem*>* contentList)
     //refreshTableView();
 
     return true;
-}
-
-bool ContentItemTable::refreshTableView()
-{
-    /*
-    for(int i = 0; i < allItems->size(); ++i) {
-        contentTable->item(i, 0)->setBackgroundColor(QColor(255, 255, 255));
-        contentTable->item(i, 1)->setBackgroundColor(QColor(255, 255, 255));
-        contentTable->item(i, 2)->setBackgroundColor(QColor(255, 255, 255));
-    }
-
-    for(int i = 0; i < allItems->size(); ++i) {
-        QString title = contentTable->item(i, 0)->text();
-        for(int k = 0; k < selectedItems->size(); ++k) {
-            QString text = selectedItems->at(k)->getTitle();
-            if(title.compare(text) == 0) {
-                contentTable->item(i, 0)->setBackgroundColor(QColor(200, 200, 200));
-                contentTable->item(i, 1)->setBackgroundColor(QColor(200, 200, 200));
-                contentTable->item(i, 2)->setBackgroundColor(QColor(200, 200, 200));
-                break;
-            }
-        }
-    }*/
-
-    return true;
-}
-
-void ContentItemTable::itemClicked(int row, int col)
-{
-    if(col == 0) {
-        for(int i = 0; i < allItems->size(); ++i) {
-            ContentItem* content = allItems->at(i);
-            QString text = contentTable->item(row, 1)->text();
-            if(content->getTitle().compare(text) == 0) {
-                selectedItems->push_back(allItems->at(i));
-                //contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
-                //contentTable->item(row, 1)->setBackgroundColor(QColor(200, 200, 200));
-                //contentTable->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
-            }
-        }
-    }
 }
 
 bool ContentItemTable::addSelectedItems()
@@ -121,6 +84,22 @@ bool ContentItemTable::addSelectedItems()
         contentTable->item(i, 0)->setCheckState(Qt::Unchecked);
     }
     return true;
+}
+
+void ContentItemTable::itemClicked(int row, int col)
+{
+    if(col == 0) {
+        for(int i = 0; i < allItems->size(); ++i) {
+            ContentItem* content = allItems->at(i);
+            QString text = contentTable->item(row, 1)->text();
+            if(content->getTitle().compare(text) == 0) {
+                selectedItems->push_back(allItems->at(i));
+                //contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
+                //contentTable->item(row, 1)->setBackgroundColor(QColor(200, 200, 200));
+                //contentTable->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
+            }
+        }
+    }
 }
 
 QVector<ContentItem *>* ContentItemTable::getSelectedItems() const

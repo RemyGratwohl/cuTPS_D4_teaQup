@@ -7,7 +7,6 @@
 ItemTable::ItemTable(QObject *parent, QTableWidget* table) :
     QObject(parent), contentTable(table)
 {
-    initialize();
 }
 
 ItemTable::~ItemTable() {}

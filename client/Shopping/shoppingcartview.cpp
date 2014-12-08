@@ -12,6 +12,7 @@ ShoppingCartView::ShoppingCartView(ShoppingCartControl *control, QWidget *parent
 {
     ui->setupUi(this);
     shoppingCartTable = new ShoppingCartTable(this, ui->contentWidget);
+    shoppingCartTable->initialize();
 }
 
 ShoppingCartView::~ShoppingCartView()
@@ -27,6 +28,11 @@ bool ShoppingCartView::viewContentItems(QVector<ContentItem*>* contentList)
 void ShoppingCartView::on_orderButton_clicked()
 {
 
+}
+
+void ShoppingCartView::on_emptyCartButton_clicked()
+{
+    shoppingCartTable->emptyTable();
 }
 
 void ShoppingCartView::on_backButton_clicked()

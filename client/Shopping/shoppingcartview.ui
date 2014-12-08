@@ -61,7 +61,7 @@
   <widget class="QPushButton" name="backButton">
    <property name="geometry">
     <rect>
-     <x>380</x>
+     <x>20</x>
      <y>360</y>
      <width>88</width>
      <height>27</height>
@@ -69,6 +69,19 @@
    </property>
    <property name="text">
     <string>Back</string>
+   </property>
+  </widget>
+  <widget class="QPushButton" name="emptyCartButton">
+   <property name="geometry">
+    <rect>
+     <x>120</x>
+     <y>360</y>
+     <width>88</width>
+     <height>27</height>
+    </rect>
+   </property>
+   <property name="text">
+    <string>Empty Cart</string>
    </property>
   </widget>
  </widget>

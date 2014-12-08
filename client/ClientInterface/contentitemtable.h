@@ -21,8 +21,6 @@ public:
 
     QVector<ContentItem*>* getSelectedItems() const;
 
-    bool refreshTableView();
-
     bool addSelectedItems();
 
 signals:

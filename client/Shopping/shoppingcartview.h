@@ -48,7 +48,7 @@ public:
 
 private slots:
     void on_orderButton_clicked();
-
+    void on_emptyCartButton_clicked();
     void on_backButton_clicked();
 
 private:

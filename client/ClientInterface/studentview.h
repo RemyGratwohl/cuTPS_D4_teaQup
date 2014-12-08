@@ -21,7 +21,6 @@ public:
     ~StudentView();
 
     bool viewContentItems(QVector<ContentItem *> *contentItems);
-    bool refreshView();
 
 private slots:
     void on_shoppingCartButton_clicked();
