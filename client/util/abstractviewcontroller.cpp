@@ -7,11 +7,15 @@ AbstractViewController::AbstractViewController(ViewControl *vc, ClientDispatcher
 {}
 
 void AbstractViewController::sendData(ACTION_TYPE action, QVector<SerializableQObject *>* data) {
-    Message* msg = new DataMessage(ownDest, action, viewControl->getCurrentUser(), data);
+    User* userBase = viewControl->getCurrentUser();
+    QString name = "";
+    User* userMsg = new User(name, static_cast<User::TYPE>(userBase->getType()), static_cast<OBJ_ID_TYPE>(userBase->getID()));
+    Message* msg = new DataMessage(ownDest, action, userMsg, data);
     bool result = dispatcher->deliverMsg(msg);
     if( !result ) {
         qDebug() << "AbstractViewController::sendData() : ClientDispatcher::deliverMsg() returned a failure result.";
     }
+    delete userMsg;
 }
 
 QWidget* AbstractViewController::getView(){

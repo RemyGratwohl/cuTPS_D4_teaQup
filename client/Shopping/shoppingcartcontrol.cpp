@@ -2,6 +2,7 @@
 #include <QDebug>
 #include "../ClientInterface/viewcontrol.h"
 #include "ClientCommunication/successmessage.h"
+#include "ClientCommunication/datamessage.h"
 
 ShoppingCartControl::ShoppingCartControl(ViewControl *vc, ClientDispatcher *d) :
     AbstractViewController(vc, d, ORDERING)

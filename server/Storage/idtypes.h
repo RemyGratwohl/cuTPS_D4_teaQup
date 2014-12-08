@@ -23,6 +23,7 @@
 #include <QtGlobal>
 
 // Identifier type for in-memory objects
-typedef quint64 OBJ_ID_TYPE;
+// typedef quint64 OBJ_ID_TYPE;
+#define OBJ_ID_TYPE quint64
 
 #endif // IDTYPES_H
