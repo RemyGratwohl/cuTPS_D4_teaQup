@@ -27,7 +27,7 @@ bool ShoppingCartView::viewContentItems(QVector<ContentItem*>* contentList)
 
 void ShoppingCartView::on_orderButton_clicked()
 {
-
+   controller->changeActiveView(ShoppingCartControl::BILLINGINFO);
 }
 
 void ShoppingCartView::on_emptyCartButton_clicked()
