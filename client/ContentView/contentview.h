@@ -41,6 +41,10 @@ private slots:
 
     void on_switchToCoursesButton_clicked();
 
+    void on_addButtonButton_clicked();
+
+    void on_add_CancelButton_clicked();
+
 private:
     Ui::ContentView *ui;
     ContentViewControl *controller;

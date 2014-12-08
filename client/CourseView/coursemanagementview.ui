@@ -26,14 +26,63 @@
     <widget class="QPushButton" name="switchToContentButton">
      <property name="geometry">
       <rect>
-       <x>20</x>
-       <y>370</y>
-       <width>121</width>
-       <height>27</height>
+       <x>17</x>
+       <y>20</y>
+       <width>81</width>
+       <height>41</height>
       </rect>
      </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="styleSheet">
+      <string notr="true">QPushButton {
+			color:rgb(185, 185, 185);
+			border: none;
+			outline: none;
+ }</string>
+     </property>
      <property name="text">
-      <string>View Content</string>
+      <string>Books</string>
+     </property>
+     <property name="flat">
+      <bool>true</bool>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="tableWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>551</width>
+       <height>291</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="TitleLabel">
+     <property name="geometry">
+      <rect>
+       <x>117</x>
+       <y>20</y>
+       <width>131</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Courses</string>
      </property>
     </widget>
    </widget>

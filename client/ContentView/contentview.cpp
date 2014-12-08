@@ -8,6 +8,7 @@ ContentView::ContentView(ContentViewControl *control,QWidget *parent) :
     ui(new Ui::ContentView)
 {
     ui->setupUi(this);
+    ui->stackedWidget->setCurrentIndex(0);
 }
 
 ContentView::~ContentView()
@@ -23,4 +24,14 @@ void ContentView::on_switchToCoursesButton_clicked()
 void ContentView::on_pushButton_2_clicked()
 {
 
+}
+
+void ContentView::on_addButtonButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(2);
+}
+
+void ContentView::on_add_CancelButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(0);
 }
