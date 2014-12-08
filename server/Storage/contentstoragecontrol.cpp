@@ -295,8 +295,57 @@ bool ContentStorageControl::getBook(OBJ_ID_TYPE bookID, Book* book, QString& err
     return true;
 }
 
+// Untested: does not include purchasing details yet
 bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, QString& errorMsg) {
-    return false;
+
+    quint64 studentid = student->getID();
+
+    // Build Query
+    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid inner join course_user on contentItem.courseid=course_user.coid where userid=" + QString::number(studentid);
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+
+   items = new QVector<Book*>();
+
+    while(result.next()){
+        Book * book = new Book();
+        QString title = result.value("title").toString();
+        book->setTitle(title);
+        QString isbn = result.value("isbn").toString();
+        book->setISBN(isbn);
+        QString subtitle = result.value("subtitle").toString();
+        book->setSubtitle(subtitle);
+        QString authors = result.value("authors").toString();
+        book->setAuthors(authors);
+        QString publisher = result.value("publisher").toString();
+        book->setPublisher(publisher);
+        QString website = result.value("website").toString();
+        book->setWebsite(website);
+        QString citation = result.value("citation").toString();
+        book->setCitation(citation);
+        QString picturelink = result.value("picturelink").toString();
+        book->setImageLink(picturelink);
+        quint16 year = result.value("year_publish").toInt();
+        book->setYearPublished(year);
+        quint64 courseid = result.value("courseid").toInt();
+        book->setCourseID(courseid);
+        quint64 contentid = result.value("contentid").toInt();
+        book->setID(contentid);
+
+        items->push_back(book);
+        return true;
+    }
+
+    // If there are no results and there were no errors, then there are no content items for this user
+    errorMsg = "There are no content items for this user.";
+    return true;
 }
 
 // untested: without purchasing details
