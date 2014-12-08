@@ -65,9 +65,6 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         }
     }
 
-
-
-
     // Verify Course
     course->setTermID(termid.toInt());
 
@@ -318,7 +315,9 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
         return false;
     }
 
+    items = new QVector<Chapter*>();
     while(result.next()){
+
         Chapter* chap = new Chapter();
         quint64 contentid = result.value("contentid").toInt();
         chap->setID(contentid);
@@ -331,6 +330,7 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
         quint16 chapterNum = result.value("chapter_num").toInt();
         chap->setChapterNumber(chapterNum);
         chap->setBookID(bookid);
+        items->push_back(chap);
         return true;
     }
     // If there is more than one user returned, return false because something is wrong with the database
@@ -343,8 +343,49 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
     return true;
 }
 
+// untested: without purchasing details
 bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection*>*& items, QString& errorMsg) {
-    return false;
+
+            quint64 chapterid = chapter->getID();
+
+            // Build Query
+            QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapterSection.section_num from contentItem inner join chapterSection on chapterSection.sectionid = contentItem.contentid where chapterid" + QString::number(chapterid);
+
+            // Run query and get result set object
+            QSqlQuery result = mainStorage->runQuery(query);
+
+            if(result.lastError().text().length() > 1){
+                errorMsg = result.lastError().text();
+                return false;
+            }
+
+            items = new QVector<ChapterSection*>();
+
+            while(result.next()){
+
+                ChapterSection* sect = new ChapterSection();
+                quint64 contentid = result.value("contentid").toInt();
+                sect->setID(contentid);
+                QString title = result.value("title").toString();
+                sect->setTitle(title);
+                QString isbn = result.value("isbn").toString();
+                sect->setISBN(isbn);
+                quint64 courseid = result.value("courseid").toInt();
+                sect->setCourseID(courseid);
+                quint16 sectionNum = result.value("section_num").toInt();
+                sect->setSectionNumber(sectionNum);
+                sect->setChapterID(chapterid);
+                items->push_back(sect);
+                return true;
+            }
+            // If there is more than one user returned, return false because something is wrong with the database
+            if (result.next()){
+                errorMsg = "More than one user returned. Database is corrupted.";
+                return false;
+            }
+            // If there are no results and there were no errors, then the book does not exist.
+            errorMsg = "Book does not exist";
+            return true;
 }
 
 // Untested: Does not include purchasing details yet
@@ -359,6 +400,7 @@ bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) 
         errorMsg = result.lastError().text();
         return false;
     }
+   items = new QVector<Book*>();
 
     while(result.next()){
         Book * book = new Book();
