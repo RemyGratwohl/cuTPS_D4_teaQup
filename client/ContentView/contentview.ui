@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>2</number>
    </property>
    <widget class="QWidget" name="list">
     <widget class="QPushButton" name="switchToCoursesButton">
@@ -130,7 +130,7 @@
    </widget>
    <widget class="QWidget" name="updateBook"/>
    <widget class="QWidget" name="addBook">
-    <widget class="QLabel" name="TitleLabel_2">
+    <widget class="QLabel" name="add_TitleLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -151,7 +151,7 @@
       <string>Create a New Book</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="add_enterTitleLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -174,7 +174,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="add_ubtitleLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -207,7 +207,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="add_AthorNamesLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -230,7 +230,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="add_ISBNLabel">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -256,7 +256,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="add_WebsiteLabel">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -269,7 +269,7 @@
       <string>Website:</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="add_YearLabel">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -295,7 +295,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="TitleLabel_3">
+    <widget class="QLabel" name="add_PD_TitleLabel">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -316,7 +316,7 @@
       <string>Attach Purchasing Information</string>
      </property>
     </widget>
-    <widget class="QLabel" name="TitleLabel_4">
+    <widget class="QLabel" name="add_PD_SubtitleLabel">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -337,7 +337,7 @@
       <string>* If not provided, the item will NOT be automatically listed for sale.</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_7">
+    <widget class="QLabel" name="add_PriceLabel">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -373,7 +373,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="label_8">
+    <widget class="QLabel" name="add_VendorNameLabel">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -396,7 +396,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_9">
+    <widget class="QLabel" name="add_CitationLabel">
      <property name="geometry">
       <rect>
        <x>350</x>
@@ -419,7 +419,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="label_10">
+    <widget class="QLabel" name="add_ImageLinkLabel">
      <property name="geometry">
       <rect>
        <x>350</x>
@@ -458,7 +458,7 @@
       <string>Cancel</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_11">
+    <widget class="QLabel" name="ada_PD_BorderLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -474,30 +474,30 @@
       <string/>
      </property>
     </widget>
-    <zorder>label_11</zorder>
-    <zorder>TitleLabel_2</zorder>
-    <zorder>label</zorder>
+    <zorder>ada_PD_BorderLabel</zorder>
+    <zorder>add_TitleLabel</zorder>
+    <zorder>add_enterTitleLabel</zorder>
     <zorder>lineEdit</zorder>
-    <zorder>label_2</zorder>
+    <zorder>add_ubtitleLabel</zorder>
     <zorder>lineEdit_2</zorder>
     <zorder>lineEdit_3</zorder>
-    <zorder>label_3</zorder>
+    <zorder>add_AthorNamesLabel</zorder>
     <zorder>lineEdit_4</zorder>
-    <zorder>label_4</zorder>
+    <zorder>add_ISBNLabel</zorder>
     <zorder>lineEdit_5</zorder>
-    <zorder>label_5</zorder>
-    <zorder>label_6</zorder>
+    <zorder>add_WebsiteLabel</zorder>
+    <zorder>add_YearLabel</zorder>
     <zorder>lineEdit_6</zorder>
-    <zorder>TitleLabel_3</zorder>
-    <zorder>TitleLabel_4</zorder>
-    <zorder>label_7</zorder>
+    <zorder>add_PD_TitleLabel</zorder>
+    <zorder>add_PD_SubtitleLabel</zorder>
+    <zorder>add_PriceLabel</zorder>
     <zorder>lineEdit_7</zorder>
     <zorder>lineEdit_8</zorder>
-    <zorder>label_8</zorder>
+    <zorder>add_VendorNameLabel</zorder>
     <zorder>plainTextEdit</zorder>
-    <zorder>label_9</zorder>
+    <zorder>add_CitationLabel</zorder>
     <zorder>lineEdit_9</zorder>
-    <zorder>label_10</zorder>
+    <zorder>add_ImageLinkLabel</zorder>
     <zorder>pushButton</zorder>
     <zorder>add_CancelButton</zorder>
    </widget>
