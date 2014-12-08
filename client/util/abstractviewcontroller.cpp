@@ -22,6 +22,11 @@ QWidget* AbstractViewController::getView(){
      return view;
  }
 
+void AbstractViewController::switchToNewView(ViewControl::TYPE type)
+{
+    viewControl->changeView(type);
+}
+
 void AbstractViewController::closeView(){
     viewControl->closeView();
 }
