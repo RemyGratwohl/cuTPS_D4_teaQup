@@ -302,8 +302,45 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
     return false;
 }
 
+// untested: without purchasing details
 bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, QString& errorMsg) {
-    return false;
+
+    quint64 bookid = book->getID();
+
+    // Build Query
+    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapter.chapter_num from contentItem inner join chapter on chapter.chid = contentItem.contentid where bookid=" + QString::number(bookid);
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+
+    while(result.next()){
+        Chapter* chap = new Chapter();
+        quint64 contentid = result.value("contentid").toInt();
+        chap->setID(contentid);
+        QString title = result.value("title").toString();
+        chap->setTitle(title);
+        QString isbn = result.value("isbn").toString();
+        chap->setISBN(isbn);
+        quint64 courseid = result.value("courseid").toInt();
+        chap->setCourseID(courseid);
+        quint16 chapterNum = result.value("chapter_num").toInt();
+        chap->setChapterNumber(chapterNum);
+        chap->setBookID(bookid);
+        return true;
+    }
+    // If there is more than one user returned, return false because something is wrong with the database
+    if (result.next()){
+        errorMsg = "More than one user returned. Database is corrupted.";
+        return false;
+    }
+    // If there are no results and there were no errors, then the book does not exist.
+    errorMsg = "Book does not exist";
+    return true;
 }
 
 bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection*>*& items, QString& errorMsg) {
