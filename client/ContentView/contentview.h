@@ -64,6 +64,14 @@ private slots:
 
     void on_UB_addChapterbutton_clicked();
 
+    void on_UCS_UpdateButton_clicked();
+
+    void on_UCS_CancelButton_clicked();
+
+    void on_UB_editChapterButton_clicked();
+
+    void on_UC_UpdateSectionButton_clicked();
+
 private:
     enum PAGE {LIST = 0, UB, AB, AC, UC, ACS, UCS};
 
