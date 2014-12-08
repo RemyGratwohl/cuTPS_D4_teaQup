@@ -46,6 +46,8 @@ public:
      */
    virtual bool processMsg(Message *msg);
 
+    enum TYPE {SHOPPINGCART = 0, BILLINGINFO, CONFIRMATION};
+
     // Functions that will be called upon reception of non-error information from the server
     // -------------------------------------------------------------------------------------
     /* All input arguments will be deallocated by these functions
@@ -81,11 +83,14 @@ public:
 
     void handleShoppingList(QVector<ContentItem *>* list);
 
+    void changeActiveView(TYPE t);
+
 signals:
 
 public slots:
 
 private:
+    ShoppingCartView *shoppingCartView;
     BillingInfoView  *billingInfoView;
     ShoppingCart     *shoppingCart;
 };

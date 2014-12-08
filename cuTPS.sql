@@ -129,6 +129,7 @@ create table course_book (
 
 insert into users (userid, name, usertype) values (100845934, 'Timmy Tortoise', 0);
 insert into users (userid, name, usertype) values (100945234, 'Harold DaHare', 0);
+insert into users (userid, name, usertype) values (100945932, 'Matilda', 1);
 
 insert into term (termid, semester, term_year) values (1, 'F', 2014);
 

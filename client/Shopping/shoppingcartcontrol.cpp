@@ -5,9 +5,11 @@
 ShoppingCartControl::ShoppingCartControl(ViewControl *vc, ClientDispatcher *d) :
     AbstractViewController(vc, d, ORDERING)
 {
-    view = new ShoppingCartView(this);
+    shoppingCartView = new ShoppingCartView(this);
     billingInfoView  = new BillingInfoView(this);
     shoppingCart     = new ShoppingCart(this);
+
+    view = shoppingCartView; // Default view for the subystems
 }
 
 bool ShoppingCartControl::processMsg(Message *msg)
@@ -26,7 +28,6 @@ bool ShoppingCartControl::processMsg(Message *msg)
         break;
     case UPDATE:
         qDebug() << "ShoppingCartControl: received UPDATE message.";
-
         break;
     case DELETE:
         qDebug() << "ShoppingCartControl: received DELETE message.";
@@ -40,6 +41,25 @@ bool ShoppingCartControl::processMsg(Message *msg)
     delete dataMessage;
     dataMessage = 0;
     return result;
+}
+
+void ShoppingCartControl::changeActiveView(TYPE t)
+{
+    switch(t)
+    {
+    case(SHOPPINGCART):
+        view = shoppingCartView;
+        break;
+    case(BILLINGINFO):
+        view = billingInfoView;
+        break;
+    case(CONFIRMATION):
+        break;
+    default:
+        break;
+    }
+
+    viewControl->changeView(ViewControl::SHOPPING_VIEW);
 }
 
 void ShoppingCartControl::handleShoppingList(QVector<ContentItem *>* list)
