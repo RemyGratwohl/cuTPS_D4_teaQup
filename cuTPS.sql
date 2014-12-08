@@ -72,7 +72,9 @@ create table contentItem (
 create table course_user (
 	userid integer NOT NULL,
 	coid integer NOT NULL,
-	PRIMARY KEY(userid, courseid)
+	PRIMARY KEY(userid, coid),
+	FOREIGN KEY(coid) REFERENCES course(courseid) ON DELETE CASCADE,
+	FOREIGN KEY(userid) REFERENCES users(userid) ON DELETE CASCADE
 );
 
 create table purchasingDetails (
