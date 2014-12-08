@@ -37,7 +37,6 @@ public:
     ~ContentView();
 
 private slots:
-    void on_pushButton_2_clicked();
 
     void on_switchToCoursesButton_clicked();
 
@@ -47,7 +46,35 @@ private slots:
 
     void on_RemoveBookButton_clicked();
 
+    void on_update_CancelButton_clicked();
+
+    void on_update_UpdateButton_clicked();
+
+    void on_UC_CancelButton_clicked();
+
+    void on_UC_AddSectionButton_clicked();
+
+    void on_ACS_CancelButton_clicked();
+
+    void on_AC_ConfirmButton_clicked();
+
+    void on_AC_CancelButton_clicked();
+
+    void on_l_UpdateBookButton_clicked();
+
+    void on_UB_addChapterbutton_clicked();
+
+    void on_UCS_UpdateButton_clicked();
+
+    void on_UCS_CancelButton_clicked();
+
+    void on_UB_editChapterButton_clicked();
+
+    void on_UC_UpdateSectionButton_clicked();
+
 private:
+    enum PAGE {LIST = 0, UB, AB, AC, UC, ACS, UCS};
+
     Ui::ContentView *ui;
     ContentViewControl *controller;
 };
