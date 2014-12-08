@@ -33,7 +33,7 @@
     </rect>
    </property>
   </widget>
-  <widget class="QLineEdit" name="insitutionLineEdit">
+  <widget class="QLineEdit" name="institutionLineEdit">
    <property name="geometry">
     <rect>
      <x>40</x>
@@ -96,7 +96,7 @@
     <string>Address:</string>
    </property>
   </widget>
-  <widget class="QLabel" name="insiutionLabel">
+  <widget class="QLabel" name="institutionLabel">
    <property name="geometry">
     <rect>
      <x>40</x>

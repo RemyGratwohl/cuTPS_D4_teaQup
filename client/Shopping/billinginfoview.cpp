@@ -26,9 +26,9 @@ void BillingInfoView::on_backButton_clicked()
 
 void BillingInfoView::on_orderButton_clicked()
 {
-    QString name = ui->nameLabel->text();
-    QString address = ui->addressLabel->text();
-    QString institution = ui->insiutionLabel->text();
+    QString name = ui->nameLineEdit->text();
+    QString address = ui->addressLineEdit->text();
+    QString institution = ui->institutionLineEdit->text();
 
     if(name != "" && address != "" && institution != "")
     {
