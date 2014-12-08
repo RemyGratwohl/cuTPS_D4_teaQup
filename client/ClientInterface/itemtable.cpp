@@ -14,7 +14,7 @@ ItemTable::~ItemTable() {}
 bool ItemTable::initialize()
 {
     contentTable->setColumnCount(4);
-    QTableWidgetItem* selectionColumn = new QTableWidgetItem("Selection");
+    QTableWidgetItem* selectionColumn = new QTableWidgetItem();
     QTableWidgetItem* titleColumn = new QTableWidgetItem("Title");
     QTableWidgetItem* typeColumn = new QTableWidgetItem("Content Type");
     QTableWidgetItem* idColumn = new QTableWidgetItem("Course ID");
@@ -26,7 +26,7 @@ bool ItemTable::initialize()
     contentTable->horizontalHeader()->setStretchLastSection(true);
 
     // make the title's clickable
-    connect(contentTable, SIGNAL(cellDoubleClicked(int,int)), this, SLOT(itemClicked(int,int)));
+    connect(contentTable, SIGNAL(cellClicked(int,int)), this, SLOT(itemClicked(int,int)));
     return true;
 }
 

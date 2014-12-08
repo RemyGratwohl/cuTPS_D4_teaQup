@@ -9,6 +9,8 @@ ContentItemTable::ContentItemTable(QObject *parent, QTableWidget *table) :
 {
     allItems = new QVector<ContentItem*>();
     selectedItems = new QVector<ContentItem*>();
+    table->setSelectionMode(QAbstractItemView::SingleSelection);
+    table->setSelectionBehavior(QAbstractItemView::SelectRows);
 }
 
 ContentItemTable::~ContentItemTable() {}
@@ -43,13 +45,15 @@ bool ContentItemTable::updateTableView(QVector<ContentItem*>* contentList)
         }
 
         // make the cells uneditable
+        selectionButton->setFlags(selectionButton->flags() ^ Qt::ItemIsEditable);
         itemTitle->setFlags(itemTitle->flags() ^ Qt::ItemIsEditable);
         itemType->setFlags(itemType->flags() ^ Qt::ItemIsEditable);
         itemCourseID->setFlags(itemCourseID->flags() ^ Qt::ItemIsEditable);
 
-        itemTitle->setFlags(itemTitle->flags() ^ Qt::ItemIsSelectable);
-        itemType->setFlags(itemType->flags() ^ Qt::ItemIsSelectable);
-        itemCourseID->setFlags(itemCourseID->flags() ^ Qt::ItemIsSelectable);
+        selectionButton->setFlags(selectionButton->flags() ^ Qt::ItemIsSelectable);
+        //itemTitle->setFlags(itemTitle->flags() ^ Qt::ItemIsSelectable);
+        //itemType->setFlags(itemType->flags() ^ Qt::ItemIsSelectable);
+        //itemCourseID->setFlags(itemCourseID->flags() ^ Qt::ItemIsSelectable);
 
         // add the text items to the table
         contentTable->setRowCount(listSize);
@@ -88,18 +92,19 @@ bool ContentItemTable::addSelectedItems()
 
 void ContentItemTable::itemClicked(int row, int col)
 {
+    /*
     if(col == 0) {
         for(int i = 0; i < allItems->size(); ++i) {
             ContentItem* content = allItems->at(i);
             QString text = contentTable->item(row, 1)->text();
             if(content->getTitle().compare(text) == 0) {
                 selectedItems->push_back(allItems->at(i));
-                //contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
-                //contentTable->item(row, 1)->setBackgroundColor(QColor(200, 200, 200));
-                //contentTable->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
+                contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
+                contentTable->item(row, 1)->setBackgroundColor(QColor(200, 200, 200));
+                contentTable->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
             }
         }
-    }
+    }*/
 }
 
 QVector<ContentItem *>* ContentItemTable::getSelectedItems() const
