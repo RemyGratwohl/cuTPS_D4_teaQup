@@ -40,7 +40,14 @@ public:
 private slots:
     void on_switchToContentButton_clicked();
 
+    void on_addCourseButton_clicked();
+
+    void on_updateCourseButton_clicked();
+
 private:
+
+    enum PAGE {LIST = 0, UPDATE, ADD};
+
     Ui::CourseManagementView *ui;
     CourseViewControl *controller;
 };

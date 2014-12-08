@@ -35,3 +35,8 @@ void ContentView::on_add_CancelButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(0);
 }
+
+void ContentView::on_RemoveBookButton_clicked()
+{
+    //TODO: Call Server to remove selected Item
+}
