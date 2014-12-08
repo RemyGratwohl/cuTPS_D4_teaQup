@@ -52,6 +52,8 @@ private slots:
 
     void on_update_CancelButton_clicked();
 
+    void on_add_AddButton_clicked();
+
 private:
 
     enum PAGE {LIST = 0, ADD, UPDATE};

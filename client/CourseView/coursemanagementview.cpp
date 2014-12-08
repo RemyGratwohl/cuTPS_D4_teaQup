@@ -50,3 +50,8 @@ void CourseManagementView::on_update_CancelButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(LIST);
 }
+
+void CourseManagementView::on_add_AddButton_clicked()
+{
+
+}

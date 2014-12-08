@@ -47,6 +47,20 @@ private slots:
 
     void on_RemoveBookButton_clicked();
 
+    void on_update_CancelButton_clicked();
+
+    void on_update_UpdateButton_clicked();
+
+    void on_addChapter_AddButton_2_clicked();
+
+    void on_addChapter_CancelButton_clicked();
+
+    void on_UC_CancelButton_clicked();
+
+    void on_UC_AddSectionButton_clicked();
+
+    void on_ACS_CancelButton_clicked();
+
 private:
     Ui::ContentView *ui;
     ContentViewControl *controller;
