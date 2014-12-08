@@ -37,7 +37,17 @@ public:
     explicit CourseManagementView(CourseViewControl *control = 0, QWidget *parent = 0);
     ~CourseManagementView();
 
+private slots:
+    void on_switchToContentButton_clicked();
+
+    void on_addCourseButton_clicked();
+
+    void on_updateCourseButton_clicked();
+
 private:
+
+    enum PAGE {LIST = 0, UPDATE, ADD};
+
     Ui::CourseManagementView *ui;
     CourseViewControl *controller;
 };

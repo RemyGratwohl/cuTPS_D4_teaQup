@@ -60,6 +60,8 @@ public:
      */
     QWidget* getView();
 
+    void switchToNewView(ViewControl::TYPE type);
+
     /* Member Function: closeView
      *   Has the main view control remove the view from mainWindow
      * in: None
