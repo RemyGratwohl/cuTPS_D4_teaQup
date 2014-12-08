@@ -63,7 +63,5 @@ bool UserStorageControl::getUser(OBJ_ID_TYPE& userid, User*& user, QString& erro
     }
     // If there are no results and there were no errors, then the user does not exist.
     errorMsg = "User does not exist";
-    user = new User();
-    user->setID(-1);
     return true;
 }
