@@ -47,7 +47,9 @@ SOURCES += main.cpp\
     ClientInterface/contentitemtable.cpp \
     ClientInterface/itemtable.cpp \
     Shopping/shoppingcarttable.cpp \
-    ClientInterface/studentview.cpp
+    ClientInterface/studentview.cpp \
+    ContentView/bookcontenttable.cpp \
+    CourseView/coursetable.cpp
 
 HEADERS  += ClientInterface/mainwindow.h \
     ClientCommunication/networklink.h \
@@ -85,7 +87,10 @@ HEADERS  += ClientInterface/mainwindow.h \
     ClientInterface/contentitemtable.h \
     ClientInterface/itemtable.h \
     Shopping/shoppingcarttable.h \
-    ClientInterface/studentview.h
+    ClientInterface/studentview.h \
+    CourseView/bookcontenttable.h \
+    ContentView/bookcontenttable.h \
+    CourseView/coursetable.h
 
 FORMS    += ClientInterface/mainwindow.ui \
     ClientInterface/loginwindow.ui \

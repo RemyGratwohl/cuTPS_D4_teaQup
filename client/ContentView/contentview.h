@@ -21,6 +21,7 @@
 */
 
 #include <QWidget>
+#include "bookcontenttable.h"
 
 namespace Ui {
 class ContentView;
@@ -36,6 +37,8 @@ public:
     explicit ContentView(ContentViewControl *control = 0, QWidget *parent = 0);
     ~ContentView();
 
+    bool viewContentItems(QVector<ContentItem*>* contentItems);
+
 private slots:
     void on_pushButton_2_clicked();
 
@@ -50,6 +53,7 @@ private slots:
 private:
     Ui::ContentView *ui;
     ContentViewControl *controller;
+    BookContentTable *bookContentTable;
 };
 
 #endif // CONTENTVIEW_H

@@ -22,6 +22,8 @@
 
 
 #include <QWidget>
+#include "../server/ContentManagement/contentitem.h"
+#include "coursetable.h"
 
 namespace Ui {
 class CourseManagementView;
@@ -36,6 +38,8 @@ class CourseManagementView : public QWidget
 public:
     explicit CourseManagementView(CourseViewControl *control = 0, QWidget *parent = 0);
     ~CourseManagementView();
+
+    bool viewContentItems(QVector<Course*>* contentItems);
 
 private slots:
     void on_switchToContentButton_clicked();
@@ -58,6 +62,7 @@ private:
 
     Ui::CourseManagementView *ui;
     CourseViewControl *controller;
+    CourseTable       *courseTable;
 };
 
 #endif // COURSEMANAGEMENTVIEW_H

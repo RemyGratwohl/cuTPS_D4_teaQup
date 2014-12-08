@@ -57,7 +57,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="updateBookButton">
+    <widget class="QPushButton" name="editBookButton">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -67,7 +67,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Update Book Details</string>
+      <string>Edit Book Details</string>
      </property>
     </widget>
     <widget class="QLabel" name="TitleLabel">
