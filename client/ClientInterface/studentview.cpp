@@ -65,3 +65,8 @@ void StudentView::on_addToCartButton_clicked()
 {
     contentItemTable->addSelectedItems();
 }
+
+void StudentView::on_viewDetailsButton_clicked()
+{
+    contentItemTable->addSelectedItems();
+}

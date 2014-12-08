@@ -35,7 +35,6 @@ bool OrderControl::processMsg(const Message *msg)
 
     // Input validation concerning the user
     // ------------------------------------
-
     if( !user->isOfType(User::STUDENT) ) {
         error =  "OrderControl: Error - Non-Student users cannot order content.";
         return sendError(msgDest, msgAction, user, error);
