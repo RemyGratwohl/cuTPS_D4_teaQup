@@ -31,17 +31,22 @@ void CourseManagementView::on_updateCourseButton_clicked()
     ui->stackedWidget->setCurrentIndex(UPDATE);
 }
 
+void CourseManagementView::on_removeCourseButton_clicked()
+{
+
+}
+
 void CourseManagementView::on_add_CancelButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(LIST);
 }
 
+void CourseManagementView::on_update_ConfirmButton_clicked()
+{
+
+}
+
 void CourseManagementView::on_update_CancelButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(LIST);
-}
-
-void CourseManagementView::on_update_Confirmbutton_clicked()
-{
-    //TODO: Call add on server
 }

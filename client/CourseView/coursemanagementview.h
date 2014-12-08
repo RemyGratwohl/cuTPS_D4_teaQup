@@ -44,9 +44,17 @@ private slots:
 
     void on_updateCourseButton_clicked();
 
+    void on_removeCourseButton_clicked();
+
+    void on_add_CancelButton_clicked();
+
+    void on_update_ConfirmButton_clicked();
+
+    void on_update_CancelButton_clicked();
+
 private:
 
-    enum PAGE {LIST = 0, UPDATE, ADD};
+    enum PAGE {LIST = 0, ADD, UPDATE};
 
     Ui::CourseManagementView *ui;
     CourseViewControl *controller;

@@ -45,6 +45,8 @@ private slots:
 
     void on_add_CancelButton_clicked();
 
+    void on_RemoveBookButton_clicked();
+
 private:
     Ui::ContentView *ui;
     ContentViewControl *controller;
