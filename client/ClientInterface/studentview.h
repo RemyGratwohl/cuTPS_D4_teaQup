@@ -25,6 +25,7 @@ public:
 private slots:
     void on_shoppingCartButton_clicked();
     void on_addToCartButton_clicked();
+    void on_viewDetailsButton_clicked();
 
 private:
     Ui::StudentView *ui;
