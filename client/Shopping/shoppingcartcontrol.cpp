@@ -88,3 +88,9 @@ void ShoppingCartControl::processOrder(Order* order) {
     sendData(CREATE, data);
 }
 
+QVector<ContentItem *>* ShoppingCartControl::getShoppingList()
+{
+    return shoppingCart->getShoppingList();
+}
+
+

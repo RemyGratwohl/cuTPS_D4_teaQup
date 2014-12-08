@@ -40,6 +40,8 @@ public:
 private slots:
     void on_backButton_clicked();
 
+    void on_orderButton_clicked();
+
 private:
     Ui::BillingInfoView *ui;
     ShoppingCartControl *controller;
