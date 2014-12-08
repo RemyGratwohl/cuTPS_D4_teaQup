@@ -85,7 +85,7 @@ create table purchasingDetails (
 ); 
 
 create table book (
-	contentid integer NOT NULL primary key, 
+	bid integer NOT NULL primary key, 
 	subtitle varchar(60),
 	authors varchar(80) NOT NULL,
 	website varchar(80),
@@ -93,14 +93,14 @@ create table book (
 	publisher varchar(60) NOT NULL,
 	citation varchar(80),
 	picturelink varchar(80),
-	FOREIGN KEY(contentid) REFERENCES contentItem(contentid) ON DELETE CASCADE
+	FOREIGN KEY(bid) REFERENCES contentItem(contentid) ON DELETE CASCADE
 );
 
 create table chapter (
-	chapterid integer NOT NULL primary key,
+	chid integer NOT NULL primary key,
 	bookid integer NOT NULL,  
 	chapter_num integer NOT NULL,
-	FOREIGN KEY(chapterid) REFERENCES contentItem(contentid) ON DELETE CASCADE,
+	FOREIGN KEY(chid) REFERENCES contentItem(contentid) ON DELETE CASCADE,
 	FOREIGN KEY(bookid) REFERENCES book(contentid) ON DELETE CASCADE
 );
 
