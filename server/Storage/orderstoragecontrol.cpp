@@ -36,7 +36,6 @@ bool OrderStorageControl::allPurchasingDetailsValid(
     i.toFront();
     while (i.hasNext()) {
         QString query = "Select * from purchasingDetails where purchaseid=" + QString::number(i.peekNext()->getID());
-        qDebug() << query;
         QSqlQuery result = mainStorage->runQuery(query);
 
 
