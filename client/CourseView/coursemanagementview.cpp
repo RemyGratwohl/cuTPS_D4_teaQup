@@ -1,5 +1,6 @@
 #include "coursemanagementview.h"
 #include "ui_coursemanagementview.h"
+#include "courseviewcontrol.h"
 
 CourseManagementView::CourseManagementView(CourseViewControl *control, QWidget *parent) :
     controller(control),
@@ -12,4 +13,9 @@ CourseManagementView::CourseManagementView(CourseViewControl *control, QWidget *
 CourseManagementView::~CourseManagementView()
 {
     delete ui;
+}
+
+void CourseManagementView::on_switchToContentButton_clicked()
+{
+    controller->switchToNewView(ViewControl::CONTENT_VIEW);
 }

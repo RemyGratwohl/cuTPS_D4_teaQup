@@ -36,6 +36,11 @@ public:
     explicit ContentView(ContentViewControl *control = 0, QWidget *parent = 0);
     ~ContentView();
 
+private slots:
+    void on_pushButton_2_clicked();
+
+    void on_switchToCoursesButton_clicked();
+
 private:
     Ui::ContentView *ui;
     ContentViewControl *controller;
