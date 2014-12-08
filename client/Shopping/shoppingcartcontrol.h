@@ -84,6 +84,7 @@ public:
 
     void changeActiveView(TYPE t);
 
+    QVector<ContentItem *>* getShoppingList();
 signals:
 
 public slots:
