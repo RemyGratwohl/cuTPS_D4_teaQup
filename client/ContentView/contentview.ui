@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>5</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="list">
     <widget class="QPushButton" name="switchToCoursesButton">
@@ -57,7 +57,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="updateBookButton">
+    <widget class="QPushButton" name="l_UpdateBookButton">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -368,7 +368,7 @@
       <string>Book Chapters:</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton_4">
+    <widget class="QPushButton" name="UB_addChapterbutton">
      <property name="geometry">
       <rect>
        <x>450</x>
@@ -456,48 +456,6 @@
       <string>Vendor Name:</string>
      </property>
     </widget>
-    <zorder>lineEdit_16</zorder>
-    <zorder>lineEdit_10</zorder>
-    <zorder>lineEdit_15</zorder>
-    <zorder>add_WebsiteLabel_2</zorder>
-    <zorder>lineEdit_14</zorder>
-    <zorder>plainTextEdit_2</zorder>
-    <zorder>add_enterTitleLabel_2</zorder>
-    <zorder>lineEdit_11</zorder>
-    <zorder>lineEdit_12</zorder>
-    <zorder>add_CitationLabel_2</zorder>
-    <zorder>add_AthorNamesLabel_2</zorder>
-    <zorder>add_ubtitleLabel_2</zorder>
-    <zorder>lineEdit_13</zorder>
-    <zorder>add_ISBNLabel_2</zorder>
-    <zorder>add_ImageLinkLabel_2</zorder>
-    <zorder>add_YearLabel_2</zorder>
-    <zorder>add_ISBNLabel_2</zorder>
-    <zorder>lineEdit_10</zorder>
-    <zorder>plainTextEdit_2</zorder>
-    <zorder>add_CitationLabel_2</zorder>
-    <zorder>add_ImageLinkLabel_2</zorder>
-    <zorder>lineEdit_11</zorder>
-    <zorder>lineEdit_12</zorder>
-    <zorder>add_AthorNamesLabel_2</zorder>
-    <zorder>add_enterTitleLabel_2</zorder>
-    <zorder>add_ubtitleLabel_2</zorder>
-    <zorder>add_WebsiteLabel_2</zorder>
-    <zorder>lineEdit_13</zorder>
-    <zorder>lineEdit_14</zorder>
-    <zorder>lineEdit_15</zorder>
-    <zorder>lineEdit_16</zorder>
-    <zorder>update_UpdateButton</zorder>
-    <zorder>update_CancelButton</zorder>
-    <zorder>tableWidget_2</zorder>
-    <zorder>label</zorder>
-    <zorder>pushButton_4</zorder>
-    <zorder>pushButton_5</zorder>
-    <zorder>pushButton_6</zorder>
-    <zorder>lineEdit_22</zorder>
-    <zorder>add_PriceLabel_3</zorder>
-    <zorder>lineEdit_23</zorder>
-    <zorder>add_VendorNameLabel_3</zorder>
    </widget>
    <widget class="QWidget" name="addBook">
     <widget class="QLabel" name="add_TitleLabel">
@@ -872,7 +830,7 @@
     <zorder>add_CancelButton</zorder>
    </widget>
    <widget class="QWidget" name="addChapter">
-    <widget class="QPushButton" name="addChapter_AddButton">
+    <widget class="QPushButton" name="AC_ConfirmButton">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -885,7 +843,7 @@
       <string>Confirm</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="addChapter_CancelButton">
+    <widget class="QPushButton" name="AC_CancelButton">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -1096,8 +1054,8 @@
      </property>
     </widget>
     <zorder>addChapter_PD_BorderLabel</zorder>
-    <zorder>addChapter_AddButton</zorder>
-    <zorder>addChapter_CancelButton</zorder>
+    <zorder>AC_ConfirmButton</zorder>
+    <zorder>AC_CancelButton</zorder>
     <zorder>addChapter_TitleLabel</zorder>
     <zorder>lineEdit_17</zorder>
     <zorder>label_2</zorder>
