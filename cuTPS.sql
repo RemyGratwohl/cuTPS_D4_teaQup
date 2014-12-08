@@ -159,8 +159,8 @@ insert into contentItem (contentid, title, isbn, courseid) values (19, 'Software
 insert into contentItem (contentid, title, isbn, courseid) values (20, 'Software Engineering Development Activities', '978-0-470-123422-0-01-04', 2);
 insert into contentItem (contentid, title, isbn, courseid) values (21, 'Managing Software Development', '978-0-470-123422-0-01-05', 2);
 
-insert into book (cid, subtitle, authors, publisher, website, year_publish) values (1, 'Canadian Edition', 'Burk & Co.', 'Wiley', 'www.wiley.com', 2010);
-insert into book (cid, subtitle, authors, publisher, website, year_publish) values (2, 'Using UML, Patterns, and JAVA', 'Bern D. Bruegge, Allen H. Dutoit, etc', 'Pearson', 'www.pearson.com', 2011);
+insert into book (bid, subtitle, authors, publisher, website, year_publish) values (1, 'Canadian Edition', 'Burk & Co.', 'Wiley', 'www.wiley.com', 2010);
+insert into book (bid, subtitle, authors, publisher, website, year_publish) values (2, 'Using UML, Patterns, and JAVA', 'Bern D. Bruegge, Allen H. Dutoit, etc', 'Pearson', 'www.pearson.com', 2011);
 
 insert into chapter (chid, bookid, chapter_num) values (3, 1, 1);
 insert into chapter (chid, bookid, chapter_num) values (4, 1, 2);
