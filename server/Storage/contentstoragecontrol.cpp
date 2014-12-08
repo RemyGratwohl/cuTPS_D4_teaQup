@@ -293,8 +293,8 @@ bool ContentStorageControl::getBook(OBJ_ID_TYPE bookID, Book* book, QString& err
         errorMsg = "More than one user returned. Database is corrupted.";
         return false;
     }
-    // If there are no results and there were no errors, then the user does not exist.
-    errorMsg = "User does not exist";
+    // If there are no results and there were no errors, then the book does not exist.
+    errorMsg = "Book does not exist";
     return true;
 }
 
@@ -310,8 +310,50 @@ bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection
     return false;
 }
 
+// Untested
 bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) {
-    return false;
+
+    // Build Query
+    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid";
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+
+    while(result.next()){
+        Book * book = new Book();
+        QString title = result.value("title").toString();
+        book->setTitle(title);
+        QString isbn = result.value("isbn").toString();
+        book->setISBN(isbn);
+        QString subtitle = result.value("subtitle").toString();
+        book->setSubtitle(subtitle);
+        QString authors = result.value("authors").toString();
+        book->setAuthors(authors);
+        QString publisher = result.value("publisher").toString();
+        book->setPublisher(publisher);
+        QString website = result.value("website").toString();
+        book->setWebsite(website);
+        QString citation = result.value("citation").toString();
+        book->setCitation(citation);
+        QString picturelink = result.value("picturelink").toString();
+        book->setImageLink(picturelink);
+        quint16 year = result.value("year_publish").toInt();
+        book->setYearPublished(year);
+        quint64 courseid = result.value("courseid").toInt();
+        book->setCourseID(courseid);
+        quint64 contentid = result.value("contentid").toInt();
+        book->setID(contentid);
+        items->push_back(book);
+        return true;
+    }
+
+    // If there are no results and there were no errors, then there are no content items
+    errorMsg = "There are no content items";
+    return true;
 }
 
 
