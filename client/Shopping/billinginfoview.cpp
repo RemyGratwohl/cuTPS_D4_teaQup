@@ -20,4 +20,5 @@ BillingInfoView::~BillingInfoView()
 void BillingInfoView::on_backButton_clicked()
 {
     controller->closeView();
+    controller->changeActiveView(ShoppingCartControl::SHOPPINGCART);
 }
