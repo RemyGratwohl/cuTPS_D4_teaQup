@@ -136,8 +136,8 @@ insert into term (termid, semester, term_year) values (1, 'F', 2014);
 insert into course (courseid, name, termid) values (1, 'CHEM1004: Generic Chemistry', 1);
 insert into course (courseid, name, termid) values (2, 'COMP2304: Correcting Software Engineering Textbooks', 1);
 
-insert into course_user (userid, coid) values (845934, 1);
-insert into course_user (userid, coid) values (945234, 2);
+insert into course_user (userid, coid) values (100845934, 1);
+insert into course_user (userid, coid) values (100945234, 2);
 
 insert into contentItem (contentid, title, isbn, courseid) values (1, 'Chemistry', '978-0-470-15579-0', 1);
 insert into contentItem (contentid, title, isbn, courseid) values (2, 'Object-Oriented Software Engineering', '978-0-470-123422-0', 2);
