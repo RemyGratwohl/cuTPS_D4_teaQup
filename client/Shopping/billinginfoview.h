@@ -37,6 +37,9 @@ public:
     explicit BillingInfoView(ShoppingCartControl *control = 0, QWidget *parent = 0);
     ~BillingInfoView();
 
+private slots:
+    void on_backButton_clicked();
+
 private:
     Ui::BillingInfoView *ui;
     ShoppingCartControl *controller;
