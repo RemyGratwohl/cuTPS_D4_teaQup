@@ -79,6 +79,11 @@ bool UserControl::processMsg(const Message *msg)
 
 bool UserControl::authenticateUser(const User* userIn, User*& userOut, QString& errorMsg) {
     OBJ_ID_TYPE id = userIn->getID();
-    return userStorageControl->getUser(id, userOut, errorMsg);
+    bool result = userStorageControl->getUser(id, userOut, errorMsg);
+    if( result && userOut == 0 ) {
+        errorMsg = "User ID not found.";
+        return false;
+    }
+    return true;
 }
 
