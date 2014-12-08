@@ -249,7 +249,7 @@ bool ContentStorageControl::removeSection(ChapterSection* section, QString& erro
     return false;
 }
 
-// untested
+// untested: does not include purchasing details yet
 bool ContentStorageControl::getBook(OBJ_ID_TYPE bookID, Book* book, QString& errorMsg) {
 
     // Build Query
@@ -310,7 +310,7 @@ bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection
     return false;
 }
 
-// Untested
+// Untested: Does not include purchasing details yet
 bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) {
 
     // Build Query
