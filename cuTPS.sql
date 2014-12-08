@@ -64,6 +64,7 @@ create table course (
 create table contentItem (
 	contentid integer NOT NULL primary key,
 	title varchar(60) NOT NULL,
+	isbn varchar(60) NOT NULL,
 	courseid integer,
 	FOREIGN KEY(courseid) REFERENCES course(courseid) ON DELETE CASCADE
 );
@@ -87,7 +88,6 @@ create table book (
 	contentid integer NOT NULL primary key, 
 	subtitle varchar(60),
 	authors varchar(80) NOT NULL,
-	ISBN varchar(60) NOT NULL, 
 	website varchar(80),
 	year_publish integer NOT NULL,
 	publisher varchar(60) NOT NULL,
@@ -100,7 +100,6 @@ create table chapter (
 	chapterid integer NOT NULL primary key,
 	bookid integer NOT NULL,  
 	chapter_num integer NOT NULL,
-	ISBN varchar(60) NOT NULL,
 	FOREIGN KEY(chapterid) REFERENCES contentItem(contentid) ON DELETE CASCADE,
 	FOREIGN KEY(bookid) REFERENCES book(contentid) ON DELETE CASCADE
 );
@@ -110,7 +109,6 @@ create table chapterSection (
 	chapterid integer NOT NULL, 
 	section_num real NOT NULL,
 	pageRange varchar(40),
-	ISBN varchar(60) NOT NULL,
 	FOREIGN KEY(chapterid) REFERENCES chapter(contentid) ON DELETE CASCADE,
 	FOREIGN KEY(sectionid) REFERENCES contentItem(contentid) ON DELETE CASCADE
 );
@@ -139,53 +137,53 @@ insert into course (courseid, name, termid) values (2, 'COMP2304: Correcting Sof
 insert into course_user (userid, courseid) values (845934, 1);
 insert into course_user (userid, courseid) values (945234, 2);
 
-insert into contentItem (contentid, title, courseid) values (1, 'Chemistry', 1);
-insert into contentItem (contentid, title, courseid) values (2, 'Object-Oriented Software Engineering', 2);
-insert into contentItem (contentid, title, courseid) values (3, 'Fundamental Concepts of Chemistry', 1);
-insert into contentItem (contentid, title, courseid) values (4, 'The Behaviour of Gases', 1);
-insert into contentItem (contentid, title, courseid) values (5, 'Energy and Its Conservation', 1);
-insert into contentItem (contentid, title, courseid) values (6, 'Atoms and Light', 1);
-insert into contentItem (contentid, title, courseid) values (7, 'Introduction to Software Engineering', 2);
-insert into contentItem (contentid, title, courseid) values (8, 'Atoms, Molecules and Compounds', 1);
-insert into contentItem (contentid, title, courseid) values (9, 'Measurements in Chemistry', 1);
-insert into contentItem (contentid, title, courseid) values (10, 'Chemical Problem Solving', 1);
-insert into contentItem (contentid, title, courseid) values (11, 'Counting Atoms: The Mole', 1);
-insert into contentItem (contentid, title, courseid) values (12, 'Amounts of Compounds', 1);
-insert into contentItem (contentid, title, courseid) values (13, 'Aqueous Solutions', 1);
-insert into contentItem (contentid, title, courseid) values (14, 'Pressure', 1);
-insert into contentItem (contentid, title, courseid) values (15, 'Types of Energy', 1);
-insert into contentItem (contentid, title, courseid) values (16, 'Characteristics of Atoms', 1);
-insert into contentItem (contentid, title, courseid) values (17, 'Introduction: Software Engineering Failures', 2);
-insert into contentItem (contentid, title, courseid) values (18, 'What is Software Engineering?', 2);
-insert into contentItem (contentid, title, courseid) values (19, 'Software Engineering Concepts', 2);
-insert into contentItem (contentid, title, courseid) values (20, 'Software Engineering Development Activities', 2);
-insert into contentItem (contentid, title, courseid) values (21, 'Managing Software Development', 2);
+insert into contentItem (contentid, title, isbn, courseid) values (1, 'Chemistry', '978-0-470-15579-0', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (2, 'Object-Oriented Software Engineering', '978-0-470-123422-0', 2);
+insert into contentItem (contentid, title, isbn, courseid) values (3, 'Fundamental Concepts of Chemistry', '978-0-470-15579-0-01', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (4, 'The Behaviour of Gases', '978-0-470-15579-0-02', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (5, 'Energy and Its Conservation', '978-0-470-15579-0-03', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (6, 'Atoms and Light', '978-0-470-15579-0-04', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (7, 'Introduction to Software Engineering', '978-0-470-123422-0-01', 2);
+insert into contentItem (contentid, title, isbn, courseid) values (8, 'Atoms, Molecules and Compounds', '978-0-470-15579-0-01-01', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (9, 'Measurements in Chemistry', '978-0-470-15579-0-01-02', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (10, 'Chemical Problem Solving', '978-0-470-15579-0-01-03', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (11, 'Counting Atoms: The Mole', '978-0-470-15579-0-01-04', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (12, 'Amounts of Compounds', '978-0-470-15579-0-01-05', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (13, 'Aqueous Solutions', '978-0-470-15579-0-01-06', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (14, 'Pressure', '978-0-470-15579-0-02-01', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (15, 'Types of Energy', '978-0-470-15579-0-03-01', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (16, 'Characteristics of Atoms', '978-0-470-15579-0-04-01', 1);
+insert into contentItem (contentid, title, isbn, courseid) values (17, 'Introduction: Software Engineering Failures', '978-0-470-123422-0-01-01', 2);
+insert into contentItem (contentid, title, isbn, courseid) values (18, 'What is Software Engineering?', '978-0-470-123422-0-01-02', 2);
+insert into contentItem (contentid, title, isbn, courseid) values (19, 'Software Engineering Concepts', '978-0-470-123422-0-01-03', 2);
+insert into contentItem (contentid, title, isbn, courseid) values (20, 'Software Engineering Development Activities', '978-0-470-123422-0-01-04', 2);
+insert into contentItem (contentid, title, isbn, courseid) values (21, 'Managing Software Development', '978-0-470-123422-0-01-05', 2);
 
-insert into book (contentid, subtitle, authors, publisher, ISBN, website, year_publish) values (1, 'Canadian Edition', 'Burk & Co.', 'Wiley', '978-0-470-15579-0', 'www.wiley.com', 2010);
-insert into book (contentid, subtitle, authors, publisher, ISBN, website, year_publish) values (2, 'Using UML, Patterns, and JAVA', 'Bern D. Bruegge, Allen H. Dutoit, etc', 'Pearson', '978-0-470-123422-0', 'www.pearson.com', 2011);
+insert into book (contentid, subtitle, authors, publisher, website, year_publish) values (1, 'Canadian Edition', 'Burk & Co.', 'Wiley', 'www.wiley.com', 2010);
+insert into book (contentid, subtitle, authors, publisher, website, year_publish) values (2, 'Using UML, Patterns, and JAVA', 'Bern D. Bruegge, Allen H. Dutoit, etc', 'Pearson', 'www.pearson.com', 2011);
 
-insert into chapter (chapterid, bookid, chapter_num, ISBN) values (3, 1, 1, '978-0-470-15579-0-01');
-insert into chapter (chapterid, bookid, chapter_num, ISBN) values (4, 1, 2, '978-0-470-15579-0-02');
-insert into chapter (chapterid, bookid, chapter_num, ISBN) values (5, 1, 3, '978-0-470-15579-0-03');
-insert into chapter (chapterid, bookid, chapter_num, ISBN) values (6, 1, 4, '978-0-470-15579-0-04');
+insert into chapter (chapterid, bookid, chapter_num) values (3, 1, 1);
+insert into chapter (chapterid, bookid, chapter_num) values (4, 1, 2);
+insert into chapter (chapterid, bookid, chapter_num) values (5, 1, 3);
+insert into chapter (chapterid, bookid, chapter_num) values (6, 1, 4);
 
-insert into chapter (chapterid, bookid, chapter_num, ISBN) values (7, 2, 1, '978-0-470-123422-0-01');
+insert into chapter (chapterid, bookid, chapter_num) values (7, 2, 1);
 
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (8, 3, 1.1, 'Pages: 4 - 5', '978-0-470-15579-0-01-01');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (9, 3, 1.2, 'Pages: 6 - 12', '978-0-470-15579-0-01-02');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (10, 3, 1.3, 'Pages: 13 - 14', '978-0-470-15579-0-01-03');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (11, 3, 1.4, 'Pages: 15 - 18', '978-0-470-15579-0-01-04');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (12, 3, 1.5, 'Pages: 19 - 27', '978-0-470-15579-0-01-05');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (13, 3, 1.6, 'Pages: 28 - 67', '978-0-470-15579-0-01-06');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (14, 4, 2.1, 'Pages: 70 - 71', '978-0-470-15579-0-02-01');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (15, 5, 3.1, 'Pages: 130 - 140', '978-0-470-15579-0-03-01');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (16, 6, 4.1, 'Pages: 194 - 195', '978-0-470-15579-0-04-01');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (8, 3, 1.1, 'Pages: 4 - 5');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (9, 3, 1.2, 'Pages: 6 - 12');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (10, 3, 1.3, 'Pages: 13 - 14');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (11, 3, 1.4, 'Pages: 15 - 18');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (12, 3, 1.5, 'Pages: 19 - 27');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (13, 3, 1.6, 'Pages: 28 - 67');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (14, 4, 2.1, 'Pages: 70 - 71');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (15, 5, 3.1, 'Pages: 130 - 140');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (16, 6, 4.1, 'Pages: 194 - 195');
 
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (17, 7, 1.1, '', '978-0-470-123422-0-01');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (18, 7, 1.2, '', '978-0-470-123422-0-01');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (19, 7, 1.3, '', '978-0-470-123422-0-01');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (20, 7, 1.4, '', '978-0-470-123422-0-01');
-insert into chapterSection (sectionid, chapterid, section_num, pageRange, ISBN) values (21, 7, 1.5, '', '978-0-470-123422-0-01');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (17, 7, 1.1, '');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (18, 7, 1.2, '');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (19, 7, 1.3, '');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (20, 7, 1.4, '');
+insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (21, 7, 1.5, '');
 
 -- no longer needed
 -- insert into purchasingDetails (purchaseid, price, vendor, contentid) values (0, -1.00, 'NOT FOR SALE');
