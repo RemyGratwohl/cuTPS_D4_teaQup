@@ -8,35 +8,36 @@
 
 begin transaction;
 
--- Stores in the information related to users
-drop table if exists users; -- 'user' is a reserved keyword
 
--- Stores the information related to courses
-drop table if exists course;
+-- TODO
+drop table if exists course_book;
 
 -- Stores the relation between users and the courses
 drop table if exists course_user;
 
--- Stores information related to a term
-drop table if exists term;
-
--- Stores more generic information TODO
-drop table if exists contentItem;
-
--- Stores TODO
-drop table if exists book;
+-- Stores information relative to a chapter section
+drop table if exists chapterSection;
 
 -- Stores information relative to the chapter
 drop table if exists chapter; 
 
--- Stores information relative to a chapter section
-drop table if exists chapterSection;
+-- Stores TODO
+drop table if exists book;
+
+-- Stores more generic information TODO
+drop table if exists contentItem;
 
 -- Stores the purchasing details of every purchasable item
 drop table if exists purchasingDetails; 
 
--- TODO
-drop table if exists course_book;
+-- Stores the information related to courses
+drop table if exists course;
+
+-- Stores information related to a term
+drop table if exists term;
+
+-- Stores in the information related to users
+drop table if exists users; -- 'user' is a reserved keyword
 
 -- =========================== Table Creation ===========================
 
@@ -103,7 +104,7 @@ create table chapter (
 	bookid integer NOT NULL,  
 	chapter_num integer NOT NULL,
 	FOREIGN KEY(chid) REFERENCES contentItem(contentid) ON DELETE CASCADE,
-	FOREIGN KEY(bookid) REFERENCES book(contentid) ON DELETE CASCADE
+	FOREIGN KEY(bookid) REFERENCES book(bid) ON DELETE CASCADE
 );
 
 create table chapterSection (
@@ -111,14 +112,14 @@ create table chapterSection (
 	chapterid integer NOT NULL, 
 	section_num real NOT NULL,
 	pageRange varchar(40),
-	FOREIGN KEY(chapterid) REFERENCES chapter(contentid) ON DELETE CASCADE,
+	FOREIGN KEY(chapterid) REFERENCES chapter(chid) ON DELETE CASCADE,
 	FOREIGN KEY(sectionid) REFERENCES contentItem(contentid) ON DELETE CASCADE
 );
 
 create table course_book ( 
 	courseid integer NOT NULL,
 	contentid integer NOT NULL,
-	FOREIGN KEY(contentid) REFERENCES book(contentid) ON DELETE CASCADE,
+	FOREIGN KEY(contentid) REFERENCES book(bid) ON DELETE CASCADE,
 	FOREIGN KEY(courseid) REFERENCES course(courseid) ON DELETE CASCADE,
 	PRIMARY KEY(courseid, contentid)
 );
@@ -160,9 +161,13 @@ insert into contentItem (contentid, title, isbn, courseid) values (18, 'What is 
 insert into contentItem (contentid, title, isbn, courseid) values (19, 'Software Engineering Concepts', '978-0-470-123422-0-01-03', 2);
 insert into contentItem (contentid, title, isbn, courseid) values (20, 'Software Engineering Development Activities', '978-0-470-123422-0-01-04', 2);
 insert into contentItem (contentid, title, isbn, courseid) values (21, 'Managing Software Development', '978-0-470-123422-0-01-05', 2);
+insert into contentItem (contentid, title, isbn, courseid) values (22, 'Anatomy Trains', '978-0702046544', 2);
+
 
 insert into book (bid, subtitle, authors, publisher, website, year_publish) values (1, 'Canadian Edition', 'Burk & Co.', 'Wiley', 'www.wiley.com', 2010);
 insert into book (bid, subtitle, authors, publisher, website, year_publish) values (2, 'Using UML, Patterns, and JAVA', 'Bern D. Bruegge, Allen H. Dutoit, etc', 'Pearson', 'www.pearson.com', 2011);
+insert into book (bid, subtitle, authors, publisher, website, year_publish) values (22, 'Myofascial Meridians for Manual and Movement Therapists', 'Thomas W. Myers', 'Churchill Livingstone', '', 2014);
+
 
 insert into chapter (chid, bookid, chapter_num) values (3, 1, 1);
 insert into chapter (chid, bookid, chapter_num) values (4, 1, 2);
