@@ -33,6 +33,7 @@ public slots:
 
 protected:
     QVector<Book*>* allItems;
+
     QPushButton* editBookButton;
 
 private:

@@ -57,7 +57,8 @@ void ContentView::on_switchToCoursesButton_clicked()
 
 void ContentView::on_List_RemoveButton_clicked()
 {
-
+    controller->removeBook(bookContentTable->getCurrentBook());
+    //controller->requestBooks();
 }
 
 void ContentView::on_List_AddButton_clicked()
