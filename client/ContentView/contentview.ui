@@ -718,9 +718,9 @@
      <property name="geometry">
       <rect>
        <x>350</x>
-       <y>140</y>
+       <y>190</y>
        <width>221</width>
-       <height>71</height>
+       <height>21</height>
       </rect>
      </property>
     </widget>
@@ -728,7 +728,7 @@
      <property name="geometry">
       <rect>
        <x>350</x>
-       <y>120</y>
+       <y>170</y>
        <width>91</width>
        <height>16</height>
       </rect>
@@ -802,6 +802,32 @@
       <string/>
      </property>
     </widget>
+    <widget class="QLineEdit" name="AB_PublisherLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>140</y>
+       <width>221</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AB_PublisherLabel">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>120</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Publisher:</string>
+     </property>
+    </widget>
     <zorder>AB_PD_BorderLabel</zorder>
     <zorder>AB_HeaderLabel</zorder>
     <zorder>AB_TitleLabel</zorder>
@@ -828,6 +854,8 @@
     <zorder>AB_ImageLinkLabel</zorder>
     <zorder>AB_ConfirmButton</zorder>
     <zorder>AB_CancelButton</zorder>
+    <zorder>AB_PublisherLineEdit</zorder>
+    <zorder>AB_PublisherLabel</zorder>
    </widget>
    <widget class="QWidget" name="addChapter">
     <widget class="QPushButton" name="AC_ConfirmButton">
