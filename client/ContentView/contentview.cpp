@@ -143,7 +143,7 @@ void ContentView::on_UCS_CancelButton_clicked()
 void ContentView::on_AC_ConfirmButton_clicked()
 {
     // Sends a Request to the Server to Add the Chapter Section
-    Chapter *newChapter = new Chapter(0,ui->AC_TitleLineEdit->text(),0,0,0,ui->AC_ChapterNumberLineEdit->text(),ui->AB_ISBNLineEdit->text());
+    Chapter *newChapter = new Chapter(0,ui->AC_TitleLineEdit->text(),0,0,0,ui->AC_ChapterNumberLineEdit->text().toInt(),ui->AB_ISBNLineEdit->text());
 
     controller->addChapter(newChapter);
     ui->stackedWidget->setCurrentIndex(UB);
