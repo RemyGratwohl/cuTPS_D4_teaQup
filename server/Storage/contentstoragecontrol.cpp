@@ -665,40 +665,73 @@ bool ContentStorageControl::updateSection(ChapterSection* section, QString& erro
 // Tested a lil bit
 bool ContentStorageControl::removeBook(Book* book, QString& errorMsg) {
     QString id = QString::number(book->getID());
-    bool Success = removeContentItem(id);
-    if(Success){
-        return Success;
-    }
-    else {
-        errorMsg = "Remove Book: Something went wrong.";
+
+    QString query = "Remove from contentItem where contentid=" + id;
+    QSqlQuery result = mainStorage->runQuery(query);
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
         return false;
     }
+
+    query = "Remove from book where bid=" + id;
+    result = mainStorage->runQuery(query);
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+
+    query = "Remove from course_book where bid=" + id;
+    result = mainStorage->runQuery(query);
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+
+    return true;
+
+
 }
 
 // Not tested
 bool ContentStorageControl::removeChapter(Chapter* chapter, QString& errorMsg) {
     QString id = QString::number(chapter->getID());
-    bool Success = removeContentItem(id);
-    if(Success){
-        return Success;
-    }
-    else {
-        errorMsg = "Remove Chapter: Something went wrong.";
+    QString query = "Remove from contentItem where contentid=" + id;
+    QSqlQuery result = mainStorage->runQuery(query);
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
         return false;
     }
+    query = "Remove from chapter where chid=" + id;
+    result = mainStorage->runQuery(query);
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+    query = "Remove from chapterSection where chapterid=" + id;
+   result = mainStorage->runQuery(query);
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+    return true;
 }
 
 // Not tested
 bool ContentStorageControl::removeSection(ChapterSection* section, QString& errorMsg) {
     QString id = QString::number(section->getID());
-    bool Success = removeContentItem(id);
-    if(Success){
-        return Success;
-    }
-    else {
-        errorMsg = "Remove Section: Something went wrong.";
+    QString query = "Remove from contentItem where contentid=" + id;
+    QSqlQuery result = mainStorage->runQuery(query);
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
         return false;
     }
+    query = "Remove from chapterSection where sectionid=" + id;
+   result = mainStorage->runQuery(query);
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+    return true;
 }
 
 // untested
@@ -1321,44 +1354,4 @@ bool ContentStorageControl::isContentItem(QString& ISBN) {
     return false;
 }
 
-bool ContentStorageControl::removeContentItem(QString& contentid){
-    QString query;
-
-    query = "Delete from contentItem where contentid=" + contentid;
-
-    if(mainStorage->getMainStorage().open()){
-        QSqlQuery result;
-        //prep purchasingdetails
-        result.prepare("PRAGMA foreign_keys");
-        result.exec();
-        qDebug() << "PRAGMA " + result.value("foreign_keys").toString();
-        result.prepare("Delete from contentItem where contentid=:contendid");
-        result.bindValue(":contentid", contentid.toInt());
-        if(result.exec()){
-            if(result.lastError().text().length() > 1)
-            {
-                qDebug() << result.lastError().text();
-                mainStorage->getMainStorage().close();
-                return false;
-            }
-
-            if(result.numRowsAffected()  < 1){
-                qDebug() << "Nothing was removed";
-            } else {
-
-                qDebug() << "REMOVED: " + QString::number(result.numRowsAffected());
-            }
-        } else {
-            qDebug() << "exec failed! (remove contentid)";
-            mainStorage->getMainStorage().close();
-            return false;
-        }
-    }
-    else {
-        qDebug() << "database did not open (remove contentid)";
-
-        return false;
-    }
-
-    return true;
-}
+\

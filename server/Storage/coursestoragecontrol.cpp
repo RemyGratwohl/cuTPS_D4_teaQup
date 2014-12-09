@@ -197,6 +197,56 @@ bool CourseStorageControl::addCourse(Course* course, Term* term, QString& errorM
 }
 
 bool CourseStorageControl::updateCourse(Course* course, Term* term, QString& errorMsg) {
+    if(mainStorage->getMainStorage().open()){
+        mainStorage->getMainStorage().transaction();
+        QSqlQuery prepQ;
+        prepQ.prepare("update term set termid=:termid, semester=:semester, term_year=:term_year");
+        prepQ.bindValue(":termid", term->getID());
+        prepQ.bindValue(":semester", term->getSemester());
+        prepQ.bindValue(":term_year", term->getYear());
+        if(prepQ.exec()){
+            qDebug() << "CISC | (Term)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+        }
+        else{
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = prepQ.lastError().text();
+            return false;
+        }
+
+        prepQ.prepare("update course set courseid=:courseid, name=:name, termid=:termid");
+        prepQ.bindValue(":termid", term->getID());
+        prepQ.bindValue(":courseid", course->getID());
+        prepQ.bindValue(":name", course->getName());
+        if(prepQ.exec()){
+            qDebug() << "CISC | (Course)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+        }
+        else{
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = prepQ.lastError().text();
+            return false;
+        }
+
+        if(!mainStorage->getMainStorage().commit())
+        {
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = "Commit failed: " + prepQ.lastError().text();
+            return false;
+        }
+        else {
+            qDebug() << "Everything went great.";
+            mainStorage->getMainStorage().close();
+            return true;
+        }
+    }
+
+
+    else {
+        errorMsg = "failed to open";
+        return false;
+    }
     return false;
 }
 
@@ -208,6 +258,14 @@ bool CourseStorageControl::removeCourse(Course* course, QString& errorMsg) {
 
     // Run query and get result set object
     QSqlQuery result = mainStorage->runQuery(query);
+    query = "Delete from course_book where courseid=" + QString::number(course->getID());
+
+    // Run query and get result set object
+    result = mainStorage->runQuery(query);
+    query = "Delete from course_user where courseid=" + QString::number(course->getID());
+
+    // Run query and get result set object
+    result = mainStorage->runQuery(query);
 
     // lastError() is a string with a length of one (I think it might be a space?)
     // Strangest thing: QString.empty() returns false. Thus why the >1 check.
