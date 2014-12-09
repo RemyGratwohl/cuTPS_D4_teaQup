@@ -18,7 +18,7 @@ int main(int argc, char *argv[])
 {
     // qRegisterMetaType<OBJ_ID_TYPE>("OBJ_ID_TYPE");
     /* testing start - feel free to comment this stuff out */
-
+    addBookTest();
     ServerDispatcher* serverDispatcher = new ServerDispatcher(argc, argv);
     if( !serverDispatcher->initialize() ) {
         return -1;
@@ -87,11 +87,11 @@ void addBookTest() {
    QSharedPointer<ContentStorageControl> contentAccess;
    contentAccess->getContentStorageControl(contentAccess);
 
-   Book * testbook = new Book(-1, "The Host", 1, new PurchasingDetails(-1, 12.99, "Nano", -1), "", "Stephanie Meyer", "978-0316068048",
+   Book * testbook = new Book(23, "The Host", 1, new PurchasingDetails(-1, 12.99, "Nano", -1), "", "Stephanie Meyer", "978-0316068048",
                               "http://www.stepheniemeyer.com/thehost.html", 2008,
                               "Little Brown and Company", "", "");
-   Term * testTerm = new Term(-1, "W", 2014);
-   Course * testCourse = new Course(-1, "CHEM1004: Generic Chemistry", 1);
+   Term * testTerm = new Term(1, "F", 2014);
+   Course * testCourse = new Course(1, "CHEM1004: Generic Chemistry", 1);
 
    QString error = "";
 
@@ -103,11 +103,18 @@ void addBookTest() {
    }
 
    else {
-       delete testbook;
-       delete testTerm;
-       delete testCourse;
       qDebug() << "Success";
    }
+
+   qDebug() << "Removing book";
+   Success = contentAccess->removeBook(testbook, error);
+   if(Success){
+       qDebug() << "Book successfully removed!";
+   }
+
+   delete testbook;
+   delete testTerm;
+   delete testCourse;
 }
 
 void userTest() {
