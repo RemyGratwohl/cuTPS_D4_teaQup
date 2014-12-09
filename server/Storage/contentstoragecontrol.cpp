@@ -39,7 +39,7 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
     QString contentid = "??";
     QString ISBN = book->getISBN();
 
-    // Verify content Item TODO: MOVE ISBN TO CONTENTITEM TABLE
+    // Verify content Item
     if(isContentItem(ISBN))
     {
         errorMsg="Content Item ISBN already exists. Please make sure that the Content Item does not already exist.";
@@ -64,9 +64,6 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
             return false;
         }
     }
-
-
-
 
     // Verify Course
     course->setTermID(termid.toInt());
@@ -249,24 +246,242 @@ bool ContentStorageControl::removeSection(ChapterSection* section, QString& erro
     return false;
 }
 
+// untested: does not include purchasing details yet
 bool ContentStorageControl::getBook(OBJ_ID_TYPE bookID, Book* book, QString& errorMsg) {
-    return false;
+
+    // Build Query
+    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid where contentid=" + QString::number(bookID);
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+
+    if(result.first()){
+        book = new Book();
+        QString title = result.value("title").toString();
+        book->setTitle(title);
+        QString isbn = result.value("isbn").toString();
+        book->setISBN(isbn);
+        QString subtitle = result.value("subtitle").toString();
+        book->setSubtitle(subtitle);
+        QString authors = result.value("authors").toString();
+        book->setAuthors(authors);
+        QString publisher = result.value("publisher").toString();
+        book->setPublisher(publisher);
+        QString website = result.value("website").toString();
+        book->setWebsite(website);
+        QString citation = result.value("citation").toString();
+        book->setCitation(citation);
+        QString picturelink = result.value("picturelink").toString();
+        book->setImageLink(picturelink);
+        quint16 year = result.value("year_publish").toInt();
+        book->setYearPublished(year);
+        quint64 courseid = result.value("courseid").toInt();
+        book->setCourseID(courseid);
+        book->setID(bookID);
+        return true;
+    }
+    // If there is more than one user returned, return false because something is wrong with the database
+    if (result.next()){
+        errorMsg = "More than one user returned. Database is corrupted.";
+        return false;
+    }
+    // If there are no results and there were no errors, then the book does not exist.
+    errorMsg = "Book does not exist";
+    return true;
 }
 
+// Untested: does not include purchasing details yet
 bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, QString& errorMsg) {
-    return false;
+
+    quint64 studentid = student->getID();
+
+    // Build Query
+    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid inner join course_user on contentItem.courseid=course_user.coid where userid=" + QString::number(studentid);
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+
+   items = new QVector<Book*>();
+
+    while(result.next()){
+        Book * book = new Book();
+        QString title = result.value("title").toString();
+        book->setTitle(title);
+        QString isbn = result.value("isbn").toString();
+        book->setISBN(isbn);
+        QString subtitle = result.value("subtitle").toString();
+        book->setSubtitle(subtitle);
+        QString authors = result.value("authors").toString();
+        book->setAuthors(authors);
+        QString publisher = result.value("publisher").toString();
+        book->setPublisher(publisher);
+        QString website = result.value("website").toString();
+        book->setWebsite(website);
+        QString citation = result.value("citation").toString();
+        book->setCitation(citation);
+        QString picturelink = result.value("picturelink").toString();
+        book->setImageLink(picturelink);
+        quint16 year = result.value("year_publish").toInt();
+        book->setYearPublished(year);
+        quint64 courseid = result.value("courseid").toInt();
+        book->setCourseID(courseid);
+        quint64 contentid = result.value("contentid").toInt();
+        book->setID(contentid);
+
+        items->push_back(book);
+        return true;
+    }
+
+    // If there are no results and there were no errors, then there are no content items for this user
+    errorMsg = "There are no content items for this user.";
+    return true;
 }
 
+// untested: without purchasing details
 bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, QString& errorMsg) {
-    return false;
+
+    quint64 bookid = book->getID();
+
+    // Build Query
+    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapter.chapter_num from contentItem inner join chapter on chapter.chid = contentItem.contentid where bookid=" + QString::number(bookid);
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+
+    items = new QVector<Chapter*>();
+    while(result.next()){
+
+        Chapter* chap = new Chapter();
+        quint64 contentid = result.value("contentid").toInt();
+        chap->setID(contentid);
+        QString title = result.value("title").toString();
+        chap->setTitle(title);
+        QString isbn = result.value("isbn").toString();
+        chap->setISBN(isbn);
+        quint64 courseid = result.value("courseid").toInt();
+        chap->setCourseID(courseid);
+        quint16 chapterNum = result.value("chapter_num").toInt();
+        chap->setChapterNumber(chapterNum);
+        chap->setBookID(bookid);
+        items->push_back(chap);
+        return true;
+    }
+    // If there is more than one user returned, return false because something is wrong with the database
+    if (result.next()){
+        errorMsg = "More than one user returned. Database is corrupted.";
+        return false;
+    }
+    // If there are no results and there were no errors, then the book does not exist.
+    errorMsg = "Book does not exist";
+    return true;
 }
 
+// untested: without purchasing details
 bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection*>*& items, QString& errorMsg) {
-    return false;
+
+            quint64 chapterid = chapter->getID();
+
+            // Build Query
+            QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapterSection.section_num from contentItem inner join chapterSection on chapterSection.sectionid = contentItem.contentid where chapterid" + QString::number(chapterid);
+
+            // Run query and get result set object
+            QSqlQuery result = mainStorage->runQuery(query);
+
+            if(result.lastError().text().length() > 1){
+                errorMsg = result.lastError().text();
+                return false;
+            }
+
+            items = new QVector<ChapterSection*>();
+
+            while(result.next()){
+
+                ChapterSection* sect = new ChapterSection();
+                quint64 contentid = result.value("contentid").toInt();
+                sect->setID(contentid);
+                QString title = result.value("title").toString();
+                sect->setTitle(title);
+                QString isbn = result.value("isbn").toString();
+                sect->setISBN(isbn);
+                quint64 courseid = result.value("courseid").toInt();
+                sect->setCourseID(courseid);
+                quint16 sectionNum = result.value("section_num").toInt();
+                sect->setSectionNumber(sectionNum);
+                sect->setChapterID(chapterid);
+                items->push_back(sect);
+                return true;
+            }
+            // If there is more than one user returned, return false because something is wrong with the database
+            if (result.next()){
+                errorMsg = "More than one user returned. Database is corrupted.";
+                return false;
+            }
+            // If there are no results and there were no errors, then the book does not exist.
+            errorMsg = "Book does not exist";
+            return true;
 }
 
+// Untested: Does not include purchasing details yet
 bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) {
-    return false;
+
+    // Build Query
+    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid";
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+   items = new QVector<Book*>();
+
+    while(result.next()){
+        Book * book = new Book();
+        QString title = result.value("title").toString();
+        book->setTitle(title);
+        QString isbn = result.value("isbn").toString();
+        book->setISBN(isbn);
+        QString subtitle = result.value("subtitle").toString();
+        book->setSubtitle(subtitle);
+        QString authors = result.value("authors").toString();
+        book->setAuthors(authors);
+        QString publisher = result.value("publisher").toString();
+        book->setPublisher(publisher);
+        QString website = result.value("website").toString();
+        book->setWebsite(website);
+        QString citation = result.value("citation").toString();
+        book->setCitation(citation);
+        QString picturelink = result.value("picturelink").toString();
+        book->setImageLink(picturelink);
+        quint16 year = result.value("year_publish").toInt();
+        book->setYearPublished(year);
+        quint64 courseid = result.value("courseid").toInt();
+        book->setCourseID(courseid);
+        quint64 contentid = result.value("contentid").toInt();
+        book->setID(contentid);
+        items->push_back(book);
+        return true;
+    }
+
+    // If there are no results and there were no errors, then there are no content items
+    errorMsg = "There are no content items";
+    return true;
 }
 
 
@@ -382,54 +597,10 @@ bool ContentStorageControl::isCourse(Course* course, QString& id){
 bool ContentStorageControl::isContentItem(QString& ISBN) {
     QString query;
 
-    query = "Select ISBN from book where ISBN='" + ISBN + "'";
+    query = "Select isbn from contentItem where isbn='" + ISBN + "'";
 
     // Run query and get result set object
     QSqlQuery result = mainStorage->runQuery(query);
-
-    // lastError() is a string with a length of one (I think it might be a space?)
-    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
-    if(result.lastError().text().length() > 1){
-        qDebug() << result.lastError();
-        return false;
-    }
-
-    // Just need to check for results
-    if(result.first()){
-        return true;
-    }
-
-    // If there are no results and there were no errors, then the term does not exist.
-    else {
-        return false;
-    }
-
-    query = "Select ISBN from chapter where ISBN='" + ISBN + "'";
-
-    // Run query and get result set object
-    result = mainStorage->runQuery(query);
-
-    // lastError() is a string with a length of one (I think it might be a space?)
-    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
-    if(result.lastError().text().length() > 1){
-        qDebug() << result.lastError();
-        return false;
-    }
-
-    // Just need to check for results
-    if(result.first()){
-        return true;
-    }
-
-    // If there are no results and there were no errors, then the term does not exist.
-    else {
-        return false;
-    }
-
-    query = "Select ISBN from chapterSection where ISBN='" + ISBN + "'";
-
-    // Run query and get result set object
-    result = mainStorage->runQuery(query);
 
     // lastError() is a string with a length of one (I think it might be a space?)
     // Strangest thing: QString.empty() returns false. Thus why the >1 check.

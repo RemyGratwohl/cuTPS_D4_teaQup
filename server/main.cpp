@@ -41,7 +41,6 @@ void validOrderTest() {
     orderList1->push_back(pDeets2);
 
     bool Success1 = orderAccess->allPurchasingDetailsValid(orderList1, error);
-    qDebug() << Success1;
     if(!Success1){
         if(error.length() > 1)
             qDebug() << "ERROR: " + error;
