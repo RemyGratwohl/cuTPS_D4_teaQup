@@ -12,7 +12,8 @@ StudentView::StudentView(ViewControl *controller, User *user) :
     ui(new Ui::StudentView)
 {
     ui->setupUi(this);
-    ui->usernameLabel->setText(user->getName());
+    ui->stackedWidget->setCurrentIndex(LIST);
+    ui->usernameLabel->setText("Welcome, " + user->getName());
     contentItemTable = new ContentItemTable(this, ui->contentWidget);
     contentItemTable->initialize();
 
@@ -69,4 +70,40 @@ void StudentView::on_addToCartButton_clicked()
 void StudentView::on_viewDetailsButton_clicked()
 {
     contentItemTable->addSelectedItems();
+    ui->stackedWidget->setCurrentIndex(DETAILS);
+}
+
+void StudentView::on_DT_BackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(LIST);
+}
+
+void StudentView::on_CSL_BackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(DETAILS);
+}
+
+void StudentView::on_CL_BackButton_clicked()
+{
+    ui->stackedWidget->setCurrentIndex(DETAILS);
+}
+
+void StudentView::on_CL_AddButton_clicked()
+{
+
+}
+
+void StudentView::on_CSL_AddButton_clicked()
+{
+
+}
+
+void StudentView::on_DT_ChaptersButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(CL);
+}
+
+void StudentView::on_DT_ChapterSectionButton_clicked()
+{
+    ui->stackedWidget->setCurrentWidget(CSL);
 }

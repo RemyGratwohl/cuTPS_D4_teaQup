@@ -27,7 +27,12 @@ private slots:
     void on_addToCartButton_clicked();
     void on_viewDetailsButton_clicked();
 
+    void on_DT_BackButton_clicked();
+
+    void on_CSL_BackButton_clicked();
+
 private:
+    enum PAGE { LIST = 0, DETAILS, CL, CSL };
     Ui::StudentView *ui;
     ViewControl *controller;
     ContentItemTable *contentItemTable;
