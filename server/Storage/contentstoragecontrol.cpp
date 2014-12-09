@@ -443,8 +443,55 @@ bool ContentStorageControl::updateBook(Book* book, Course* course, Term* term, Q
         errorMsg = "Book is null";
         return false;
     }
-
     // No Error checking due to time constraint.
+    if (course == 0){
+        if(mainStorage->getMainStorage().open()){
+            mainStorage->getMainStorage().transaction();
+            QSqlQuery prepQ;
+            // update Content Item
+            prepQ.prepare("update contentItem set title=:title, isbn=:isbn, courseid=:courseid where contentid=:contentid");
+            prepQ.bindValue(":contentid", book->getID());
+            prepQ.bindValue(":title", book->getTitle());
+            prepQ.bindValue(":isbn", book->getISBN());
+            prepQ.bindValue(":courseid", book->getCourseID());
+            if(prepQ.exec()){
+                qDebug() << "CISC | (Update Content Item)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+            }
+            else{
+                mainStorage->getMainStorage().rollback();
+                mainStorage->getMainStorage().close();
+                errorMsg = prepQ.lastError().text();
+                return false;
+            }
+
+            // Update Book
+            prepQ.prepare("update book set subtitle=:subtitle, authors=:authors, publisher=:publisher, website=:website, citation=:citation, year_publish=:year_publish where bid=:contentid");
+            prepQ.bindValue(":contentid", book->getID());
+            prepQ.bindValue(":subtitle", book->getSubtitle());
+            prepQ.bindValue(":authors", book->getAuthors());
+            prepQ.bindValue(":publisher", book->getPublisher());
+            prepQ.bindValue(":website", book->getWebsite());
+            prepQ.bindValue(":citation", book->getCitation());
+            prepQ.bindValue(":year_publish", book->getYearPublished());
+            if(prepQ.exec()){
+                qDebug() << "CISC | (Book)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+            }
+            else{
+                mainStorage->getMainStorage().rollback();
+                mainStorage->getMainStorage().close();
+                errorMsg = prepQ.lastError().text();
+                return false;
+            }
+
+
+        } else{
+            errorMsg = "CISC | addBook(): Database failed to open!";
+            return false;
+        }
+
+    }
+
+
 
     return false;
 }
@@ -550,58 +597,54 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
 
     quint64 studentid = student->getID();
 
-    // Build Query
-    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink, purchasingDetails.price, purchasingDetails.vendor, purchasingDetails.purchaseid from contentItem inner join book on book.bid = contentItem.contentid inner join course_user on contentItem.courseid=course_user.coid inner join purchasingDetails on contentItem.contentid=purchasingDetails.contentid where userid=" + QString::number(studentid);
+    if(mainStorage->getMainStorage().open()){
+        QSqlQuery result;
+        result.prepare("Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink, purchasingDetails.price, purchasingDetails.vendor, purchasingDetails.purchaseid from contentItem inner join book on book.bid = contentItem.contentid inner join course_user on contentItem.courseid=course_user.coid inner join purchasingDetails on contentItem.contentid=purchasingDetails.contentid where userid=:userid");
+        result.bindValue(":userid", studentid);
+        if(result.exec()){
+            if(result.lastError().text().length() > 1)
+            {
+                    errorMsg = result.lastError().text();
+                    return false;
+            }
+            items = new QVector<Book*>();
+            while(result.next()){
+                quint64 purchaseid = result.value("purchaseid").toInt();
+                QString vendor = result.value("vendor").toString();
+                quint16 price = result.value("price").toFloat();
+                quint64 contentid = result.value("contentid").toInt();
+                PurchasingDetails* details = new PurchasingDetails(purchaseid, price, vendor, contentid);
+                Book * book = new Book(-1, "", -1, details, "", "", "", "", -1, "", "", "");
+                QString title = result.value("title").toString();
+                book->setTitle(title);
+                QString isbn = result.value("isbn").toString();
+                book->setISBN(isbn);
+                QString subtitle = result.value("subtitle").toString();
+                book->setSubtitle(subtitle);
+                QString authors = result.value("authors").toString();
+                book->setAuthors(authors);
+                QString publisher = result.value("publisher").toString();
+                book->setPublisher(publisher);
+                QString website = result.value("website").toString();
+                book->setWebsite(website);
+                QString citation = result.value("citation").toString();
+                book->setCitation(citation);
+                QString picturelink = result.value("picturelink").toString();
+                book->setImageLink(picturelink);
+                quint16 year = result.value("year_publish").toInt();
+                book->setYearPublished(year);
+                quint64 courseid = result.value("courseid").toInt();
+                book->setCourseID(courseid);
+                book->setID(contentid);
 
-    // Run query and get result set object
-    QSqlQuery result = mainStorage->runQuery(query);
-
-
-    if(result.lastError().text().length() > 1){
-        errorMsg = result.lastError().text();
+                items->push_back(book);
+            }
+        }
+    }
+    else{
+        errorMsg = "CISC | getBookList(): Database failed to open!";
         return false;
     }
-    if(!result.first()){
-        // If there are no results and there were no errors, then there are no content items for this user
-        errorMsg = "There are no content items for this user.";
-        return true;
-    }
-
-   items = new QVector<Book*>();
-
-    while(result.next()){
-        quint64 purchaseid = result.value("purchaseid").toInt();
-        QString vendor = result.value("vendor").toString();
-        quint16 price = result.value("price").toFloat();
-        quint64 contentid = result.value("contentid").toInt();
-        PurchasingDetails* details = new PurchasingDetails(purchaseid, price, vendor, contentid);
-        Book * book = new Book(-1, "", -1, details, "", "", "", "", -1, "", "", "");
-        QString title = result.value("title").toString();
-        book->setTitle(title);
-        QString isbn = result.value("isbn").toString();
-        book->setISBN(isbn);
-        QString subtitle = result.value("subtitle").toString();
-        book->setSubtitle(subtitle);
-        QString authors = result.value("authors").toString();
-        book->setAuthors(authors);
-        QString publisher = result.value("publisher").toString();
-        book->setPublisher(publisher);
-        QString website = result.value("website").toString();
-        book->setWebsite(website);
-        QString citation = result.value("citation").toString();
-        book->setCitation(citation);
-        QString picturelink = result.value("picturelink").toString();
-        book->setImageLink(picturelink);
-        quint16 year = result.value("year_publish").toInt();
-        book->setYearPublished(year);
-        quint64 courseid = result.value("courseid").toInt();
-        book->setCourseID(courseid);
-        book->setID(contentid);
-
-        items->push_back(book);
-    }
-
-
     return true;
 }
 
@@ -739,7 +782,10 @@ bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) 
             }
         }
     }
-
+    else{
+        errorMsg = "CISC | getBooks(): Database failed to open!";
+        return false;
+    }
     return true;
 }
 
