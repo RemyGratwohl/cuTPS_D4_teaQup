@@ -40,37 +40,25 @@ private slots:
 
     void on_switchToCoursesButton_clicked();
 
-    void on_addButtonButton_clicked();
+    void on_List_RemoveButton_clicked();
 
-    void on_add_CancelButton_clicked();
+    void on_List_AddButton_clicked();
 
-    void on_RemoveBookButton_clicked();
+    void on_List_UpdateButton_clicked();
 
-    void on_update_CancelButton_clicked();
+    void on_UB_AddChapterButton_clicked();
 
-    void on_update_UpdateButton_clicked();
+    void on_UB_EditChapterButton_clicked();
 
-    void on_UC_CancelButton_clicked();
+    void on_UB_RemoveChapterButton_clicked();
 
-    void on_UC_AddSectionButton_clicked();
+    void on_UB_UpdateButton_clicked();
 
-    void on_ACS_CancelButton_clicked();
+    void on_UB_CancelButton_clicked();
 
-    void on_AC_ConfirmButton_clicked();
+    void on_AB_ConfirmButton_clicked();
 
-    void on_AC_CancelButton_clicked();
-
-    void on_l_UpdateBookButton_clicked();
-
-    void on_UB_addChapterbutton_clicked();
-
-    void on_UCS_UpdateButton_clicked();
-
-    void on_UCS_CancelButton_clicked();
-
-    void on_UB_editChapterButton_clicked();
-
-    void on_UC_UpdateSectionButton_clicked();
+    void on_AB_CancelButton_clicked();
 
 private:
     enum PAGE {LIST = 0, UB, AB, AC, UC, ACS, UCS};
