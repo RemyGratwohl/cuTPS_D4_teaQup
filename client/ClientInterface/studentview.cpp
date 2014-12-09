@@ -100,10 +100,10 @@ void StudentView::on_CSL_AddButton_clicked()
 
 void StudentView::on_DT_ChaptersButton_clicked()
 {
-    ui->stackedWidget->setCurrentWidget(CL);
+    ui->stackedWidget->setCurrentIndex(CL);
 }
 
 void StudentView::on_DT_ChapterSectionButton_clicked()
 {
-    ui->stackedWidget->setCurrentWidget(CSL);
+    ui->stackedWidget->setCurrentIndex(CSL);
 }
