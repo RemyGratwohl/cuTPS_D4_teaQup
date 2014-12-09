@@ -25,8 +25,8 @@ bool ContentStorageControl::initialize(void) {
 }
 
 bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QString& errorMsg) {
-    if (book->getPurchasingDetails() == NULL || course == NULL || term == NULL){
-        errorMsg = "If you sent a null course or term, please send the object until further notice. If it was purchasingDetails, please initialize an empty container: new PurchasingDetails()";
+    if (book->getPurchasingDetails() == NULL){
+        errorMsg = "If you sent a null purchasingDetails, please initialize an empty container: new PurchasingDetails()";
         return false;
     }
 
@@ -38,6 +38,8 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
     QString courseid = "??";
     QString contentid = "??";
     QString ISBN = book->getISBN();
+
+
 
     // Verify content Item
     if(isContentItem(ISBN))
@@ -437,6 +439,13 @@ bool ContentStorageControl::addSection(ChapterSection* section, QString& errorMs
 }
 
 bool ContentStorageControl::updateBook(Book* book, Course* course, Term* term, QString& errorMsg) {
+    if(book == 0){
+        errorMsg = "Book is null";
+        return false;
+    }
+
+    // No Error checking due to time constraint.
+
     return false;
 }
 
@@ -957,6 +966,4 @@ bool ContentStorageControl::removeContentItem(QString& contentid){
 
     qDebug() << "REMOVED: " + QString::number(result.numRowsAffected());
     return true;
-
-
 }
