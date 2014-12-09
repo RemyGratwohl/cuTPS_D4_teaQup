@@ -411,7 +411,7 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
     quint64 studentid = student->getID();
 
     // Build Query
-    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid inner join course_user on contentItem.courseid=course_user.coid where userid=" + QString::number(studentid);
+    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink, purchasingDetails.price, purchasingDetails.vendor, purchasingDetails.purchaseid from contentItem inner join book on book.bid = contentItem.contentid inner join course_user on contentItem.courseid=course_user.coid inner join purchasingDetails on contentItem.contentid=purchasingDetails.contentid where userid=" + QString::number(studentid);
 
     // Run query and get result set object
     QSqlQuery result = mainStorage->runQuery(query);
@@ -425,7 +425,12 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
    items = new QVector<Book*>();
 
     while(result.next()){
-        Book * book = new Book();
+        quint64 purchaseid = result.value("purchaseid").toInt();
+        QString vendor = result.value("vendor").toString();
+        quint16 price = result.value("price").toFloat();
+        quint64 contentid = result.value("contentid").toInt();
+        PurchasingDetails* details = new PurchasingDetails(purchaseid, price, vendor, contentid);
+        Book * book = new Book(-1, "", -1, details, "", "", "", "", -1, "", "", "");
         QString title = result.value("title").toString();
         book->setTitle(title);
         QString isbn = result.value("isbn").toString();
@@ -446,7 +451,6 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
         book->setYearPublished(year);
         quint64 courseid = result.value("courseid").toInt();
         book->setCourseID(courseid);
-        quint64 contentid = result.value("contentid").toInt();
         book->setID(contentid);
 
         items->push_back(book);
