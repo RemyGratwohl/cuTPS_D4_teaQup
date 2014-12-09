@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>1</number>
    </property>
    <widget class="QWidget" name="List">
     <widget class="QLabel" name="LS_HeaderLabel">
@@ -114,7 +114,7 @@
     </widget>
    </widget>
    <widget class="QWidget" name="Details">
-    <widget class="QLabel" name="label">
+    <widget class="QLabel" name="DT_ImageLabel">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -130,7 +130,7 @@
       <set>Qt::AlignCenter</set>
      </property>
     </widget>
-    <widget class="QLabel" name="label_2">
+    <widget class="QLabel" name="DT_TitleLabel">
      <property name="geometry">
       <rect>
        <x>230</x>
@@ -143,7 +143,7 @@
       <string>Book Title</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_3">
+    <widget class="QLabel" name="DT_DescriptionLabel">
      <property name="geometry">
       <rect>
        <x>230</x>
@@ -159,7 +159,7 @@
       <set>Qt::AlignLeading|Qt::AlignLeft|Qt::AlignTop</set>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="DT_AddButton">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -172,7 +172,7 @@
       <string>Add to Cart</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_4">
+    <widget class="QLabel" name="DT_PriceLabel">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -185,7 +185,7 @@
       <string>Price</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_5">
+    <widget class="QLabel" name="DT_ByLabel">
      <property name="geometry">
       <rect>
        <x>230</x>
@@ -198,7 +198,7 @@
       <string>By:</string>
      </property>
     </widget>
-    <widget class="QLabel" name="label_6">
+    <widget class="QLabel" name="DT_AuthorsLabel">
      <property name="geometry">
       <rect>
        <x>260</x>
@@ -208,7 +208,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>By:</string>
+      <string>Authors</string>
      </property>
     </widget>
     <widget class="QPushButton" name="DT_BackButton">
@@ -222,6 +222,150 @@
      </property>
      <property name="text">
       <string>Back </string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="DT_ChaptersButton">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>320</y>
+       <width>151</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>View Chapters</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="DT_ChapterSectionButton">
+     <property name="geometry">
+      <rect>
+       <x>420</x>
+       <y>360</y>
+       <width>151</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>View Chapter Sections</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="ChapterList">
+    <widget class="QLabel" name="CL_HeaderLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>121</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Chapters</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="CL_ListTableWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>551</width>
+       <height>311</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CL_AddButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>370</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add Selected To Cart</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CL_BackButton">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>370</y>
+       <width>81</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Back</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="ChapterSectionList">
+    <widget class="QPushButton" name="CSL_BackButton">
+     <property name="geometry">
+      <rect>
+       <x>190</x>
+       <y>370</y>
+       <width>81</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Back</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="CSL_HeaderLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>10</y>
+       <width>211</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Chapter Sections</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="CSL_ListTableWidget">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>50</y>
+       <width>551</width>
+       <height>311</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="CSL_AddButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>370</y>
+       <width>161</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add Selected To Cart</string>
      </property>
     </widget>
    </widget>
