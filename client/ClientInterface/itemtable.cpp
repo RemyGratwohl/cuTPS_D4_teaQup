@@ -3,10 +3,13 @@
 #include "../server/ContentManagement/book.h"
 #include "../server/ContentManagement/chapter.h"
 #include "../server/ContentManagement/chaptersection.h"
+#include <QHeaderView>
 
 ItemTable::ItemTable(QObject *parent, QTableWidget* table) :
     QObject(parent), contentTable(table)
 {
+    table->verticalHeader()->setSectionResizeMode(QHeaderView::Fixed);
+    table->horizontalHeader()->setSectionResizeMode(QHeaderView::Fixed);
 }
 
 ItemTable::~ItemTable() {}

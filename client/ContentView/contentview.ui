@@ -67,7 +67,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Update Book Details</string>
+      <string>Edit Book Details</string>
      </property>
     </widget>
     <widget class="QLabel" name="List_HeaderLabel">

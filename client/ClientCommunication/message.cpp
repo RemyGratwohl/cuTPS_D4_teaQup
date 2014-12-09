@@ -4,7 +4,8 @@ Message::Message(void) :
     destType(INVALIDDEST),
     actionType(INVALIDACTION),
     user(0),
-    userIsShared(true)
+    userIsShared(true),
+    userExists(false)
 {}
 
 Message::Message(DEST_TYPE dType, ACTION_TYPE aType, User* u) :
@@ -12,7 +13,9 @@ Message::Message(DEST_TYPE dType, ACTION_TYPE aType, User* u) :
     actionType(aType),
     user(u),
     userIsShared(true)
-{}
+{
+    userExists = (user != 0);
+}
 
 Message::~Message(void) {
     if( !userIsShared && user != 0 ) {
@@ -23,19 +26,26 @@ Message::~Message(void) {
 
 void Message::insertToDataStream(QDataStream& ds, SerializableType type) const {
     SerializableQObject::insertToDataStream(ds, type);
-    user->insertToDataStream(ds);
+    if( userExists ) {
+        user->insertToDataStream(ds);
+    }
 }
 
 void Message::extractFromDataStream(QDataStream& ds) {
     SerializableQObject::extractFromDataStream(ds);
     userIsShared = false;
-    user = new User();
-    user->extractFromDataStream(ds);
+    if( userExists ) {
+        user = new User();
+        user->extractFromDataStream(ds);
+    }
 }
 
 User* Message::extractUser(void) {
-    User* temp = user;
-    user = 0;
-    userIsShared = true;
-    return temp;
+    if( userExists ) {
+        User* temp = user;
+        user = 0;
+        userIsShared = true;
+        return temp;
+    }
+    return 0;
 }

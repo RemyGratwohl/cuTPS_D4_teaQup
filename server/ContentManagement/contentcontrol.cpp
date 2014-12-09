@@ -166,7 +166,7 @@ bool ContentControl::processMsg(const Message *msg)
 
     // Dispatch data, if any exists
     if( output != 0 ) {
-        return sendData(msgAction, user, output);
+        return sendData(msgAction, 0, output);
     } else {
         return sendSuccess(msgAction, user);
     }
@@ -360,10 +360,17 @@ bool ContentControl::getBooks(QVector<SerializableQObject*>*& items, QString& er
     if(!contentStorageControl->getBooks(books, errorMsg)) {
         return false;
     }
+    //Book* newBook = new Book(-1, "The Hosterererer", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
+    //                         "http://www.stepheniemeyer.com/thehost.html", 2008,
+    //                         "Little Brown and Company", "", "");
+    //books->push_back(newBook);
     items = new QVector<SerializableQObject*>();
     QVectorIterator<Book*> bookItr(*books);
     while(bookItr.hasNext()) {
         items->append(bookItr.next());
     }
+
+    //qDebug() << "Items size: " << items->size();
+    //qDebug() << "Books size: " << books->size();
     return true;
 }

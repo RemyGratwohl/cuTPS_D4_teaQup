@@ -45,13 +45,13 @@ static const quint16 DEFAULT_SERVER_PORT(60000);
 static const QString SERVER_IP_ADDRESS_FIELD("SERVER_IP_ADDRESS");
 static const QString DEFAULT_SERVER_IP("127.0.0.1");
 
-class ClientDispatcher;
+class ViewControl;
 
 class NetworkLink : public QObject
 {
     Q_OBJECT
 public:
-    explicit NetworkLink(QObject *parent = 0, ClientDispatcher* clientDispatch = 0);
+    explicit NetworkLink(QObject *parent = 0, ViewControl* vc = 0);
 
     bool sendServerRequest(Message *&message);
     bool initialize();
@@ -66,7 +66,7 @@ private:
     quint16 serverPortNumber;
     QString serverIP;
     quint16 blockSize;
-    ClientDispatcher* clientDispatcher;
+    ViewControl* viewControl;
 
     bool initializeServerPort();
     bool initializeNetworkSession();

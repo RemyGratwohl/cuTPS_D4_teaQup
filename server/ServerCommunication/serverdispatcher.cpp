@@ -42,7 +42,7 @@ bool ServerDispatcher::directMsg(Message* msg) const
     if(errMsg != 0) {
         qDebug() << "Received error message from client: \"" << errMsg->getError() << "\"";
         qDebug() << "Error messages are not dispatched.";
-        Message* errorMessage = new ErrorMessage(INVALIDDEST, INVALIDACTION, msg->getUser(), "Server cannot process an error message.");
+        Message* errorMessage = new ErrorMessage(INVALIDDEST, INVALIDACTION, 0, "Server cannot process an error message.");
         networkLink->sendClientResponse(errorMessage);
         delete errorMessage;
         delete errMsg;
@@ -80,7 +80,7 @@ bool ServerDispatcher::directMsg(Message* msg) const
     {
         QString error = "ServerDispatcher : Unknown message destination.";
         qDebug() << error;
-        Message* errorMessage = new ErrorMessage(INVALIDDEST, INVALIDACTION, msg->getUser(), error);
+        Message* errorMessage = new ErrorMessage(INVALIDDEST, INVALIDACTION, 0, error);
         networkLink->sendClientResponse(errorMessage);
         delete errorMessage;
         result = true;

@@ -101,7 +101,7 @@
       <string>Add Course</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="updateCourseButton">
+    <widget class="QPushButton" name="editCourseButton">
      <property name="geometry">
       <rect>
        <x>120</x>
@@ -111,7 +111,7 @@
       </rect>
      </property>
      <property name="text">
-      <string>Update Selected Course</string>
+      <string>Edit Selected Course</string>
      </property>
     </widget>
     <widget class="QPushButton" name="removeCourseButton">

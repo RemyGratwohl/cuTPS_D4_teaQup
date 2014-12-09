@@ -9,11 +9,36 @@ CourseManagementView::CourseManagementView(CourseViewControl *control, QWidget *
 {
     ui->setupUi(this);
     ui->stackedWidget->setCurrentIndex(LIST);
+
+    courseTable = new CourseTable(this, ui->courseTableWidget);
+    courseTable->initialize(ui->editCourseButton);
+
+
+    // display a list of content items in main window
+    QVector<Course *>* list = new QVector<Course *>();
+
+    Course* course = new Course(0, "Coursey", 0);
+    list->push_back(course);
+
+    course = new Course(1, "Courseeeee", 0);
+    list->push_back(course);
+
+    course = new Course(0, "Coursieye", 0);
+    list->push_back(course);
+
+    viewContentItems(list);
+
+
 }
 
 CourseManagementView::~CourseManagementView()
 {
     delete ui;
+}
+
+bool CourseManagementView::viewContentItems(QVector<Course*>* contentItems)
+{
+    return courseTable->updateTableView(contentItems);
 }
 
 void CourseManagementView::on_switchToContentButton_clicked()

@@ -31,6 +31,7 @@ class Message : public SerializableQObject
    Q_OBJECT
    Q_PROPERTY(quint16 destType READ getDestType_quint16 WRITE setDestType_quint16)
    Q_PROPERTY(quint16 actionType READ getActionType_quint16 WRITE setActionType_quint16)
+   Q_PROPERTY(bool userExists READ getUserExists WRITE setUserExists)
 
 protected:
     /* Constructor
@@ -62,6 +63,9 @@ public:
 
     void setDestType_quint16(quint16 dt)   { destType = static_cast<DEST_TYPE>(dt); }
     void setActionType_quint16(quint16 at) { actionType = static_cast<ACTION_TYPE>(at); }
+
+    bool getUserExists() const { return userExists; }
+    void setUserExists(bool value) { userExists = value; }
 
     /* Member Function: getUser
      *   Returns the User pointer stored in this object.
@@ -115,6 +119,7 @@ private:
     ACTION_TYPE actionType;
     User* user;
     bool userIsShared; // Flag indicating ownership of 'user'
+    bool userExists; // server sends null users, need to check for this
 };
 
 #endif // MESSAGE_H

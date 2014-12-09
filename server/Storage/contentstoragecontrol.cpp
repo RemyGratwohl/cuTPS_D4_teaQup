@@ -694,48 +694,51 @@ bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection
 bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) {
 
     // Build Query
-    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid";
+    //QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid";
     // Run query and get result set object
-    QSqlQuery result = mainStorage->runQuery(query);
+    //QSqlQuery result = mainStorage->runQuery(query);
 
-    if(result.lastError().text().length() > 1){
-        errorMsg = result.lastError().text();
-        return false;
-    }
-    if(!result.first()){
-        // If there are no results and there were no errors, then there are no content items
-        errorMsg = "There are no content items";
-        return true;
-    }
-    items = new QVector<Book*>();
 
-    while(result.next()){
-        Book * book = new Book();
-        QString title = result.value("title").toString();
-        book->setTitle(title);
-        QString isbn = result.value("isbn").toString();
-        book->setISBN(isbn);
-        QString subtitle = result.value("subtitle").toString();
-        book->setSubtitle(subtitle);
-        QString authors = result.value("authors").toString();
-        book->setAuthors(authors);
-        QString publisher = result.value("publisher").toString();
-        book->setPublisher(publisher);
-        QString website = result.value("website").toString();
-        book->setWebsite(website);
-        QString citation = result.value("citation").toString();
-        book->setCitation(citation);
-        QString picturelink = result.value("picturelink").toString();
-        book->setImageLink(picturelink);
-        quint16 year = result.value("year_publish").toInt();
-        book->setYearPublished(year);
-        quint64 courseid = result.value("courseid").toInt();
-        book->setCourseID(courseid);
-        quint64 contentid = result.value("contentid").toInt();
-        book->setID(contentid);
-        items->push_back(book);
-    }
+    if(mainStorage->getMainStorage().open()){
+        QSqlQuery result;
+        result.prepare("Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid");
+        if(result.exec()){
+            if(result.lastError().text().length() > 1)
+            {
+                    errorMsg = result.lastError().text();
+                    return false;
+            }
+            items = new QVector<Book*>();
+            while(result.next()){
+                Book * book = new Book();
+                QString title = result.value("title").toString();
 
+                book->setTitle(title);
+                QString isbn = result.value("isbn").toString();
+
+                book->setISBN(isbn);
+                QString subtitle = result.value("subtitle").toString();
+                book->setSubtitle(subtitle);
+                QString authors = result.value("authors").toString();
+                book->setAuthors(authors);
+                QString publisher = result.value("publisher").toString();
+                book->setPublisher(publisher);
+                QString website = result.value("website").toString();
+                book->setWebsite(website);
+                QString citation = result.value("citation").toString();
+                book->setCitation(citation);
+                QString picturelink = result.value("picturelink").toString();
+                book->setImageLink(picturelink);
+                quint16 year = result.value("year_publish").toInt();
+                book->setYearPublished(year);
+                quint64 courseid = result.value("courseid").toInt();
+                book->setCourseID(courseid);
+                quint64 contentid = result.value("contentid").toInt();
+                book->setID(contentid);
+                items->push_back(book);
+            }
+        }
+    }
 
     return true;
 }

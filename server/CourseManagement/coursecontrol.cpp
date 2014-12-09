@@ -121,7 +121,7 @@ bool CourseControl::processMsg(const Message *msg)
 
     // Dispatch data, if any exists
     if( output != 0 ) {
-        return sendData(msgAction, user, output);
+        return sendData(msgAction, 0, output);
     } else {
         return sendSuccess(msgAction, user);
     }

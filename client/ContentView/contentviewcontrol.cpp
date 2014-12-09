@@ -148,6 +148,7 @@ bool ContentViewControl::receiveBookDetails(Book* book, QVector<ContentItem*>* i
 
 // TODO (Remy or Brandon) Stub implementation
 bool ContentViewControl::receiveBooks(QVector<Book*>* items) {
+    ((ContentView *)view)->viewContentItems(items);
     return false;
 }
 
