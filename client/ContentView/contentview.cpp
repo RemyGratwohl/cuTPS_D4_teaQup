@@ -102,7 +102,26 @@ void ContentView::on_UB_RemoveChapterButton_clicked()
 
 void ContentView::on_UB_UpdateButton_clicked()
 {
+    Book* theBook = bookContentTable->getCurrentBook();
 
+    theBook->setTitle(ui->UB_TitleLineEdit->text());
+    theBook->setISBN(ui->UB_ISBNLineEdit->text());
+    theBook->setImageLink(ui->UB_ImageLinkLineEdit->text());
+    theBook->setSubtitle(ui->UB_SubtitleLineEdit->text());
+    theBook->setWebsite(ui->UB_WebsiteLineEdit->text());
+    theBook->setCitation(ui->UB_CitationPlainTextEdit->toPlainText());
+    theBook->setAuthors(ui->UB_AuthorsLineEdit->text());
+    theBook->setYearPublished(ui->UB_YearLineEdit->text().toInt());
+    PurchasingDetails* pd = theBook->getPurchasingDetails();
+    if(pd != 0) {
+        pd->setPrice(ui->UB_PriceLineEdit->text().toInt());
+        pd->setVendor(ui->UB_VendorLineEdit->text());
+    }
+
+    Term * testTerm = new Term(1, "F", 2014);
+    Course * testCourse = new Course(1, "CHEM1004: Generic Chemistry", 1);
+
+    controller->updateBook(theBook, testCourse, testTerm);
 }
 
 void ContentView::on_UB_CancelButton_clicked()
