@@ -9,17 +9,17 @@ AbstractManager::AbstractManager(ServerDispatcher *d, DEST_TYPE dest) :
 
 bool AbstractManager::sendError(DEST_TYPE dest, ACTION_TYPE action, User* user, const QString& error) {
     qDebug() << error;
-    Message* outputError = new ErrorMessage(dest, action, user, error);
+    Message* outputError = new ErrorMessage(dest, action, 0, error);
     return dispatcher->deliverMsg(outputError);
 }
 
 bool AbstractManager::sendData(ACTION_TYPE action, User* user, QVector<SerializableQObject *>* data) {
-    Message* msg = new DataMessage(ownDest, action, user, data);
+    Message* msg = new DataMessage(ownDest, action, 0, data);
     return dispatcher->deliverMsg(msg);
 }
 
 bool AbstractManager::sendSuccess(ACTION_TYPE action, User* user, const QString& info,
              const OBJ_ID_TYPE& reference, bool hasReference) {
-    Message* msg = new SuccessMessage(ownDest, action, user, info, reference, hasReference);
+    Message* msg = new SuccessMessage(ownDest, action, 0, info, reference, hasReference);
     return dispatcher->deliverMsg(msg);
 }

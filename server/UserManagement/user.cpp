@@ -12,7 +12,7 @@ User::User(const QString& n, const TYPE t, const OBJ_ID_TYPE id) :
 }
 
 void User::insertToDataStream(QDataStream& ds) const {
-        SerializableQObject::insertToDataStream(ds, USEROBJ);
+    SerializableQObject::insertToDataStream(ds, USEROBJ);
 }
 
 bool User::isOfType(const TYPE t) const {

@@ -1,9 +1,9 @@
 #include "networklink.h"
-#include "ClientCommunication/clientdispatcher.h"
 #include "../server/ServerCommunication/serializableobjectfactory.h"
+#include "../ClientInterface/viewcontrol.h"
 
-NetworkLink::NetworkLink(QObject* parent, ClientDispatcher *clientDispatch)
-    : QObject(parent), tcpSocket(0), networkSession(0), serverPortNumber(0), clientDispatcher(clientDispatch)
+NetworkLink::NetworkLink(QObject* parent, ViewControl* vc)
+    : QObject(parent), tcpSocket(0), networkSession(0), serverPortNumber(0), viewControl(vc)
 {} // handle initialization in the initialize function (to return a success indicator)
 
 bool NetworkLink::sendServerRequest(Message*& message)
@@ -59,7 +59,8 @@ bool NetworkLink::readServerResponse()
     Message* message = qobject_cast<Message*>(preNewItem);
 
     if(message != 0) {
-        clientDispatcher->directMsg(message);
+        viewControl->processMsg(message);
+        delete message;
         return true;
     } else {
         qDebug() << "Failed object read.";

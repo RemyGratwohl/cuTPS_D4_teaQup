@@ -115,6 +115,7 @@ private:
     ACTION_TYPE actionType;
     User* user;
     bool userIsShared; // Flag indicating ownership of 'user'
+    bool userExists; // server sends null users, need to check for this
 };
 
 #endif // MESSAGE_H

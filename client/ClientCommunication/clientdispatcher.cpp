@@ -29,7 +29,7 @@ bool ClientDispatcher::directMsg(Message* msg) const
 
 bool ClientDispatcher::initialize()
 {
-    networkLink = new NetworkLink(this, this);
+    networkLink = new NetworkLink(this, viewControl);
     if(networkLink->initialize() == false) return false;
 
     return true;
