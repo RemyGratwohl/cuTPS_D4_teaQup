@@ -5,9 +5,8 @@
 -- .read cuTPS.sql 
 -- Make sure this file is in the same directory as the client 
 -- or provide the link to the directory
-PRAGMA foreign_keys = ON;
-begin transaction;
 
+begin transaction;
 
 -- TODO
 drop table if exists course_book;
@@ -205,4 +204,5 @@ insert into purchasingDetails (purchaseid, price, vendor, contentid) values (7, 
 
 
 commit;
+
 

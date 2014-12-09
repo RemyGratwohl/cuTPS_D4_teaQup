@@ -29,7 +29,7 @@ bool MainStorageControl::initialize(void)
 
     // Database path may need to also be configurable
     db.setDatabaseName("../../cuTPS_D4_teaQup/cuTPSDB");
-    //db.setConnectOptions("foreign_keys = ON");
+    db.setConnectOptions("foreign_keys = ON");
 
     return true;
 }
@@ -39,6 +39,7 @@ bool MainStorageControl::initialize(void)
 QSqlQuery MainStorageControl::runQuery(QString query){
     bool DEBUG = true;
     if(db.open()){
+
             if(DEBUG)
                 qDebug()  << "Database connected!";
             if(db.tables().isEmpty())
@@ -47,7 +48,6 @@ QSqlQuery MainStorageControl::runQuery(QString query){
                 qDebug() << "Database is empty! Running script.";
                 runSqlScript();
             }
-
             if(DEBUG)
                 qDebug() << query;
 
