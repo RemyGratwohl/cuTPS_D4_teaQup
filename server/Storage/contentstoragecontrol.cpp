@@ -653,38 +653,37 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
 
     quint64 bookid = book->getID();
 
-    // Build Query
-    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapter.chapter_num from contentItem inner join chapter on chapter.chid = contentItem.contentid where bookid=" + QString::number(bookid);
-
-    // Run query and get result set object
-    QSqlQuery result = mainStorage->runQuery(query);
-
-    if(result.lastError().text().length() > 1){
-        errorMsg = result.lastError().text();
+    if(mainStorage->getMainStorage().open()){
+        QSqlQuery result;
+        result.prepare("Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapter.chapter_num from contentItem inner join chapter on chapter.chid = contentItem.contentid where bookid=:bookid");
+        result.bindValue(":bookid", bookid);
+        if(result.exec()){
+            if(result.lastError().text().length() > 1)
+            {
+                errorMsg = result.lastError().text();
+                return false;
+            }
+            items = new QVector<Chapter*>();
+            while(result.next()){
+                Chapter* chap = new Chapter();
+                quint64 contentid = result.value("contentid").toInt();
+                chap->setID(contentid);
+                QString title = result.value("title").toString();
+                chap->setTitle(title);
+                QString isbn = result.value("isbn").toString();
+                chap->setISBN(isbn);
+                quint64 courseid = result.value("courseid").toInt();
+                chap->setCourseID(courseid);
+                quint16 chapterNum = result.value("chapter_num").toInt();
+                chap->setChapterNumber(chapterNum);
+                chap->setBookID(bookid);
+                items->push_back(chap);
+            }
+        }
+    }
+    else{
+        errorMsg = "CISC | getBookList(): Database failed to open!";
         return false;
-    }
-    if(!result.first()){
-        // If there are no results and there were no errors, then the book does not exist.
-        errorMsg = "Book does not exist";
-        return true;
-    }
-
-    items = new QVector<Chapter*>();
-    while(result.next()){
-
-        Chapter* chap = new Chapter();
-        quint64 contentid = result.value("contentid").toInt();
-        chap->setID(contentid);
-        QString title = result.value("title").toString();
-        chap->setTitle(title);
-        QString isbn = result.value("isbn").toString();
-        chap->setISBN(isbn);
-        quint64 courseid = result.value("courseid").toInt();
-        chap->setCourseID(courseid);
-        quint16 chapterNum = result.value("chapter_num").toInt();
-        chap->setChapterNumber(chapterNum);
-        chap->setBookID(bookid);
-        items->push_back(chap);
     }
 
     return true;
