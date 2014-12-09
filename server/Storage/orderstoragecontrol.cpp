@@ -33,7 +33,7 @@ bool OrderStorageControl::allPurchasingDetailsValid(
     }
 
     QVectorIterator<PurchasingDetails*> i(*purchasingDetails);
-    i.toFront();
+
     while (i.hasNext()) {
         QString query = "Select * from purchasingDetails where purchaseid=" + QString::number(i.peekNext()->getID());
         QSqlQuery result = mainStorage->runQuery(query);

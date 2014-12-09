@@ -23,7 +23,7 @@
     </rect>
    </property>
    <property name="currentIndex">
-    <number>0</number>
+    <number>3</number>
    </property>
    <widget class="QWidget" name="list">
     <widget class="QPushButton" name="switchToCoursesButton">
@@ -57,7 +57,7 @@
       <bool>true</bool>
      </property>
     </widget>
-    <widget class="QPushButton" name="editBookButton">
+    <widget class="QPushButton" name="List_UpdateButton">
      <property name="geometry">
       <rect>
        <x>140</x>
@@ -70,7 +70,7 @@
       <string>Edit Book Details</string>
      </property>
     </widget>
-    <widget class="QLabel" name="TitleLabel">
+    <widget class="QLabel" name="List_HeaderLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -101,7 +101,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QPushButton" name="addButtonButton">
+    <widget class="QPushButton" name="List_AddButton">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -114,7 +114,7 @@
       <string>Add New Book</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="RemoveBookButton">
+    <widget class="QPushButton" name="List_RemoveButton">
      <property name="geometry">
       <rect>
        <x>290</x>
@@ -128,9 +128,337 @@
      </property>
     </widget>
    </widget>
-   <widget class="QWidget" name="updateBook"/>
+   <widget class="QWidget" name="updateBook">
+    <widget class="QLabel" name="UB_YearLabel">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>120</y>
+       <width>101</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Year Published:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UB_ISBNLabel">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>20</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ISBN:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="UB_SubtitleLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPlainTextEdit" name="UB_CitationPlainTextEdit">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>90</y>
+       <width>221</width>
+       <height>71</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UB_CitationLabel">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>70</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Citatation:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UB_ImageLinkLabel">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>20</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Image Link:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="UB_AuthorsLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>140</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="UB_ImageLinkLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>350</x>
+       <y>40</y>
+       <width>221</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UB_AuthorsLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>120</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Author Names:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UB_TitleLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>58</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Title:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UB_SubtitleLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>58</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Subtitle:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UB_WebsiteLabel">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>70</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Website:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="UB_TitleLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>40</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="UB_WebsiteLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>90</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="UB_ISBNLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>40</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="UB_YearLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>140</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="UB_UpdateButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>370</y>
+       <width>88</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Update</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="UB_CancelButton">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>370</y>
+       <width>88</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="UB_ChaptersTable">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>240</y>
+       <width>421</width>
+       <height>121</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UB_BookChaptersLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>220</y>
+       <width>101</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Book Chapters:</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="UB_AddChapterButton">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>240</y>
+       <width>121</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add New Chapter</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="UB_RemoveChapterButton">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>300</y>
+       <width>121</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Remove Chapter</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="UB_EditChapterButton">
+     <property name="geometry">
+      <rect>
+       <x>450</x>
+       <y>270</y>
+       <width>121</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Edit Chapter</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="UB_PriceLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>190</y>
+       <width>101</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UB_PriceLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>170</y>
+       <width>58</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Price:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="UB_VendorLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>190</y>
+       <width>141</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UB_VendorLabel">
+     <property name="geometry">
+      <rect>
+       <x>180</x>
+       <y>170</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Vendor Name:</string>
+     </property>
+    </widget>
+   </widget>
    <widget class="QWidget" name="addBook">
-    <widget class="QLabel" name="add_TitleLabel">
+    <widget class="QLabel" name="AB_HeaderLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -148,10 +476,10 @@
       </font>
      </property>
      <property name="text">
-      <string>Create a New Book</string>
+      <string>Create New Book</string>
      </property>
     </widget>
-    <widget class="QLabel" name="add_enterTitleLabel">
+    <widget class="QLabel" name="AB_TitleLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -164,7 +492,7 @@
       <string>Title:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit">
+    <widget class="QLineEdit" name="AB_TitleLineEdit">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -174,7 +502,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="add_ubtitleLabel">
+    <widget class="QLabel" name="AB_SubtitleLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -187,7 +515,7 @@
       <string>Subtitle:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_2">
+    <widget class="QLineEdit" name="AB_SubtitleLineEdit">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -197,7 +525,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_3">
+    <widget class="QLineEdit" name="AB_AuthorsLineEdit">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -207,7 +535,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="add_AthorNamesLabel">
+    <widget class="QLabel" name="AB_AuthorsLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -220,7 +548,7 @@
       <string>Author Names:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_4">
+    <widget class="QLineEdit" name="AB_ISBNLineEdit">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -230,7 +558,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="add_ISBNLabel">
+    <widget class="QLabel" name="AB_ISBNLabel">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -243,7 +571,7 @@
       <string>ISBN:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_5">
+    <widget class="QLineEdit" name="AB_WebsiteLineEdit">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -256,7 +584,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="add_WebsiteLabel">
+    <widget class="QLabel" name="AB_WebsiteLabel">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -269,7 +597,7 @@
       <string>Website:</string>
      </property>
     </widget>
-    <widget class="QLabel" name="add_YearLabel">
+    <widget class="QLabel" name="AB_YearLabel">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -282,7 +610,7 @@
       <string>Year Published:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_6">
+    <widget class="QLineEdit" name="AB_YearLineEdit">
      <property name="geometry">
       <rect>
        <x>180</x>
@@ -295,7 +623,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="add_PD_TitleLabel">
+    <widget class="QLabel" name="AB_PD_HeaderLabel">
      <property name="geometry">
       <rect>
        <x>30</x>
@@ -316,7 +644,7 @@
       <string>Attach Purchasing Information</string>
      </property>
     </widget>
-    <widget class="QLabel" name="add_PD_SubtitleLabel">
+    <widget class="QLabel" name="AB_PD_SubtitleLabel">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -337,7 +665,7 @@
       <string>* If not provided, the item will NOT be automatically listed for sale.</string>
      </property>
     </widget>
-    <widget class="QLabel" name="add_PriceLabel">
+    <widget class="QLabel" name="AB_PriceLabel">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -350,7 +678,7 @@
       <string>Price:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_7">
+    <widget class="QLineEdit" name="AB_PriceLineEdit">
      <property name="geometry">
       <rect>
        <x>40</x>
@@ -360,7 +688,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_8">
+    <widget class="QLineEdit" name="AB_VendorLineEdit">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -373,7 +701,7 @@
       <string/>
      </property>
     </widget>
-    <widget class="QLabel" name="add_VendorNameLabel">
+    <widget class="QLabel" name="AB_VendorNameLabel">
      <property name="geometry">
       <rect>
        <x>160</x>
@@ -386,7 +714,7 @@
       <string>Vendor Name:</string>
      </property>
     </widget>
-    <widget class="QPlainTextEdit" name="plainTextEdit">
+    <widget class="QPlainTextEdit" name="AB_CitationPlainTextEdit">
      <property name="geometry">
       <rect>
        <x>350</x>
@@ -396,7 +724,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="add_CitationLabel">
+    <widget class="QLabel" name="AB_CitationLabel">
      <property name="geometry">
       <rect>
        <x>350</x>
@@ -409,7 +737,7 @@
       <string>Citatation:</string>
      </property>
     </widget>
-    <widget class="QLineEdit" name="lineEdit_9">
+    <widget class="QLineEdit" name="AB_ImageLinkLineEdit">
      <property name="geometry">
       <rect>
        <x>350</x>
@@ -419,7 +747,7 @@
       </rect>
      </property>
     </widget>
-    <widget class="QLabel" name="add_ImageLinkLabel">
+    <widget class="QLabel" name="AB_ImageLinkLabel">
      <property name="geometry">
       <rect>
        <x>350</x>
@@ -432,12 +760,12 @@
       <string>Image Link:</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="pushButton">
+    <widget class="QPushButton" name="AB_ConfirmButton">
      <property name="geometry">
       <rect>
        <x>20</x>
        <y>360</y>
-       <width>101</width>
+       <width>91</width>
        <height>31</height>
       </rect>
      </property>
@@ -445,12 +773,12 @@
       <string>Confirm</string>
      </property>
     </widget>
-    <widget class="QPushButton" name="add_CancelButton">
+    <widget class="QPushButton" name="AB_CancelButton">
      <property name="geometry">
       <rect>
-       <x>140</x>
+       <x>120</x>
        <y>360</y>
-       <width>101</width>
+       <width>91</width>
        <height>31</height>
       </rect>
      </property>
@@ -458,7 +786,7 @@
       <string>Cancel</string>
      </property>
     </widget>
-    <widget class="QLabel" name="ada_PD_BorderLabel">
+    <widget class="QLabel" name="AB_PD_BorderLabel">
      <property name="geometry">
       <rect>
        <x>20</x>
@@ -474,32 +802,419 @@
       <string/>
      </property>
     </widget>
-    <zorder>ada_PD_BorderLabel</zorder>
-    <zorder>add_TitleLabel</zorder>
-    <zorder>add_enterTitleLabel</zorder>
-    <zorder>lineEdit</zorder>
-    <zorder>add_ubtitleLabel</zorder>
-    <zorder>lineEdit_2</zorder>
-    <zorder>lineEdit_3</zorder>
-    <zorder>add_AthorNamesLabel</zorder>
-    <zorder>lineEdit_4</zorder>
-    <zorder>add_ISBNLabel</zorder>
-    <zorder>lineEdit_5</zorder>
-    <zorder>add_WebsiteLabel</zorder>
-    <zorder>add_YearLabel</zorder>
-    <zorder>lineEdit_6</zorder>
-    <zorder>add_PD_TitleLabel</zorder>
-    <zorder>add_PD_SubtitleLabel</zorder>
-    <zorder>add_PriceLabel</zorder>
-    <zorder>lineEdit_7</zorder>
-    <zorder>lineEdit_8</zorder>
-    <zorder>add_VendorNameLabel</zorder>
-    <zorder>plainTextEdit</zorder>
-    <zorder>add_CitationLabel</zorder>
-    <zorder>lineEdit_9</zorder>
-    <zorder>add_ImageLinkLabel</zorder>
-    <zorder>pushButton</zorder>
-    <zorder>add_CancelButton</zorder>
+    <zorder>AB_PD_BorderLabel</zorder>
+    <zorder>AB_HeaderLabel</zorder>
+    <zorder>AB_TitleLabel</zorder>
+    <zorder>AB_TitleLineEdit</zorder>
+    <zorder>AB_SubtitleLabel</zorder>
+    <zorder>AB_SubtitleLineEdit</zorder>
+    <zorder>AB_AuthorsLineEdit</zorder>
+    <zorder>AB_AuthorsLabel</zorder>
+    <zorder>AB_ISBNLineEdit</zorder>
+    <zorder>AB_ISBNLabel</zorder>
+    <zorder>AB_WebsiteLineEdit</zorder>
+    <zorder>AB_WebsiteLabel</zorder>
+    <zorder>AB_YearLabel</zorder>
+    <zorder>AB_YearLineEdit</zorder>
+    <zorder>AB_PD_HeaderLabel</zorder>
+    <zorder>AB_PD_SubtitleLabel</zorder>
+    <zorder>AB_PriceLabel</zorder>
+    <zorder>AB_PriceLineEdit</zorder>
+    <zorder>AB_VendorLineEdit</zorder>
+    <zorder>AB_VendorNameLabel</zorder>
+    <zorder>AB_CitationPlainTextEdit</zorder>
+    <zorder>AB_CitationLabel</zorder>
+    <zorder>AB_ImageLinkLineEdit</zorder>
+    <zorder>AB_ImageLinkLabel</zorder>
+    <zorder>AB_ConfirmButton</zorder>
+    <zorder>AB_CancelButton</zorder>
+   </widget>
+   <widget class="QWidget" name="addChapter">
+    <widget class="QPushButton" name="AC_ConfirmButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>360</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Confirm</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="AC_CancelButton">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>360</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AC_HeaderLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>20</y>
+       <width>271</width>
+       <height>41</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>20</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Create New Chapter</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="AC_TitleLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>90</y>
+       <width>171</width>
+       <height>26</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AC_TitleLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>70</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Title:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="AC_ChapterNumberLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>150</y>
+       <width>101</width>
+       <height>26</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AC_ChapterNumberLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>130</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Chapter Number:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="AC_ISBNLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>90</y>
+       <width>171</width>
+       <height>26</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AC_ISBNLabel">
+     <property name="geometry">
+      <rect>
+       <x>210</x>
+       <y>70</y>
+       <width>91</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>ISBN:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AC_PriceLabel">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>290</y>
+       <width>58</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Price:</string>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="AC_PriceLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>310</y>
+       <width>101</width>
+       <height>21</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AC_PD_HeaderLabel">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>240</y>
+       <width>221</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>12</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>Attach Purchasing Information</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AC_PD_BorderLabel">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>230</y>
+       <width>551</width>
+       <height>121</height>
+      </rect>
+     </property>
+     <property name="styleSheet">
+      <string notr="true"> QLabel { border: 1px solid blacks }</string>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLineEdit" name="AC_VendorLineEdit">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>310</y>
+       <width>131</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string/>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AC_VendorLabel">
+     <property name="geometry">
+      <rect>
+       <x>160</x>
+       <y>290</y>
+       <width>111</width>
+       <height>16</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Vendor Name:</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="AC_PD_SubtitleLabel">
+     <property name="geometry">
+      <rect>
+       <x>40</x>
+       <y>260</y>
+       <width>551</width>
+       <height>21</height>
+      </rect>
+     </property>
+     <property name="font">
+      <font>
+       <pointsize>10</pointsize>
+       <weight>50</weight>
+       <italic>false</italic>
+       <bold>false</bold>
+      </font>
+     </property>
+     <property name="text">
+      <string>* If not provided, the item will NOT be automatically listed for sale.</string>
+     </property>
+    </widget>
+    <zorder>AC_PD_BorderLabel</zorder>
+    <zorder>AC_ConfirmButton</zorder>
+    <zorder>AC_CancelButton</zorder>
+    <zorder>AC_HeaderLabel</zorder>
+    <zorder>AC_TitleLineEdit</zorder>
+    <zorder>AC_TitleLabel</zorder>
+    <zorder>AC_ChapterNumberLineEdit</zorder>
+    <zorder>AC_ChapterNumberLabel</zorder>
+    <zorder>AC_ISBNLineEdit</zorder>
+    <zorder>AC_ISBNLabel</zorder>
+    <zorder>AC_PriceLabel</zorder>
+    <zorder>AC_PriceLineEdit</zorder>
+    <zorder>AC_PD_HeaderLabel</zorder>
+    <zorder>AC_VendorLineEdit</zorder>
+    <zorder>AC_VendorLabel</zorder>
+    <zorder>AC_PD_SubtitleLabel</zorder>
+   </widget>
+   <widget class="QWidget" name="updateChapter">
+    <widget class="QPushButton" name="UC_UpdateButton">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>370</y>
+       <width>88</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Update</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="UC_CancelButton">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>370</y>
+       <width>88</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="UC_UpdateSectionButton">
+     <property name="geometry">
+      <rect>
+       <x>460</x>
+       <y>270</y>
+       <width>121</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Update Section</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="UC_AddSectionButton">
+     <property name="geometry">
+      <rect>
+       <x>460</x>
+       <y>240</y>
+       <width>121</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Add New Section</string>
+     </property>
+    </widget>
+    <widget class="QTableWidget" name="UC_ChapterSectionsTable">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>240</y>
+       <width>421</width>
+       <height>121</height>
+      </rect>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="UC_RemoveSectionButton">
+     <property name="geometry">
+      <rect>
+       <x>460</x>
+       <y>300</y>
+       <width>121</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Remove Section</string>
+     </property>
+    </widget>
+    <widget class="QLabel" name="UC_ChapterSectionsLabel">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>220</y>
+       <width>111</width>
+       <height>20</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Chapter Sections:</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="addChapterSection">
+    <widget class="QPushButton" name="ACS_CancelButton">
+     <property name="geometry">
+      <rect>
+       <x>120</x>
+       <y>360</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="ACS_ConfirmButton">
+     <property name="geometry">
+      <rect>
+       <x>20</x>
+       <y>360</y>
+       <width>91</width>
+       <height>31</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Confirm</string>
+     </property>
+    </widget>
+   </widget>
+   <widget class="QWidget" name="updateChapterSection">
+    <widget class="QPushButton" name="UCS_UpdateButton">
+     <property name="geometry">
+      <rect>
+       <x>30</x>
+       <y>370</y>
+       <width>88</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Update</string>
+     </property>
+    </widget>
+    <widget class="QPushButton" name="UCS_CancelButton">
+     <property name="geometry">
+      <rect>
+       <x>130</x>
+       <y>370</y>
+       <width>88</width>
+       <height>27</height>
+      </rect>
+     </property>
+     <property name="text">
+      <string>Cancel</string>
+     </property>
+    </widget>
    </widget>
   </widget>
  </widget>
