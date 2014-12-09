@@ -9,34 +9,35 @@
 begin transaction;
 
 
-
--- Stores the information related to courses
-drop table if exists course;
+-- TODO
+drop table if exists course_book;
 
 -- Stores the relation between users and the courses
 drop table if exists course_user;
 
--- Stores information related to a term
-drop table if exists term;
-
--- Stores more generic information TODO
-drop table if exists contentItem;
-
--- Stores TODO
-drop table if exists book;
+-- Stores information relative to a chapter section
+drop table if exists chapterSection;
 
 -- Stores information relative to the chapter
 drop table if exists chapter; 
 
--- Stores information relative to a chapter section
-drop table if exists chapterSection;
+-- Stores TODO
+drop table if exists book;
+
+-- Stores more generic information TODO
+drop table if exists contentItem;
 
 -- Stores the purchasing details of every purchasable item
 drop table if exists purchasingDetails; 
 
--- TODO
-drop table if exists course_book;
+-- Stores the information related to courses
+drop table if exists course;
 
+-- Stores information related to a term
+drop table if exists term;
+
+-- Stores in the information related to users
+drop table if exists users; -- 'user' is a reserved keyword
 
 -- =========================== Table Creation ===========================
 
