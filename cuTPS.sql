@@ -119,7 +119,7 @@ create table chapterSection (
 create table course_book ( 
 	courseid integer NOT NULL,
 	contentid integer NOT NULL,
-	FOREIGN KEY(contentid) REFERENCES book(contentid) ON DELETE CASCADE,
+	FOREIGN KEY(contentid) REFERENCES book(bid) ON DELETE CASCADE,
 	FOREIGN KEY(courseid) REFERENCES course(courseid) ON DELETE CASCADE,
 	PRIMARY KEY(courseid, contentid)
 );
