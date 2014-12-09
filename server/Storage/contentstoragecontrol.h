@@ -207,6 +207,7 @@ private:
     bool isContentItem(QString& ISBN);
     bool isBook(QString& bookid);
     bool isChapter(QString& chapterid);
+    bool removeContentItem(QString& contentid);
 
 
 private:

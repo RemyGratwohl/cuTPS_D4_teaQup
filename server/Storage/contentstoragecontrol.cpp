@@ -448,16 +448,43 @@ bool ContentStorageControl::updateSection(ChapterSection* section, QString& erro
     return false;
 }
 
+// Tested a lil bit
 bool ContentStorageControl::removeBook(Book* book, QString& errorMsg) {
-    return false;
+    QString id = QString::number(book->getID());
+    bool Success = removeContentItem(id);
+    if(Success){
+        return Success;
+    }
+    else {
+        errorMsg = "Remove Book: Something went wrong.";
+        return false;
+    }
 }
 
+// Not tested
 bool ContentStorageControl::removeChapter(Chapter* chapter, QString& errorMsg) {
-    return false;
+    QString id = QString::number(chapter->getID());
+    bool Success = removeContentItem(id);
+    if(Success){
+        return Success;
+    }
+    else {
+        errorMsg = "Remove Chapter: Something went wrong.";
+        return false;
+    }
 }
 
+// Not tested
 bool ContentStorageControl::removeSection(ChapterSection* section, QString& errorMsg) {
-    return false;
+    QString id = QString::number(section->getID());
+    bool Success = removeContentItem(id);
+    if(Success){
+        return Success;
+    }
+    else {
+        errorMsg = "Remove Section: Something went wrong.";
+        return false;
+    }
 }
 
 // untested: does not include purchasing details yet
@@ -908,4 +935,28 @@ bool ContentStorageControl::isContentItem(QString& ISBN) {
     //Should never reach here
     qDebug() << "???";
     return false;
+}
+
+bool ContentStorageControl::removeContentItem(QString& contentid){
+    QString query;
+
+    query = "Delete from contentItem where contentid=" + contentid;
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return false;
+    }
+    if(result.numRowsAffected()  < 1){
+        qDebug() << "Nothing was removed";
+    }
+
+    qDebug() << "REMOVED: " + QString::number(result.numRowsAffected());
+    return true;
+
+
 }
