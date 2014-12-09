@@ -97,6 +97,102 @@ bool CourseStorageControl::getTerms(QList<OBJ_ID_TYPE>& termIDs, QVector<Term*>*
 }
 
 bool CourseStorageControl::addCourse(Course* course, Term* term, QString& errorMsg) {
+
+    if(course->getTermID() == 0 && term == 0){
+        errorMsg = "Either a new term must be sent in, or an existing termID must be sent with the course.";
+        return false;
+    }
+    bool existsTerm = true;
+    bool existsCourse = true;
+    QString termid = "??";
+    QString semester = "";
+    QString courseid = "??";
+
+    // Verify Term
+    if(!isTerm(term, termid)){
+        existsTerm = false;
+
+        // Get latest ID and set that to termid
+        termid = QString::number(mainStorage->getLatestID("termid", "term"));
+        if(term->getSemester() == "Fall")
+            semester = "F";
+        else if(term->getSemester() == "Winter")
+            semester = "W";
+        else if(term->getSemester() == "Summer")
+            semester = "S";
+        else {
+            // There's an error with the Term object
+            errorMsg = "Error with Term object.";
+            return false;
+        }
+    }
+
+    // Verify Course
+    course->setTermID(termid.toInt());
+
+    if(!isCourse(course, courseid)){
+        existsCourse = false;
+        qDebug() << "Course does not exist!";
+        // Get latest ID and set that to courseid
+        courseid = QString::number(mainStorage->getLatestID("courseid", "course"));
+    }
+
+    if(mainStorage->getMainStorage().open()){
+        mainStorage->getMainStorage().transaction();
+        QSqlQuery prepQ;
+        if(!existsTerm){
+            // Add term to DB
+            prepQ.prepare("insert into term (termid, semester, term_year) values (:termid, :semester, :term_year)");
+            prepQ.bindValue(":termid", termid.toInt());
+            prepQ.bindValue(":semester", semester);
+            prepQ.bindValue(":term_year", term->getYear());
+            if(prepQ.exec()){
+                qDebug() << "COSC | (Term)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+            }
+            else{
+                mainStorage->getMainStorage().rollback();
+                mainStorage->getMainStorage().close();
+                qDebug() << "Add Term Failed";
+                errorMsg = prepQ.lastError().text();
+                return false;
+            }
+        }
+
+        if(!existsCourse){
+            // Add Course to DB
+            prepQ.prepare("insert into course (courseid, name, termid) values (:courseid, :name, :termid)");
+            prepQ.bindValue(":termid", termid.toInt());
+            prepQ.bindValue(":courseid", courseid.toInt());
+            prepQ.bindValue(":name", course->getName());
+            if(prepQ.exec()){
+                qDebug() << "COSC | (Course)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+            }
+            else{
+                mainStorage->getMainStorage().rollback();
+                mainStorage->getMainStorage().close();
+                errorMsg = prepQ.lastError().text();
+                return false;
+            }
+        }
+
+        if(!mainStorage->getMainStorage().commit())
+        {
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = "Commit failed: " + prepQ.lastError().text();
+            return false;
+        }
+        else {
+            qDebug() << "Everything went great.";
+            mainStorage->getMainStorage().close();
+            return true;
+        }
+    }
+    else{
+        errorMsg = "COSC | addCourse(): Database failed to open!";
+        return false;
+    }
+
     return false;
 }
 
@@ -104,8 +200,27 @@ bool CourseStorageControl::updateCourse(Course* course, Term* term, QString& err
     return false;
 }
 
+// Untested
 bool CourseStorageControl::removeCourse(Course* course, QString& errorMsg) {
-    return false;
+    QString query;
+
+    query = "Delete from course where courseid=" + QString::number(course->getID());
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+    if(result.numRowsAffected()  < 1){
+        qDebug() << "Nothing was removed";
+    }
+
+    qDebug() << "REMOVED: " + QString::number(result.numRowsAffected());
+    return true;
 }
 
 // Untested
@@ -172,4 +287,81 @@ bool CourseStorageControl::getTerms(QVector<Term*>*& terms, QString& errorMsg) {
     }
 
     return true;
+}
+
+bool CourseStorageControl::isTerm(Term *term, QString& id) {
+
+    QString query;
+    QString semester;
+
+    if(term->getSemester() == "Fall")
+        semester = "F";
+    else if(term->getSemester() == "Winter")
+        semester = "W";
+    else if(term->getSemester() == "Summer")
+        semester = "S";
+    else // There's an error with the Term object
+        return false;
+
+    query = "Select termid from term where semester='" + semester + "' AND term_year=" + QString::number(term->getYear());
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return false;
+    }
+
+    if(result.first()){
+        id = result.value("termid").toString();
+        return true;
+    }
+    // If there is more than one user returned, return false because something is wrong with the database
+    else if (result.next()){
+        return false;
+    }
+    // If there are no results and there were no errors, then the term does not exist.
+    else {
+        return false;
+    }
+
+    //Should never reach here
+    qDebug() << "???";
+    return false;
+}
+
+bool CourseStorageControl::isCourse(Course* course, QString& id){
+    QString query;
+
+    query = "Select courseid from course where termid=" + QString::number(course->getTermID()) + " AND name='" + course->getName() + "'";
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return false;
+    }
+
+    if(result.first()){
+        id = result.value("courseid").toString();
+        return true;
+    }
+    // If there is more than one user returned, return false because something is wrong with the database
+    else if (result.next()){
+        return false;
+    }
+    // If there are no results and there were no errors, then the term does not exist.
+    else {
+        return false;
+    }
+
+    //Should never reach here
+    qDebug() << "???";
+    return false;
 }

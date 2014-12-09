@@ -130,6 +130,8 @@ protected:
 
 private:
     QSharedPointer<MainStorageControl> mainStorage;
+    bool isTerm(Term* term, QString& id);
+    bool isCourse(Course* course, QString& id);
 
 private:
     // Singleton instance

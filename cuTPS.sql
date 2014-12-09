@@ -8,7 +8,6 @@
 
 begin transaction;
 
-
 -- TODO
 drop table if exists course_book;
 
@@ -205,4 +204,5 @@ insert into purchasingDetails (purchaseid, price, vendor, contentid) values (7, 
 
 
 commit;
+
 
