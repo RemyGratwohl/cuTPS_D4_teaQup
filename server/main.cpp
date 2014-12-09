@@ -12,6 +12,7 @@
 void addBookTest();
 void userTest();
 void validOrderTest();
+void getBooks();
 
 int main(int argc, char *argv[])
 {
@@ -26,6 +27,20 @@ int main(int argc, char *argv[])
     /* testing end */
 
     return serverDispatcher->exec();
+}
+
+void getBooks(){
+    QSharedPointer<ContentStorageControl> contentAccess;
+    contentAccess->getContentStorageControl(contentAccess);
+    QVector<Book*>* items = 0;
+    QString error = "";
+    bool Success = contentAccess->getBooks(items, error);
+    if(Success){
+        qDebug() << items->size();
+    }
+    else{
+        qDebug() << "Fix your shit. " + error;
+    }
 }
 
 void validOrderTest() {
