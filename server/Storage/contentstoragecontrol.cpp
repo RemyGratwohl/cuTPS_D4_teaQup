@@ -143,7 +143,7 @@ bool ContentStorageControl::addBook(Book* book, Course* course, Term* term, QStr
         }
 
         // Add Book
-        prepQ.prepare("insert into book (contentid, subtitle, authors, publisher, website, citation, year_publish) values (:contentid, :subtitle, :authors, :publisher, :website, :citation, :year_publish)");
+        prepQ.prepare("insert into book (bid, subtitle, authors, publisher, website, citation, year_publish) values (:contentid, :subtitle, :authors, :publisher, :website, :citation, :year_publish)");
         prepQ.bindValue(":contentid", contentid.toInt());
         prepQ.bindValue(":subtitle", book->getSubtitle());
         prepQ.bindValue(":authors", book->getAuthors());

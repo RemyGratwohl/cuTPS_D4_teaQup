@@ -22,7 +22,9 @@ int main(int argc, char *argv[])
     if( !serverDispatcher->initialize() ) {
         return -1;
     }
-
+    addBookTest();
+    userTest();
+    validOrderTest();
     /* testing end */
 
     return serverDispatcher->exec();
