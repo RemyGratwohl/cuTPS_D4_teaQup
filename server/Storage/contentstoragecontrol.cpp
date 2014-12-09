@@ -443,53 +443,61 @@ bool ContentStorageControl::updateBook(Book* book, Course* course, Term* term, Q
         errorMsg = "Book is null";
         return false;
     }
+
+    if(course != 0){
+
+    }
+    if(term != 0){
+
+    }
+
     // No Error checking due to time constraint.
-    if (course == 0){
-        if(mainStorage->getMainStorage().open()){
-            mainStorage->getMainStorage().transaction();
-            QSqlQuery prepQ;
-            // update Content Item
-            prepQ.prepare("update contentItem set title=:title, isbn=:isbn, courseid=:courseid where contentid=:contentid");
-            prepQ.bindValue(":contentid", book->getID());
-            prepQ.bindValue(":title", book->getTitle());
-            prepQ.bindValue(":isbn", book->getISBN());
-            prepQ.bindValue(":courseid", book->getCourseID());
-            if(prepQ.exec()){
-                qDebug() << "CISC | (Update Content Item)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
-            }
-            else{
-                mainStorage->getMainStorage().rollback();
-                mainStorage->getMainStorage().close();
-                errorMsg = prepQ.lastError().text();
-                return false;
-            }
 
-            // Update Book
-            prepQ.prepare("update book set subtitle=:subtitle, authors=:authors, publisher=:publisher, website=:website, citation=:citation, year_publish=:year_publish where bid=:contentid");
-            prepQ.bindValue(":contentid", book->getID());
-            prepQ.bindValue(":subtitle", book->getSubtitle());
-            prepQ.bindValue(":authors", book->getAuthors());
-            prepQ.bindValue(":publisher", book->getPublisher());
-            prepQ.bindValue(":website", book->getWebsite());
-            prepQ.bindValue(":citation", book->getCitation());
-            prepQ.bindValue(":year_publish", book->getYearPublished());
-            if(prepQ.exec()){
-                qDebug() << "CISC | (Book)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
-            }
-            else{
-                mainStorage->getMainStorage().rollback();
-                mainStorage->getMainStorage().close();
-                errorMsg = prepQ.lastError().text();
-                return false;
-            }
-
-
-        } else{
-            errorMsg = "CISC | addBook(): Database failed to open!";
+    if(mainStorage->getMainStorage().open()){
+        mainStorage->getMainStorage().transaction();
+        QSqlQuery prepQ;
+        // update Content Item
+        prepQ.prepare("update contentItem set title=:title, isbn=:isbn, courseid=:courseid where contentid=:contentid");
+        prepQ.bindValue(":contentid", book->getID());
+        prepQ.bindValue(":title", book->getTitle());
+        prepQ.bindValue(":isbn", book->getISBN());
+        prepQ.bindValue(":courseid", book->getCourseID());
+        if(prepQ.exec()){
+            qDebug() << "CISC | (Update Content Item)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+        }
+        else{
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = prepQ.lastError().text();
             return false;
         }
 
+        // Update Book
+        prepQ.prepare("update book set subtitle=:subtitle, authors=:authors, publisher=:publisher, website=:website, citation=:citation, year_publish=:year_publish where bid=:contentid");
+        prepQ.bindValue(":contentid", book->getID());
+        prepQ.bindValue(":subtitle", book->getSubtitle());
+        prepQ.bindValue(":authors", book->getAuthors());
+        prepQ.bindValue(":publisher", book->getPublisher());
+        prepQ.bindValue(":website", book->getWebsite());
+        prepQ.bindValue(":citation", book->getCitation());
+        prepQ.bindValue(":year_publish", book->getYearPublished());
+        if(prepQ.exec()){
+            qDebug() << "CISC | (Book)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+        }
+        else{
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = prepQ.lastError().text();
+            return false;
+        }
+
+
+    } else{
+        errorMsg = "CISC | addBook(): Database failed to open!";
+        return false;
     }
+
+
 
 
 
@@ -497,10 +505,18 @@ bool ContentStorageControl::updateBook(Book* book, Course* course, Term* term, Q
 }
 
 bool ContentStorageControl::updateChapter(Chapter* chapter, QString& errorMsg) {
+    if(chapter == 0){
+        errorMsg = "Chapter cannot be null";
+        return false;
+    }
     return false;
 }
 
 bool ContentStorageControl::updateSection(ChapterSection* section, QString& errorMsg) {
+    if(section == 0) {
+        errorMsg = "Section cannot be null";
+        return false;
+    }
     return false;
 }
 
@@ -543,22 +559,23 @@ bool ContentStorageControl::removeSection(ChapterSection* section, QString& erro
     }
 }
 
-// untested: does not include purchasing details yet
+// untested
 bool ContentStorageControl::getBook(OBJ_ID_TYPE bookID, Book* book, QString& errorMsg) {
 
-    // Build Query
-    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid where contentid=" + QString::number(bookID);
-
-    // Run query and get result set object
+    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink, purchasingDetails.price, purchasingDetails.vendor, purchasingDetails.purchaseid from contentItem inner join book on book.bid = contentItem.contentid inner join purchasingDetails on contentItem.contentid=purchasingDetails.contentid where contentid=" + QString::number(bookID);
     QSqlQuery result = mainStorage->runQuery(query);
 
     if(result.lastError().text().length() > 1){
         errorMsg = result.lastError().text();
         return false;
     }
-
     if(result.first()){
-        book = new Book();
+        quint64 purchaseid = result.value("purchaseid").toInt();
+        QString vendor = result.value("vendor").toString();
+        quint16 price = result.value("price").toFloat();
+        quint64 contentid = result.value("contentid").toInt();
+        PurchasingDetails* details = new PurchasingDetails(purchaseid, price, vendor, contentid);
+        book = new Book(-1, "", -1, details, "", "", "", "", -1, "", "", "");
         QString title = result.value("title").toString();
         book->setTitle(title);
         QString isbn = result.value("isbn").toString();
@@ -582,17 +599,51 @@ bool ContentStorageControl::getBook(OBJ_ID_TYPE bookID, Book* book, QString& err
         book->setID(bookID);
         return true;
     }
-    // If there is more than one user returned, return false because something is wrong with the database
-    if (result.next()){
-        errorMsg = "More than one user returned. Database is corrupted.";
-        return false;
+    else {
+
+        // Build Query
+        query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid where contentid=" + QString::number(bookID);
+
+        // Run query and get result set object
+        result = mainStorage->runQuery(query);
+
+        if(result.lastError().text().length() > 1){
+            errorMsg = result.lastError().text();
+            return false;
+        }
+
+        if(result.first()){
+            book = new Book();
+            QString title = result.value("title").toString();
+            book->setTitle(title);
+            QString isbn = result.value("isbn").toString();
+            book->setISBN(isbn);
+            QString subtitle = result.value("subtitle").toString();
+            book->setSubtitle(subtitle);
+            QString authors = result.value("authors").toString();
+            book->setAuthors(authors);
+            QString publisher = result.value("publisher").toString();
+            book->setPublisher(publisher);
+            QString website = result.value("website").toString();
+            book->setWebsite(website);
+            QString citation = result.value("citation").toString();
+            book->setCitation(citation);
+            QString picturelink = result.value("picturelink").toString();
+            book->setImageLink(picturelink);
+            quint16 year = result.value("year_publish").toInt();
+            book->setYearPublished(year);
+            quint64 courseid = result.value("courseid").toInt();
+            book->setCourseID(courseid);
+            book->setID(bookID);
+            return true;
+        }
     }
+
     // If there are no results and there were no errors, then the book does not exist.
-    errorMsg = "Book does not exist";
     return true;
 }
 
-// Untested: does not include purchasing details yet
+// Untested.
 bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, QString& errorMsg) {
 
     quint64 studentid = student->getID();
@@ -604,8 +655,8 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
         if(result.exec()){
             if(result.lastError().text().length() > 1)
             {
-                    errorMsg = result.lastError().text();
-                    return false;
+                errorMsg = result.lastError().text();
+                return false;
             }
             items = new QVector<Book*>();
             while(result.next()){
@@ -648,14 +699,52 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
     return true;
 }
 
-// untested: without purchasing details
+// untested
 bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, QString& errorMsg) {
 
     quint64 bookid = book->getID();
 
     if(mainStorage->getMainStorage().open()){
         QSqlQuery result;
-        result.prepare("Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapter.chapter_num from contentItem inner join chapter on chapter.chid = contentItem.contentid where bookid=:bookid");
+        // Prep Purchasing Details Chapters
+        result.prepare("Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapter.chapter_num, purchasingDetails.price, purchasingDetails.purchaseid, purchasingDetails.vendor from contentItem inner join chapter on chapter.chid = contentItem.contentid inner join purchasingDetails on purchasingDetails.contentid=contentItem.contentid where bookid=:bookid");
+        result.bindValue(":bookid", bookid);
+        if(result.exec()){
+            if(result.lastError().text().length() > 1)
+            {
+                errorMsg = result.lastError().text();
+                return false;
+            }
+            items = new QVector<Chapter*>();
+            while(result.next()){
+                PurchasingDetails* details = new PurchasingDetails();
+                quint64 pid = result.value("purchaseid").toInt();
+                details->setID(pid);
+                quint16 price = result.value("price").toFloat();
+                details->setPrice(price);
+                QString vendor = result.value("vendor").toString();
+                details->setVendor(vendor);
+                Chapter* chap = new Chapter(0, "", 0, details, 0, 0, "");
+                quint64 contentid = result.value("contentid").toInt();
+                chap->setID(contentid);
+                QString title = result.value("title").toString();
+                chap->setTitle(title);
+                QString isbn = result.value("isbn").toString();
+                chap->setISBN(isbn);
+                quint64 courseid = result.value("courseid").toInt();
+                chap->setCourseID(courseid);
+                quint16 chapterNum = result.value("chapter_num").toInt();
+                chap->setChapterNumber(chapterNum);
+                chap->setBookID(bookid);
+                items->push_back(chap);
+            }
+        } else {
+            errorMsg = "CISC | getChapters(): exec failed!";
+            return false;
+        }
+
+        // Prep non-Purchasing Details Chapters
+        result.prepare("Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapter.chapter_num from contentItem inner join chapter on chapter.chid = contentItem.contentid where contentid not in (select contentid from purchasingDetails) and bookid=:bookid");
         result.bindValue(":bookid", bookid);
         if(result.exec()){
             if(result.lastError().text().length() > 1)
@@ -679,10 +768,14 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
                 chap->setBookID(bookid);
                 items->push_back(chap);
             }
+        } else{
+            errorMsg = "CISC | getChapters(): exec failed!";
+            return false;
         }
+
     }
     else{
-        errorMsg = "CISC | getBookList(): Database failed to open!";
+        errorMsg = "CISC | getChapters(): Database failed to open!";
         return false;
     }
 
@@ -692,54 +785,48 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
 // untested: without purchasing details
 bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection*>*& items, QString& errorMsg) {
 
-            quint64 chapterid = chapter->getID();
+    quint64 chapterid = chapter->getID();
 
-            // Build Query
-            QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapterSection.section_num from contentItem inner join chapterSection on chapterSection.sectionid = contentItem.contentid where chapterid" + QString::number(chapterid);
+    // Build Query
+    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapterSection.section_num from contentItem inner join chapterSection on chapterSection.sectionid = contentItem.contentid where chapterid" + QString::number(chapterid);
 
-            // Run query and get result set object
-            QSqlQuery result = mainStorage->runQuery(query);
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
 
-            if(result.lastError().text().length() > 1){
-                errorMsg = result.lastError().text();
-                return false;
-            }
-            if(!result.first()){
-                // If there are no results and there were no errors, then the book does not exist.
-                errorMsg = "Book does not exist";
-                return true;
-            }
+    if(result.lastError().text().length() > 1){
+        errorMsg = result.lastError().text();
+        return false;
+    }
+    if(!result.first()){
+        // If there are no results and there were no errors, then the book does not exist.
+        errorMsg = "Book does not exist";
+        return true;
+    }
 
-            items = new QVector<ChapterSection*>();
+    items = new QVector<ChapterSection*>();
 
-            while(result.next()){
+    while(result.next()){
 
-                ChapterSection* sect = new ChapterSection();
-                quint64 contentid = result.value("contentid").toInt();
-                sect->setID(contentid);
-                QString title = result.value("title").toString();
-                sect->setTitle(title);
-                QString isbn = result.value("isbn").toString();
-                sect->setISBN(isbn);
-                quint64 courseid = result.value("courseid").toInt();
-                sect->setCourseID(courseid);
-                quint16 sectionNum = result.value("section_num").toInt();
-                sect->setSectionNumber(sectionNum);
-                sect->setChapterID(chapterid);
-                items->push_back(sect);
-            }
+        ChapterSection* sect = new ChapterSection();
+        quint64 contentid = result.value("contentid").toInt();
+        sect->setID(contentid);
+        QString title = result.value("title").toString();
+        sect->setTitle(title);
+        QString isbn = result.value("isbn").toString();
+        sect->setISBN(isbn);
+        quint64 courseid = result.value("courseid").toInt();
+        sect->setCourseID(courseid);
+        quint16 sectionNum = result.value("section_num").toInt();
+        sect->setSectionNumber(sectionNum);
+        sect->setChapterID(chapterid);
+        items->push_back(sect);
+    }
 
-            return true;
+    return true;
 }
 
 // Untested: Does not include purchasing details yet
 bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) {
-
-    // Build Query
-    //QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, book.subtitle, book.authors, book.publisher, book.website, book.citation, book.year_publish, book.picturelink from contentItem inner join book on book.bid = contentItem.contentid";
-    // Run query and get result set object
-    //QSqlQuery result = mainStorage->runQuery(query);
-
 
     if(mainStorage->getMainStorage().open()){
         QSqlQuery result;
@@ -747,8 +834,8 @@ bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) 
         if(result.exec()){
             if(result.lastError().text().length() > 1)
             {
-                    errorMsg = result.lastError().text();
-                    return false;
+                errorMsg = result.lastError().text();
+                return false;
             }
             items = new QVector<Book*>();
             while(result.next()){

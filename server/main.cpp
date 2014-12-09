@@ -90,8 +90,8 @@ void addBookTest() {
    Book * testbook = new Book(23, "The Host", 1, new PurchasingDetails(-1, 12.99, "Nano", -1), "", "Stephanie Meyer", "978-0316068048",
                               "http://www.stepheniemeyer.com/thehost.html", 2008,
                               "Little Brown and Company", "", "");
-   Term * testTerm = new Term(-1, "W", 2014);
-   Course * testCourse = new Course(-1, "CHEM1004: Generic Chemistry", 1);
+   Term * testTerm = new Term(1, "F", 2014);
+   Course * testCourse = new Course(1, "CHEM1004: Generic Chemistry", 1);
 
    QString error = "";
 
