@@ -5,7 +5,7 @@
 -- .read cuTPS.sql 
 -- Make sure this file is in the same directory as the client 
 -- or provide the link to the directory
-
+PRAGMA foreign_keys = ON;
 begin transaction;
 
 
