@@ -8,8 +8,7 @@
 
 begin transaction;
 
--- Stores in the information related to users
-drop table if exists users; -- 'user' is a reserved keyword
+
 
 -- Stores the information related to courses
 drop table if exists course;
@@ -37,6 +36,7 @@ drop table if exists purchasingDetails;
 
 -- TODO
 drop table if exists course_book;
+
 
 -- =========================== Table Creation ===========================
 
