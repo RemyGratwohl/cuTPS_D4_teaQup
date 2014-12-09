@@ -78,9 +78,11 @@ void ShoppingCartControl::handleShoppingList(QVector<ContentItem *>* list)
     ((ShoppingCartView *)view)->viewContentItems(shoppingCart->getShoppingList());
 }
 
-// TODO (Remy or Brandon) Stub implementation
 bool ShoppingCartControl::receiveOrderConfirmation(QString message, OBJ_ID_TYPE referenceNumber) {
+
     // Pop to root view controller
+    viewControl->displayErrorString(message);
+    viewControl->changeView(ViewControl::SHOPPING_VIEW);
     return false;
 }
 
