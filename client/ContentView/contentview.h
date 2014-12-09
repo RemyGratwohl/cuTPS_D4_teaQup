@@ -60,6 +60,27 @@ private slots:
 
     void on_AB_CancelButton_clicked();
 
+    void on_UC_AddSectionButton_clicked();
+
+    void on_UC_UpdateSectionButton_clicked();
+
+    void on_UC_RemoveSectionButton_clicked();
+
+    void on_UC_CancelButton_clicked();
+
+    void on_UC_UpdateButton_clicked();
+
+    void on_ACS_ConfirmButton_clicked();
+
+    void on_ACS_CancelButton_clicked();
+
+    void on_UCS_UpdateButton_clicked();
+
+    void on_UCS_CancelButton_clicked();
+    void on_AC_ConfirmButton_clicked();
+
+    void on_AC_CancelButton_clicked();
+
 private:
     enum PAGE {LIST = 0, UB, AB, AC, UC, ACS, UCS};
 

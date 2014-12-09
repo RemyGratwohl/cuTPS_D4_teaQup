@@ -79,7 +79,7 @@ void ContentView::on_UC_AddSectionButton_clicked()
 
 void ContentView::on_UC_UpdateSectionButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(UCSs);
+    ui->stackedWidget->setCurrentIndex(UCS);
 }
 
 void ContentView::on_UC_RemoveSectionButton_clicked()
@@ -104,7 +104,7 @@ void ContentView::on_ACS_ConfirmButton_clicked()
 
 void ContentView::on_ACS_CancelButton_clicked()
 {
-    ui->stackedWidget->setCurrentIndex(AC);
+    ui->stackedWidget->setCurrentIndex(UC);
 }
 
 void ContentView::on_UCS_UpdateButton_clicked()
@@ -115,4 +115,14 @@ void ContentView::on_UCS_UpdateButton_clicked()
 void ContentView::on_UCS_CancelButton_clicked()
 {
     ui->stackedWidget->setCurrentIndex(UC);
+}
+
+void ContentView::on_AC_ConfirmButton_clicked()
+{
+
+}
+
+void ContentView::on_AC_CancelButton_clicked()
+{
+     ui->stackedWidget->setCurrentIndex(UB);
 }
