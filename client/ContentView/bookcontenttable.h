@@ -24,6 +24,8 @@ public:
 
     bool isItemSelected();
 
+    Book* getCurrentBook();
+
 signals:
 
 public slots:

@@ -28,12 +28,12 @@ bool ContentViewControl::processMsg(Message *msg)
     }
 
     // At this point, a data message is expected
-    const DataMessage* dataMessage = qobject_cast<const DataMessage*>(msg);
+    DataMessage* dataMessage = qobject_cast<DataMessage*>(msg);
     if(dataMessage == 0) {
         qDebug() << "ContentViewControl: Error - received a message which is not of type DataMessage.";
         return false;
     }
-    QVector<SerializableQObject*>* data = dataMessage->getData();
+    QVector<SerializableQObject*>* data = dataMessage->extractData();
     if( data->isEmpty() && msgAction == RETRIEVE ) {
         qDebug() << "ContentViewControl: Message data vector is empty.";
 
@@ -87,7 +87,7 @@ bool ContentViewControl::processMsg(Message *msg)
             if( result ) {
                 result = receiveBooks(books);
             }
-            delete books;
+            //delete books;
 
         } else {
             qDebug() <<  "ContentViewControl: Error - No operation found for RETRIEVE action given input data.";

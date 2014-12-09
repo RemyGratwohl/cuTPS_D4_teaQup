@@ -54,6 +54,15 @@ bool BookContentTable::isItemSelected()
 bool BookContentTable::updateTableView(QVector<Book*>* contentList)
 {
     int listSize = contentList->size();
+    if(allItems != 0) {
+        QVectorIterator<Book*> i(*allItems);
+        while (i.hasNext()) {
+            delete (i.next());
+        }
+        delete allItems;
+        allItems = 0;
+    }
+
     allItems = contentList;
     for(int i = 0; i < listSize; ++i) {
         Book* content = contentList->at(i);
@@ -90,6 +99,20 @@ bool BookContentTable::updateTableView(QVector<Book*>* contentList)
     //refreshTableView();
 
     return true;
+}
+
+Book* BookContentTable::getCurrentBook()
+{
+    if(isItemSelected()) {
+        QModelIndex index = contentTable->currentIndex();
+        QTableWidgetItem* item = contentTable->item(index.row(), 0);
+        for(int i = 0; i < allItems->size(); ++i) {
+            if(item->text().compare(allItems->at(i)->getTitle()) == 0) {
+                return allItems->at(i);
+            }
+        }
+    }
+    return 0;
 }
 
 void BookContentTable::itemClicked(int row, int col)

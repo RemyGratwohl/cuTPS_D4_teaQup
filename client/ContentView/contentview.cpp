@@ -67,7 +67,22 @@ void ContentView::on_List_AddButton_clicked()
 
 void ContentView::on_List_UpdateButton_clicked()
 {
-     ui->stackedWidget->setCurrentIndex(UB);
+    ui->stackedWidget->setCurrentIndex(UB);
+
+    Book* theBook = bookContentTable->getCurrentBook();
+    ui->UB_TitleLineEdit->setText(theBook->getTitle());
+    ui->UB_ISBNLineEdit->setText(theBook->getISBN());
+    ui->UB_ImageLinkLineEdit->setText(theBook->getImageLink());
+    ui->UB_SubtitleLineEdit->setText(theBook->getSubtitle());
+    ui->UB_WebsiteLineEdit->setText(theBook->getWebsite());
+    ui->UB_CitationPlainTextEdit->setPlainText(theBook->getCitation());
+    ui->UB_AuthorsLineEdit->setText(theBook->getAuthors());
+    ui->UB_YearLineEdit->setText(QString::number(theBook->getYearPublished()));
+    PurchasingDetails* pd = theBook->getPurchasingDetails();
+    if(pd != 0) {
+        ui->UB_PriceLineEdit->setText(QString::number(pd->getPrice()));
+        ui->UB_VendorLineEdit->setText(pd->getVendor());
+    }
 }
 
 void ContentView::on_UB_AddChapterButton_clicked()
