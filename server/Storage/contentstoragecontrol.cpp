@@ -277,7 +277,7 @@ bool ContentStorageControl::addChapter(Chapter* chapter, QString& errorMsg) {
         prepQ.prepare("insert into chapter(chid, bookid, chapter_num) values (:contentid, :bookid, :chapterNum)");
         prepQ.bindValue(":contentid", contentid.toInt());
         prepQ.bindValue(":bookid", bookid.toInt());
-        prepQ.bindValue(":chapter_num", chapter->getChapterNumber());
+        prepQ.bindValue(":chapterNum", chapter->getChapterNumber());
         if(prepQ.exec()){
             qDebug() << "CISC | (Chapter | Add Chapter)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
         }
@@ -329,6 +329,110 @@ bool ContentStorageControl::addChapter(Chapter* chapter, QString& errorMsg) {
 }
 
 bool ContentStorageControl::addSection(ChapterSection* section, QString& errorMsg) {
+    bool existsPurchasing = true;
+
+    QString contentid = "??";
+    QString ISBN = section->getISBN();
+    QString courseid = QString::number(section->getCourseID());
+    QString chapterid = QString::number(section->getChapterID());
+
+    // Verify content Item
+    if(isContentItem(ISBN))
+    {
+        errorMsg="Content Item ISBN already exists. Please make sure that the Content Item does not already exist.";
+        return false;
+    }
+
+    // No autoincrement in favor of more control
+    contentid = QString::number(mainStorage->getLatestID("contentid", "contentItem"));
+
+    // Verify PurchasingDetails
+    if(!isPurchasable(contentid)){
+        existsPurchasing = false;
+    }
+    else {
+        errorMsg = "Purchasing Details already exist for this Content Item ID: " + contentid;
+        return false;
+    }
+
+    // Verify book
+    if(!isChapter(chapterid)){
+        errorMsg = "ChapterID: " + QString::number(section->getChapterID()) + " is invalid!";
+        return false;
+    }
+
+    if(mainStorage->getMainStorage().open()){
+        mainStorage->getMainStorage().transaction();
+        QSqlQuery prepQ;
+
+        // Add Content Item
+        prepQ.prepare("insert into contentItem (contentid, title, isbn, courseid) values (:contentid, :title, :isbn, :courseid)");
+        prepQ.bindValue(":contentid", contentid.toInt());
+        prepQ.bindValue(":title", section->getTitle());
+        prepQ.bindValue(":isbn", ISBN);
+        prepQ.bindValue(":courseid", courseid.toInt());
+        if(prepQ.exec()){
+            qDebug() << "CISC | (Content Item | Add Section)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+        }
+        else{
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = prepQ.lastError().text();
+            return false;
+        }
+
+        // Add Section
+        prepQ.prepare("insert into chapterSection (sectionid, chapterid, section_num, pageRange) values (:contentid, :chapterid, :sectionNum, '')");
+        prepQ.bindValue(":contentid", contentid.toInt());
+        prepQ.bindValue(":chapterid", chapterid.toInt());
+        prepQ.bindValue(":sectionNum", section->getSectionNumber());
+        if(prepQ.exec()){
+            qDebug() << "CISC | (Chapter | Add Section)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+        }
+        else{
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = prepQ.lastError().text();
+            return false;
+        }
+
+
+        if( !existsPurchasing && section->getPurchasingDetails()->getPrice() != 0 && section->getPurchasingDetails()->getVendor() != 0) {
+            // Add Purchasing Details
+            prepQ.prepare("insert into purchasingDetails (price, vendor, contentid) values (:price, :vendor, :contentid)");
+            prepQ.bindValue(":price", section->getPurchasingDetails()->getPrice());
+            prepQ.bindValue(":vendor", section->getPurchasingDetails()->getVendor());
+            prepQ.bindValue(":contentid", contentid.toInt());
+
+            if(prepQ.exec()){
+                qDebug() << "CISC | (Purchasing Details | Add Section)Number of rows affected: " + QString::number(prepQ.numRowsAffected());
+            }
+            else{
+                mainStorage->getMainStorage().rollback();
+                mainStorage->getMainStorage().close();
+                errorMsg = prepQ.lastError().text();
+                return false;
+            }
+        }
+
+        if(!mainStorage->getMainStorage().commit())
+        {
+            mainStorage->getMainStorage().rollback();
+            mainStorage->getMainStorage().close();
+            errorMsg = "Commit failed: " + prepQ.lastError().text();
+            return false;
+        }
+        else {
+            qDebug() << "Everything went great.";
+            mainStorage->getMainStorage().close();
+            return true;
+        }
+    }
+    else{
+        errorMsg = "CISC | addSection(): Database failed to open!";
+        return false;
+    }
+
     return false;
 }
 
@@ -421,6 +525,11 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
         errorMsg = result.lastError().text();
         return false;
     }
+    if(!result.first()){
+        // If there are no results and there were no errors, then there are no content items for this user
+        errorMsg = "There are no content items for this user.";
+        return true;
+    }
 
    items = new QVector<Book*>();
 
@@ -454,11 +563,9 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
         book->setID(contentid);
 
         items->push_back(book);
-        return true;
     }
 
-    // If there are no results and there were no errors, then there are no content items for this user
-    errorMsg = "There are no content items for this user.";
+
     return true;
 }
 
@@ -477,6 +584,11 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
         errorMsg = result.lastError().text();
         return false;
     }
+    if(!result.first()){
+        // If there are no results and there were no errors, then the book does not exist.
+        errorMsg = "Book does not exist";
+        return true;
+    }
 
     items = new QVector<Chapter*>();
     while(result.next()){
@@ -494,15 +606,8 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
         chap->setChapterNumber(chapterNum);
         chap->setBookID(bookid);
         items->push_back(chap);
-        return true;
     }
-    // If there is more than one user returned, return false because something is wrong with the database
-    if (result.next()){
-        errorMsg = "More than one user returned. Database is corrupted.";
-        return false;
-    }
-    // If there are no results and there were no errors, then the book does not exist.
-    errorMsg = "Book does not exist";
+
     return true;
 }
 
@@ -520,6 +625,11 @@ bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection
             if(result.lastError().text().length() > 1){
                 errorMsg = result.lastError().text();
                 return false;
+            }
+            if(!result.first()){
+                // If there are no results and there were no errors, then the book does not exist.
+                errorMsg = "Book does not exist";
+                return true;
             }
 
             items = new QVector<ChapterSection*>();
@@ -539,15 +649,8 @@ bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection
                 sect->setSectionNumber(sectionNum);
                 sect->setChapterID(chapterid);
                 items->push_back(sect);
-                return true;
             }
-            // If there is more than one user returned, return false because something is wrong with the database
-            if (result.next()){
-                errorMsg = "More than one user returned. Database is corrupted.";
-                return false;
-            }
-            // If there are no results and there were no errors, then the book does not exist.
-            errorMsg = "Book does not exist";
+
             return true;
 }
 
@@ -563,7 +666,12 @@ bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) 
         errorMsg = result.lastError().text();
         return false;
     }
-   items = new QVector<Book*>();
+    if(!result.first()){
+        // If there are no results and there were no errors, then there are no content items
+        errorMsg = "There are no content items";
+        return true;
+    }
+    items = new QVector<Book*>();
 
     while(result.next()){
         Book * book = new Book();
@@ -590,11 +698,9 @@ bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) 
         quint64 contentid = result.value("contentid").toInt();
         book->setID(contentid);
         items->push_back(book);
-        return true;
     }
 
-    // If there are no results and there were no errors, then there are no content items
-    errorMsg = "There are no content items";
+
     return true;
 }
 
@@ -712,6 +818,39 @@ bool ContentStorageControl::isBook(QString& bookid){
     QString query;
 
     query = "Select bid from book where bid=" + bookid;
+
+    // Run query and get result set object
+    QSqlQuery result = mainStorage->runQuery(query);
+
+    // lastError() is a string with a length of one (I think it might be a space?)
+    // Strangest thing: QString.empty() returns false. Thus why the >1 check.
+    if(result.lastError().text().length() > 1){
+        qDebug() << result.lastError();
+        return false;
+    }
+
+    if(result.first()){
+        return true;
+    }
+
+    // If there is more than one user returned, return false because something is wrong with the database
+    else if (result.next()){
+        return false;
+    }
+    // If there are no results and there were no errors, then the term does not exist.
+    else {
+        return false;
+    }
+
+    //Should never reach here
+    qDebug() << "???";
+    return false;
+}
+
+bool ContentStorageControl::isChapter(QString& chapterid){
+    QString query;
+
+    query = "Select chid from chapter where chid=" + chapterid;
 
     // Run query and get result set object
     QSqlQuery result = mainStorage->runQuery(query);

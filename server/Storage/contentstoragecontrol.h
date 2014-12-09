@@ -206,6 +206,7 @@ private:
     bool isPurchasable(QString& contentid);
     bool isContentItem(QString& ISBN);
     bool isBook(QString& bookid);
+    bool isChapter(QString& chapterid);
 
 
 private:
