@@ -3,6 +3,8 @@
 
 #include <QObject>
 #include "itemtable.h"
+#include "../server/ContentManagement/book.h"
+#include <QPushButton>
 
 class ContentItemTable : public ItemTable
 {
@@ -21,7 +23,15 @@ public:
 
     QVector<ContentItem*>* getSelectedItems() const;
 
+    virtual bool initialize(QPushButton* button);
+
     bool addSelectedItems();
+
+    bool isItemSelected();
+
+    bool handleDetailsButton();
+
+    Book *getCurrentBook();
 
 signals:
 
@@ -31,7 +41,7 @@ public slots:
 private:
     QVector<ContentItem*>* allItems;
     QVector<ContentItem*>* selectedItems;
-
+    QPushButton* detailsButton;
 };
 
 #endif // CONTENTITEMTABLE_H

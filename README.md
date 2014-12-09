@@ -30,14 +30,22 @@ on which the server and client processes are to be run.
    to which the client will attempt to connect, as described below.
 4. Start the client process(es) by choosing to run the `client` project.
 
-## Port Configuration
+## Logging In On The Client
+Use 100845934 or 100945234 to log in as a student.
+Use 100945932 to log in as a content manager.
+Note: Users can be logged into on more than one machine at a time.
 
-If you wish to change the server's port, you can do so in the generated
-server port configuration file, ServerPortFile.txt, located in the build path
+## Port/IP Configuration
+
+Note that the server configuration files on the server and client
+are only generated when running each respective process (client or server).
+
+If you wish to change the server's port or IP, you can do so in the generated
+server configuration file, ServerConfigFile.txt, located in the build path
 of the server.
 
-If you change the port on the server, you'll also have to change which port
-the client attempts to connect to, which can be changed in a file with the same name, 
+If you change the port or IP on the server, you'll also have to change the same item
+in the client's server configuration file, which can be changed in a file with the same name, 
 but located in the build path of the client.
 
 ## Code References and Acknowledgements

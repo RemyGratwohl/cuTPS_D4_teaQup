@@ -15,9 +15,10 @@ StudentView::StudentView(ViewControl *controller, User *user) :
     ui->stackedWidget->setCurrentIndex(LIST);
     ui->usernameLabel->setText("Welcome, " + user->getName());
     contentItemTable = new ContentItemTable(this, ui->contentWidget);
-    contentItemTable->initialize();
+    contentItemTable->initialize(ui->viewDetailsButton);
 
     // display a list of content items in main window
+
     QVector<ContentItem *>* list = new QVector<ContentItem *>();
 
     Book* testBook = new Book(-1, "The Host", 1, new PurchasingDetails(), "", "Stephanie Meyer", " 978-0316068048",
@@ -69,8 +70,23 @@ void StudentView::on_addToCartButton_clicked()
 
 void StudentView::on_viewDetailsButton_clicked()
 {
-    contentItemTable->addSelectedItems();
+    //contentItemTable->addSelectedItems();
     ui->stackedWidget->setCurrentIndex(DETAILS);
+
+    Book* theBook = contentItemTable->getCurrentBook();
+    ui->DT_TitleLabel->setText(theBook->getTitle());
+    ui->DT_ISBNLabel->setText(theBook->getISBN());
+    ui->DT_ImageLabel->setText(theBook->getImageLink());
+    ui->DT_SubtitleLabel->setText(theBook->getSubtitle());
+    ui->DT_WebsiteLabel->setText(theBook->getWebsite());
+    ui->DT_DescriptionLabel->setText(theBook->getCitation());
+    ui->DT_AuthorsLabel->setText(theBook->getAuthors());
+    ui->DT_YearLabel->setText(QString::number(theBook->getYearPublished()));
+    PurchasingDetails* pd = theBook->getPurchasingDetails();
+    if(pd != 0) {
+        ui->DT_PriceLabel->setText(QString::number(pd->getPrice()));
+        ui->DT_VendorLabel->setText(pd->getVendor());
+    }
 }
 
 void StudentView::on_DT_BackButton_clicked()

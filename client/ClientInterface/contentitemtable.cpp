@@ -72,6 +72,25 @@ bool ContentItemTable::updateTableView(QVector<ContentItem*>* contentList)
     return true;
 }
 
+bool ContentItemTable::isItemSelected()
+{
+    return contentTable->currentIndex().isValid();
+}
+
+Book *ContentItemTable::getCurrentBook()
+{
+    if(isItemSelected()) {
+        QModelIndex index = contentTable->currentIndex();
+        QTableWidgetItem* item = contentTable->item(index.row(), 1);
+        for(int i = 0; i < allItems->size(); ++i) {
+            if(item->text().compare(allItems->at(i)->getTitle()) == 0) {
+                return qobject_cast<Book*>(allItems->at(i));
+            }
+        }
+    }
+    return 0;
+}
+
 bool ContentItemTable::addSelectedItems()
 {
     selectedItems->empty();
@@ -90,21 +109,41 @@ bool ContentItemTable::addSelectedItems()
     return true;
 }
 
+bool ContentItemTable::initialize(QPushButton* button)
+{
+    detailsButton = button;
+    handleDetailsButton();
+
+    contentTable->setColumnCount(4);
+    QTableWidgetItem* selectionColumn = new QTableWidgetItem();
+    QTableWidgetItem* titleColumn = new QTableWidgetItem("Title");
+    QTableWidgetItem* typeColumn = new QTableWidgetItem("Content Type");
+    QTableWidgetItem* idColumn = new QTableWidgetItem("Course ID");
+    contentTable->setHorizontalHeaderItem(0, selectionColumn);
+    contentTable->setHorizontalHeaderItem(1, titleColumn);
+    contentTable->setHorizontalHeaderItem(2, typeColumn);
+    contentTable->setHorizontalHeaderItem(3, idColumn);
+    contentTable->setSortingEnabled(true);
+    contentTable->horizontalHeader()->setStretchLastSection(true);
+
+    // make the title's clickable
+    connect(contentTable, SIGNAL(cellClicked(int,int)), this, SLOT(itemClicked(int,int)));
+    return true;
+}
+
+bool ContentItemTable::handleDetailsButton()
+{
+    if(contentTable->currentIndex().isValid() == false) {
+        detailsButton->setDisabled(true);
+    } else {
+        detailsButton->setDisabled(false);
+    }
+    return true;
+}
+
 void ContentItemTable::itemClicked(int row, int col)
 {
-    /*
-    if(col == 0) {
-        for(int i = 0; i < allItems->size(); ++i) {
-            ContentItem* content = allItems->at(i);
-            QString text = contentTable->item(row, 1)->text();
-            if(content->getTitle().compare(text) == 0) {
-                selectedItems->push_back(allItems->at(i));
-                contentTable->item(row, 0)->setBackgroundColor(QColor(200, 200, 200));
-                contentTable->item(row, 1)->setBackgroundColor(QColor(200, 200, 200));
-                contentTable->item(row, 2)->setBackgroundColor(QColor(200, 200, 200));
-            }
-        }
-    }*/
+    handleDetailsButton();
 }
 
 QVector<ContentItem *>* ContentItemTable::getSelectedItems() const
