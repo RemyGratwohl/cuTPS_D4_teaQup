@@ -104,7 +104,7 @@ create table chapter (
 	bookid integer NOT NULL,  
 	chapter_num integer NOT NULL,
 	FOREIGN KEY(chid) REFERENCES contentItem(contentid) ON DELETE CASCADE,
-	FOREIGN KEY(bookid) REFERENCES book(contentid) ON DELETE CASCADE
+	FOREIGN KEY(bid) REFERENCES book(contentid) ON DELETE CASCADE
 );
 
 create table chapterSection (
@@ -112,7 +112,7 @@ create table chapterSection (
 	chapterid integer NOT NULL, 
 	section_num real NOT NULL,
 	pageRange varchar(40),
-	FOREIGN KEY(chapterid) REFERENCES chapter(contentid) ON DELETE CASCADE,
+	FOREIGN KEY(chid) REFERENCES chapter(contentid) ON DELETE CASCADE,
 	FOREIGN KEY(sectionid) REFERENCES contentItem(contentid) ON DELETE CASCADE
 );
 
