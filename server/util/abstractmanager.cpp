@@ -14,7 +14,7 @@ bool AbstractManager::sendError(DEST_TYPE dest, ACTION_TYPE action, User* user, 
 }
 
 bool AbstractManager::sendData(ACTION_TYPE action, User* user, QVector<SerializableQObject *>* data) {
-    Message* msg = new DataMessage(ownDest, action, 0, data);
+    Message* msg = new DataMessage(ownDest, action, user, data);
     return dispatcher->deliverMsg(msg);
 }
 
