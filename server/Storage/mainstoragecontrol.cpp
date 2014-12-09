@@ -29,6 +29,7 @@ bool MainStorageControl::initialize(void)
 
     // Database path may need to also be configurable
     db.setDatabaseName("../../cuTPS_D4_teaQup/cuTPSDB");
+    db.setConnectOptions("foreign_keys = ON");
 
     return true;
 }
