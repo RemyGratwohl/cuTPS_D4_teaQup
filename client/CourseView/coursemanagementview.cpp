@@ -27,6 +27,8 @@ CourseManagementView::CourseManagementView(CourseViewControl *control, QWidget *
     list->push_back(course);
 
     viewContentItems(list);
+
+
 }
 
 CourseManagementView::~CourseManagementView()

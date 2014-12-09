@@ -111,6 +111,7 @@ bool ViewControl::changeView(TYPE subsystem)
         break;
     case(CONTENT_VIEW):
         mainWindow->addView(contentController->getView());
+        contentController->requestBooks();
         break;
     case(COURSE_VIEW):
         mainWindow->addView(courseController->getView());

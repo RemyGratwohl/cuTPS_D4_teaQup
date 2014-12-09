@@ -124,6 +124,7 @@ bool CourseViewControl::processMsg(Message *msg)
 
 // TODO (Remy or Brandon) Stub implementation
 bool CourseViewControl::receiveCourses(Term* term, QVector<Course*>* courses) {
+    //((CourseManagementView*)view)->viewContentItems(courses);
     return false;
 }
 

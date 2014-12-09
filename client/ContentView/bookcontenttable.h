@@ -3,6 +3,7 @@
 
 #include "../ClientInterface/itemtable.h"
 #include <QPushButton>
+#include "../server/ContentManagement/book.h"
 
 class BookContentTable : public ItemTable
 {
@@ -17,7 +18,7 @@ public:
      * Side Effects: None
      * Return Value: Success indicator
      */
-    virtual bool updateTableView(QVector<ContentItem*>* contentList);
+    virtual bool updateTableView(QVector<Book *> *contentList);
 
     virtual bool initialize(QPushButton* button);
 
@@ -29,7 +30,7 @@ public slots:
     virtual void itemClicked(int row, int col);
 
 protected:
-    QVector<ContentItem*>* allItems;
+    QVector<Book*>* allItems;
     QPushButton* editBookButton;
 
 private:
