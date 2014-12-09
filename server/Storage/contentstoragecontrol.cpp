@@ -656,6 +656,7 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
             if(result.lastError().text().length() > 1)
             {
                 errorMsg = result.lastError().text();
+                mainStorage->getMainStorage().close();
                 return false;
             }
             items = new QVector<Book*>();
@@ -694,6 +695,7 @@ bool ContentStorageControl::getBookList(User* student, QVector<Book*>*& items, Q
     }
     else{
         errorMsg = "CISC | getBookList(): Database failed to open!";
+        mainStorage->getMainStorage().close();
         return false;
     }
     return true;
@@ -713,6 +715,7 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
             if(result.lastError().text().length() > 1)
             {
                 errorMsg = result.lastError().text();
+                mainStorage->getMainStorage().close();
                 return false;
             }
             items = new QVector<Chapter*>();
@@ -740,6 +743,7 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
             }
         } else {
             errorMsg = "CISC | getChapters(): exec failed!";
+            mainStorage->getMainStorage().close();
             return false;
         }
 
@@ -750,6 +754,7 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
             if(result.lastError().text().length() > 1)
             {
                 errorMsg = result.lastError().text();
+                mainStorage->getMainStorage().close();
                 return false;
             }
             items = new QVector<Chapter*>();
@@ -770,6 +775,7 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
             }
         } else{
             errorMsg = "CISC | getChapters(): exec failed!";
+            mainStorage->getMainStorage().close();
             return false;
         }
 
@@ -778,48 +784,88 @@ bool ContentStorageControl::getChapters(Book* book, QVector<Chapter*>*& items, Q
         errorMsg = "CISC | getChapters(): Database failed to open!";
         return false;
     }
-
+    mainStorage->getMainStorage().close();
     return true;
 }
 
-// untested: without purchasing details
+// untested
 bool ContentStorageControl::getSections(Chapter* chapter, QVector<ChapterSection*>*& items, QString& errorMsg) {
 
     quint64 chapterid = chapter->getID();
 
-    // Build Query
-    QString query = "Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapterSection.section_num from contentItem inner join chapterSection on chapterSection.sectionid = contentItem.contentid where chapterid" + QString::number(chapterid);
+    if(mainStorage->getMainStorage().open()){
+        QSqlQuery result;
+        // Prep Purchasing Details Sections
+        result.prepare("Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapterSection.section_num, purchasingDetails.price, purchasingDetails.purchaseid, purchasingDetails.vendor from contentItem  inner join chapterSection on chapterSection.sectionid = contentItem.contentid inner join purchasingDetails on purchasingDetails.contentid=contentItem.contentid where chapterid=:chapterid");
+        result.bindValue(":chapterid", chapterid);
+        if(result.exec()){
+            if(result.lastError().text().length() > 1)
+            {
+                errorMsg = result.lastError().text();
+                return false;
+            }
 
-    // Run query and get result set object
-    QSqlQuery result = mainStorage->runQuery(query);
+            items = new QVector<ChapterSection*>();
 
-    if(result.lastError().text().length() > 1){
-        errorMsg = result.lastError().text();
+            while(result.next()){
+                PurchasingDetails* details = new PurchasingDetails();
+                quint64 pid = result.value("purchaseid").toInt();
+                details->setID(pid);
+                quint16 price = result.value("price").toFloat();
+                details->setPrice(price);
+                QString vendor = result.value("vendor").toString();
+                details->setVendor(vendor);
+                ChapterSection* sect = new ChapterSection(0, "", 0, details, 0, 0, "");
+                quint64 contentid = result.value("contentid").toInt();
+                sect->setID(contentid);
+                QString title = result.value("title").toString();
+                sect->setTitle(title);
+                QString isbn = result.value("isbn").toString();
+                sect->setISBN(isbn);
+                quint64 courseid = result.value("courseid").toInt();
+                sect->setCourseID(courseid);
+                quint16 sectionNum = result.value("section_num").toInt();
+                sect->setSectionNumber(sectionNum);
+                sect->setChapterID(chapterid);
+                items->push_back(sect);
+            }
+        } else {
+            errorMsg = "CISC | getSections(): exec failed!";
+            return false;
+        }
+
+        // Prep non-Purchasing Details Sections
+        result.prepare("Select contentItem.contentid, contentItem.title, contentItem.isbn, contentItem.courseid, chapterSection.section_num from contentItem  inner join chapterSection on chapterSection.sectionid = contentItem.contentid where contentid not in (select contentid from purchasingDetails) and chapterid=:chapterid");
+        result.bindValue(":chapterid", chapterid);
+        if(result.exec()){
+            if(result.lastError().text().length() > 1)
+            {
+                errorMsg = result.lastError().text();
+                return false;
+            }
+            while(result.next()){
+                ChapterSection* sect = new ChapterSection();
+                quint64 contentid = result.value("contentid").toInt();
+                sect->setID(contentid);
+                QString title = result.value("title").toString();
+                sect->setTitle(title);
+                QString isbn = result.value("isbn").toString();
+                sect->setISBN(isbn);
+                quint64 courseid = result.value("courseid").toInt();
+                sect->setCourseID(courseid);
+                quint16 sectionNum = result.value("section_num").toInt();
+                sect->setSectionNumber(sectionNum);
+                sect->setChapterID(chapterid);
+                items->push_back(sect);
+            }
+        } else{
+            errorMsg = "CISC | getChapters(): exec failed!";
+            return false;
+        }
+    }
+    else{
+        errorMsg = "CISC | getChapters(): Database failed to open!";
         return false;
-    }
-    if(!result.first()){
-        // If there are no results and there were no errors, then the book does not exist.
-        errorMsg = "Book does not exist";
-        return true;
-    }
-
-    items = new QVector<ChapterSection*>();
-
-    while(result.next()){
-
-        ChapterSection* sect = new ChapterSection();
-        quint64 contentid = result.value("contentid").toInt();
-        sect->setID(contentid);
-        QString title = result.value("title").toString();
-        sect->setTitle(title);
-        QString isbn = result.value("isbn").toString();
-        sect->setISBN(isbn);
-        quint64 courseid = result.value("courseid").toInt();
-        sect->setCourseID(courseid);
-        quint16 sectionNum = result.value("section_num").toInt();
-        sect->setSectionNumber(sectionNum);
-        sect->setChapterID(chapterid);
-        items->push_back(sect);
     }
 
     return true;
@@ -835,6 +881,7 @@ bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) 
             if(result.lastError().text().length() > 1)
             {
                 errorMsg = result.lastError().text();
+                mainStorage->getMainStorage().close();
                 return false;
             }
             items = new QVector<Book*>();
@@ -870,8 +917,10 @@ bool ContentStorageControl::getBooks(QVector<Book*>*& items, QString& errorMsg) 
     }
     else{
         errorMsg = "CISC | getBooks(): Database failed to open!";
+        mainStorage->getMainStorage().close();
         return false;
     }
+    mainStorage->getMainStorage().close();
     return true;
 }
 
