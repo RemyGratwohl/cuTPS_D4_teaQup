@@ -24,13 +24,13 @@ are running on the same virtual machine as the server.
    1. If this is the first time that the project has been opened with Qt Creator,
       Qt Creator will provide a configuration screen.
       Qt Creator's automatic project configuration should not need to be adjusted;
-      Simply navigate to the 'Edit' mode of the IDE.
+      Simply navigate to the 'Edit' mode of the IDE by clicking "Configure Project".
    2. Note that development was carried out using Qt 5.0.2. Please change the 'Desktop' kit
       to use this version of Qt.
 2. Build the appropriate project on each host (`client` or `server`) using Qt Creator.
 3. Server network configuration
    1. Start the server process by choosing to run the `server` project.
-   2. Terminate the server process.
+   2. Terminate the server process (e.g. using `CTRL+C`).
    3. Navigate to the build folder for the server process
       (something like `../build-cuTPS_D4_teaQup-Desktop-Debug/server` relative
        to the `.pro` project file) and open `ServerConfigFile.txt`.
@@ -39,7 +39,7 @@ are running on the same virtual machine as the server.
       address assigned to `eth2` in the output of `ifconfig`.
 4. Client network configuration
    1. Start the client process by choosing to run the `client` project.
-   2. Terminate the clinet process
+   2. Terminate the clinet process by closing its window.
    3. Navigate to the build folder for the client process
       (something like `../build-cuTPS_D4_teaQup-Desktop-Debug/client` relative
        to the `.pro` project file) and open `ServerConfigFile.txt`.
@@ -56,11 +56,14 @@ are running on the same virtual machine as the server.
 
 ## Sample Data
 
-The system's database will be populated with sample data when first run. The script
+The system's database will be created and populated with sample data when first run. The script
 used to set up the database is `cuTPS.sql`.
 
 Note, however, that the book list shown to student users is hardcoded, rather than
 retrieved from the database. The book list shown to content managers originates from the database.
+
+All messages received from client processes, as well as operations on the database, are logged
+to the terminal in which the server process is running.
 
 ## Code References and Acknowledgements
 
